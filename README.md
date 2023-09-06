@@ -1,3 +1,53 @@
+# Trainer Squad
+Trainer Squad é um aplicativo para personal trainers que ajuda a gerenciar sua vida profissional de forma rápida e eficiente. O aplicativo oferece uma variedade de recursos e funcionalidades, incluindo:
+
+# Agenda: 
+O aplicativo permite ao personal trainer gerenciar sua agenda de treinos, clientes e horários.
+# Planilhas de treinamento:
+ O aplicativo permite ao personal trainer criar e gerenciar planilhas de treinamento para seus clientes.
+
+# Relatórios:
+O aplicativo permite ao personal trainer gerar relatórios de desempenho de seus clientes.
+Comunicação: O aplicativo permite ao personal trainer se comunicar com seus clientes através de mensagens de texto, e-mail ou Whatsapp.
+
+# Instalação
+Para instalar Trainer Squad, siga estas etapas:
+
+Baixe o código-fonte do GitHub.
+Abra um terminal na pasta do projeto.
+Execute o seguinte comando para instalar as dependências:
+npm install
+
+
+## Execução
+
+Para executar Trainer Squad, siga estas etapas:
+
+1. No terminal, execute o seguinte comando:
+
+npm start
+
+
+## Contribuições
+
+Contribuir para Trainer Squad é fácil! Siga estas etapas:
+
+1. Crie uma conta no GitHub.
+2. Fork o repositório do projeto.
+3. Faça suas alterações no código-fonte.
+4. Envie um pull request para o repositório principal.
+
+## Licença
+
+Trainer Squad é licenciado sob a licença MIT.
+
+## Desenvolvedores
+
+* Saul Vargas
+* Guilherme Menezes
+* Paola Fantinel
+* Sandro Teixeira
+* Leandro Jorge
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
