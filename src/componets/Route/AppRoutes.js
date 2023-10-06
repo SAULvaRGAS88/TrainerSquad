@@ -10,7 +10,7 @@ export const AppRoutes = () => {
     <BrowserRouter>
       <Routes>
         <RouterRoute element={<TelaLogin />} path="/" exact />
-        <RouterRoute element={<TelaDash />} path="/dash" />
+        <RouterRoute element={<TelaDash />} path="/dashboard" />
         <RouterRoute element={<TelaCadastro />} path="/cadastro" />
       </Routes>
     </BrowserRouter>

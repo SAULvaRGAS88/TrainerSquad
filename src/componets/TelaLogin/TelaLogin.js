@@ -10,13 +10,13 @@ export const TelaLogin = () => {
             <nav>
                 <ul>
                     <li>
-                        <Link to="/dash">Tela de DashBord</Link>
+                        <Link to="/dashboard">Tela de DashBoArd</Link>
                     </li>
                     <li>
                         <Link to="/cadastro">Tela de Cadastro</Link>
                     </li>
                 </ul>
             </nav>
-        </div>
+        </div>                                     
     )
 }
