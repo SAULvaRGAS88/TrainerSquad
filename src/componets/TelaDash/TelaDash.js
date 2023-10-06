@@ -5,7 +5,7 @@ export const TelaDash = () => {
   return (
     <div>
       <h1>
-        Tela de DashBord
+        Tela de DashBoArd
       </h1>
       <Link to="/">Retornar a Página de Login</Link>
     </div>
