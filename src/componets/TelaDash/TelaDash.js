@@ -1,9 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
+
+
 export const TelaDash = () => {
   return (
-    <div>
+    <div style={styled.container}>
       <h1>
         Tela de DashBord
       </h1>
