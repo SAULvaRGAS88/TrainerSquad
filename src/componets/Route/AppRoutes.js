@@ -1,17 +1,25 @@
 import React from 'react';
 import { Route as RouterRoute, BrowserRouter, Routes } from 'react-router-dom';
 
-import { TelaLogin } from '../TelaLogin/TelaLogin';
-import { TelaDash } from '../TelaDash/TelaDash';
-import { TelaCadastro } from '../TelaCadastro/TelaCadastro';
+import { Login } from '../login/Login';
+import { DashBoard } from '../dashBoard/DashBoard';
+import { CadastroAluno } from '../cadastro/CadastroAluno';
+import { ControlePagamento } from '../controlePagamento/ControlePagamento';
+import { Treino } from '../treino/Treino';
+import { AvaliacaoFisica } from '../avaliacaoFisica/AvaliacaoFisica';
+import { TelaInicial } from '../telaInicial/TelaInicial';
 
 export const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <RouterRoute element={<TelaLogin />} path="/" exact />
-        <RouterRoute element={<TelaDash />} path="/dashboard" />
-        <RouterRoute element={<TelaCadastro />} path="/cadastro" />
+        <RouterRoute element={<TelaInicial />} path="/" exact />
+        <RouterRoute element={<Login />} path="login"/>
+        <RouterRoute element={<DashBoard />} path="/dashboard" />
+        <RouterRoute element={<CadastroAluno/>} path="/cadastroAluno" />
+        <RouterRoute element={<ControlePagamento/>} path="/controlePagamento" />
+        <RouterRoute element={<Treino/>} path="/treino"/>
+        <RouterRoute element={<AvaliacaoFisica/>} path="/avaliacaoFisica"/>
       </Routes>
     </BrowserRouter>
   )

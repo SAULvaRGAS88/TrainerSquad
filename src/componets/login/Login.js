@@ -1,19 +1,16 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-export const TelaLogin = () => {
+export const Login = () => {
     return (
         <div>
             <h1>
-                TelaLogin
+                Tela de Login
             </h1>
             <nav>
                 <ul>
                     <li>
-                        <Link to="/dashboard">Tela de DashBoArd</Link>
-                    </li>
-                    <li>
-                        <Link to="/cadastro">Tela de Cadastro</Link>
+                        <Link style={{ color: 'green', fontWeight: 'bold' }} to="/dashboard">Tela de DashBoArd</Link>
                     </li>
                 </ul>
             </nav>
