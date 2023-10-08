@@ -12,10 +12,10 @@ export const TelaInicial = () => {
                     </p>
                 </div>
                 <div style={styles.box}>
-                    <div>
+                    <div style={{ width: "100%", alignItems: 'center', display: "flex", flexDirection: "column", }}>
                         <Button
-                        component={Link} 
-                        to="/login"
+                            component={Link}
+                            to="/login"
                             sx={{
                                 color: 'black',
                                 backgroundColor: '#798FA7',
@@ -23,7 +23,7 @@ export const TelaInicial = () => {
                                 '&:hover': {
                                     backgroundColor: '#798FA7',
                                 },
-                                width: 300,
+                                width: "40%",
                                 height: 50,
                                 borderRadius: 20,
                                 fontSize: 20,
@@ -33,7 +33,7 @@ export const TelaInicial = () => {
                             ENTRAR
                         </Button>
                     </div>
-                    <div>
+                    <div style={{ width: "100%", alignItems: 'center', display: "flex", flexDirection: "column", }}>
                         <Button
                             sx={{
                                 color: 'black',
@@ -42,7 +42,7 @@ export const TelaInicial = () => {
                                 '&:hover': {
                                     backgroundColor: '#798FA7',
                                 },
-                                width: 300,
+                                width: "40%",
                                 height: 50,
                                 borderRadius: 20,
                                 fontSize: 20,

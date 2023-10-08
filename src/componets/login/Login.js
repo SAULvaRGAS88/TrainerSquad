@@ -1,8 +1,28 @@
-import { Button, TextField } from '@mui/material';
-import React from 'react';
+import { Button, TextField, InputAdornment, IconButton } from '@mui/material';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 export const Login = () => {
+
+    const [usuario, setUsuario] = useState('');
+    const [senha, setSenha] = useState('');
+    const [mostrarSenha, setMostrarSenha] = useState(false);
+    const [loginError, setLoginError] = useState(false);
+
+    const efetuarLogin = () => {
+        if (usuario === 'teste' && senha === '1234') {
+            window.location.href = '/dashBoard';
+        } else {
+            setLoginError(true);
+        }
+    };
+
+    const FuncaoMostrarSenha = () => {
+        setMostrarSenha(!mostrarSenha);
+    };
+
     return (
         <div style={styles.containerPrincipal}>
             <div style={styles.containerSecundaria}>
@@ -30,7 +50,10 @@ export const Login = () => {
                                 color: 'white',
                                 '& input': { color: 'white' }
 
-                            }} />
+                            }}
+                            value={usuario}
+                            onChange={(e) => setUsuario(e.target.value)}
+                        />
                     </div>
                     <div style={{ paddingLeft: 30, marginBottom: 70 }}>
                         <TextField
@@ -45,14 +68,30 @@ export const Login = () => {
                                 '& fieldset': { borderColor: 'white' },
                                 color: 'white',
                                 '& input': { color: 'white' }
-
-                            }} />
+                            }}
+                            type={mostrarSenha ? 'text' : 'password'}
+                            value={senha}
+                            onChange={(e) => setSenha(e.target.value)}
+                            InputProps={{ // Usamos InputProps para adicionar o ícone de olho como adornos
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            onClick={FuncaoMostrarSenha}
+                                            edge="end"
+                                            color="inherit"
+                                        >
+                                            {mostrarSenha ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }}
+                        />
                     </div>
 
-                    <div style={{ alignItems: 'center', display: "flex", flexDirection: "column", }}>
+
+                    <div style={{ alignItems: 'center', display: "flex", flexDirection: "column", width: "100%", }}>
                         <Button
-                            component={Link}
-                            to="/dashBoard"
+                            onClick={efetuarLogin}
                             sx={{
                                 color: 'black',
                                 backgroundColor: '#798FA7',
@@ -60,7 +99,7 @@ export const Login = () => {
                                 '&:hover': {
                                     backgroundColor: '#798FA7',
                                 },
-                                width: 300,
+                                width: "40%",
                                 height: 50,
                                 borderRadius: 20,
                                 fontSize: 20,
@@ -69,8 +108,9 @@ export const Login = () => {
                         >
                             ENTRAR
                         </Button>
-                        <Link style={{ color: 'white', fontSize:12, paddingTop: 10, textDecoration: 'none' }} to="/">Ainda não tem cadastro? Registre-se</Link>
-                        <Link style={{ color: 'white',fontSize:12, textDecoration: 'none'}} to="/">Esqueceu a senha?</Link>
+                        {loginError && <p style={{ color: 'red', margin: 0 }}>Usuário ou senha incorretos.</p>}
+                        <Link style={{ color: 'white', fontSize: 12, paddingTop: 10, textDecoration: 'none' }} to="/">Ainda não tem cadastro? Registre-se</Link>
+                        <Link style={{ color: 'white', fontSize: 12, textDecoration: 'none' }} to="/">Esqueceu a senha?</Link>
                     </div>
                 </div>
             </div>
@@ -122,8 +162,6 @@ const styles = {
         borderRadius: 10,
         boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
         flexDirection: "column",
-        // justifyContent: "space-evenly",
-        // alignItems: 'center',
         display: 'flex',
     },
     pLogin: {
