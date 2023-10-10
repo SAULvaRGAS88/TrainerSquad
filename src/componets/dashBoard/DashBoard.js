@@ -1,44 +1,34 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { HeaderApp } from '../headerApp/HeaderApp';
 
 export const DashBoard = () => {
   return (
-    <div style={styles.container}>
-      <h1 style={{ color: 'black', fontWeight: 'bold' }}>
-        Tela de DashBoard
-      </h1>
-
-      <div>
-      <Link style={{ color: 'green', fontWeight: 'bold' }} to="/dashboard">Página de DashBoard</Link>
+    <div style={styles.containerPrincipal}>
+      <div style={styles.containerSecundaria}>
+        <HeaderApp />
       </div>
-
-      <div>
-        <Link style={{ color: 'green', fontWeight: 'bold' }} to="/login">Login</Link>
-      </div>
-
-      <div>
-        <Link style={{ color: 'green', fontWeight: 'bold' }} to="/cadastroAluno">Página de Cadastro</Link>
-      </div>
-
-      <div>
-        <Link style={{ color: 'green', fontWeight: 'bold' }} to="/controlePagamento">Página de Controle de Pagamento</Link>
-      </div>
-
-      <div>
-        <Link style={{ color: 'green', fontWeight: 'bold' }} to="/treino">Página de Treino</Link>
-      </div>
-
-      <div>
-        <Link style={{ color: 'green', fontWeight: 'bold' }} to="/avaliacaoFisica">Página de Avaliação Física</Link>
-      </div>
-
     </div>
 
   )
 }
 
 const styles = {
-  container: {
-    backgroundColor: 'transparent',
+  containerPrincipal: {
+    backgroundColor: '#1F2B45',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    minHeight: '100vh',
+  },
+  containerSecundaria: {
+    backgroundColor: '#E7E7E7',
+    width: '90%',
+    minHeight: '90vh',
+    display: 'flex',
+    flexDirection: "column",
+    alignItems: 'center',
+    boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
+
   },
 };
