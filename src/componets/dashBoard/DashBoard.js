@@ -4,6 +4,7 @@ import { Button } from '@mui/material';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import { Link } from 'react-router-dom';
 
 
 export const DashBoard = () => {
@@ -25,14 +26,20 @@ export const DashBoard = () => {
 
         <div style={styles.divButtons}>
           <Button
+            component={Link}
+            to="/cadastroAluno"
             style={styles.Button}
-            variant="contained"> <PersonAddAltIcon style={{fontSize: 30}}/> CADASTRAR ALUNO</Button>
+            variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> CADASTRAR ALUNO</Button>
           <Button
+            component={Link}
+            to="/controlePagamento"
             style={styles.Button}
-            variant="contained"> <AttachMoneyIcon style={{fontSize: 30}}/> CONTROLE DE PAGAMENTO</Button>
+            variant="contained"> <AttachMoneyIcon style={{ fontSize: 40, color: 'green' }} /> CONTROLE DE PAGAMENTO</Button>
           <Button
+            component={Link}
+            to="/treino"
             style={styles.Button}
-            variant="contained"> <FitnessCenterIcon style={{fontSize: 30}}/> CADASTRAR TREINO</Button>
+            variant="contained"> <FitnessCenterIcon style={{ fontSize: 40, color: 'green' }} /> CADASTRAR TREINO</Button>
         </div>
 
 
@@ -95,5 +102,9 @@ const styles = {
     backgroundColor: '#f5f3f3',
     color: 'black',
     cursor: 'pointer',
+    display: 'flex',
+    justifyContent: 'space-around',
+    fontWeight: 'bold',
+    borderRadius: 50
   }
 };
