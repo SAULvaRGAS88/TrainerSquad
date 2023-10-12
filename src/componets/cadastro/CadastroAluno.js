@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Modal, Box, Typography } from '@mui/material';
+import { Button, Modal, Box, Typography, TextField } from '@mui/material';
 import { HeaderApp } from '../headerApp/HeaderApp';
 import { Link } from 'react-router-dom';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
@@ -20,8 +20,28 @@ export const CadastroAluno = () => {
 
           <div style={styles.divCadastro}>
             <p>Dados Pessoais</p>
-            <div>
-              <p>Nome: </p>
+            <div style={{marginLeft: 10}}>
+              <div style={{display: "flex"}}>
+                {/* <p>Nome: </p> */}
+                <TextField
+                            id="standard-basic"
+                            label="Nome"
+                            variant="standard"
+                            InputLabelProps={{
+                                
+                            }}
+                            sx={{
+                                //'& label': { color: 'white' },
+                                //'& fieldset': { borderColor: 'white' },
+                                //color: 'white',
+                               // '& input': { color: 'white' }
+
+                            }}
+                            //value={usuario}
+                            // onChange={(e) => setUsuario(e.target.value)}
+                        />
+              </div>
+              
               <p>CPF: </p>
               <p>Data de Nascimento</p>
               <p>Telefone: </p>
