@@ -1,5 +1,5 @@
 import * as React from 'react';
-// import { useState } from 'react';
+import { useState } from 'react';
 import { Button, Modal, Box, Typography, TextField } from '@mui/material';
 import { HeaderApp } from '../headerApp/HeaderApp';
 import { Link } from 'react-router-dom';
@@ -7,19 +7,66 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { ptBR } from 'date-fns/locale'
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
 
 export const CadastroAluno = () => {
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [cpf, setCpf] = useState('');
+  const [telefone, setTelefone] = useState('');
+  const [sexo, setSexo] = useState('');
+  const [plano, setPlano] = useState('');
+  const [nomeAluno, setNomeAluno] = useState('');
+  const [email, setEmail] = useState('');
 
+  const formatCpf = (value) => {
+    const numericValue = value.replace(/\D/g, '');
+    const formattedCpf = numericValue.replace(
+      /(\d{3})(\d{3})(\d{3})(\d{2})/,
+      '$1.$2.$3-$4'
+    );
+    return formattedCpf;
+  };
+  const handleCpfChange = (e) => {
+    const inputValue = e.target.value;
+    const formattedCpf = formatCpf(inputValue);
+    setCpf(formattedCpf);
+  };
 
-  // const [selectedDate, setSelectedDate] = useState(null);
+  const formatTelefone = (value) => {
+    const numericValue = value.replace(/\D/g, '');
+    const formattedTelefone = numericValue.replace(
+      /(\d{2})(\d)(\d{4})(\d{4})/,
+      '($1) $2 $3-$4'
+    );
+    return formattedTelefone;
+  };
 
-  // const handleDateChange = (date) => {
-  //   setSelectedDate(date);
-  // };
+  const handleTelefoneChange = (e) => {
+    const inputValue = e.target.value;
+    const formattedTelefone = formatTelefone(inputValue);
+    setTelefone(formattedTelefone);
+  };
+
+  const handleSexoChange = (event) => {
+    setSexo(event.target.value);
+  };
+  const handlePlanoChange = (event) => {
+    setPlano(event.target.value);
+  };
+  const handleNomeAlunoChange = (event) => {
+    setNomeAluno(event.target.value);
+  };
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
 
   return (
     <div style={styles.containerPrincipal}>
@@ -36,10 +83,8 @@ export const CadastroAluno = () => {
                   id="standard-basic"
                   label="Nome"
                   variant="standard"
-                  InputLabelProps={{
-                  }}
-                  //value={usuario}
-                  // onChange={(e) => setUsuario(e.target.value)}
+                  value={nomeAluno}
+                  onChange={handleNomeAlunoChange}
                   inputProps={{
                     inputMode: 'text'
                   }}
@@ -50,30 +95,21 @@ export const CadastroAluno = () => {
                   id="standard-basic"
                   label="CPF"
                   variant="standard"
-                  InputLabelProps={{
-                  }}
-                  //value={usuario}
-                  // onChange={(e) => setUsuario(e.target.value)}
+                  value={cpf}
+                  onChange={handleCpfChange}
                   inputProps={{
-                    inputMode: 'numeric' // Define o inputMode como "numeric" para aceitar apenas números
+                    inputMode: 'numeric'
                   }}
                 />
               </div>
-              <div style={{display: "flex", marginTop: 5}}>
-                <p >Data Nascimento</p>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker />
-                </LocalizationProvider>
-              </div>
+
               <div>
                 <TextField
                   id="standard-basic"
                   label="Telefone"
                   variant="standard"
-                  InputLabelProps={{
-                  }}
-                //value={usuario}
-                // onChange={(e) => setUsuario(e.target.value)}
+                  value={telefone}
+                  onChange={handleTelefoneChange}
                 />
               </div>
               <div>
@@ -81,10 +117,8 @@ export const CadastroAluno = () => {
                   id="standard-basic"
                   label="E-Mail"
                   variant="standard"
-                  InputLabelProps={{
-                  }}
-                //value={usuario}
-                // onChange={(e) => setUsuario(e.target.value)}
+                  value={email}
+                  onChange={handleEmailChange}
                 />
               </div>
               <div>
@@ -92,11 +126,15 @@ export const CadastroAluno = () => {
                   id="standard-basic"
                   label="Sexo"
                   variant="standard"
-                  InputLabelProps={{
-                  }}
-                //value={usuario}
-                // onChange={(e) => setUsuario(e.target.value)}
-                />
+                  select
+                  value={sexo}
+                  onChange={handleSexoChange}
+                  sx={{ width: 195 }}
+                >
+                  <MenuItem value="Masculino" >Masculino</MenuItem>
+                  <MenuItem value="Feminino">Feminino</MenuItem>
+                  <MenuItem value="Não Informar">Não Informar</MenuItem>
+                </TextField>
               </div>
               <div>
                 <TextField
@@ -110,15 +148,53 @@ export const CadastroAluno = () => {
                 />
               </div>
 
+              <div style={{ display: "flex", marginTop: 5, marginBottom: -10, }}>
+                <p style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Data Nascimento: </p>
+                <LocalizationProvider locale={ptBR} dateAdapter={AdapterDayjs}>
+                  <DatePicker style={{ borderColor: 'red' }} format='DD-MM-YYYY' />
+                </LocalizationProvider>
+              </div>
+
             </div>
           </div>
 
           <div style={styles.divPagamentos}>
-            <p>Pagamento</p>
-            <div>
-              <p>Plano: </p>
-              <p>Data de Pagamento: </p>
-              <p>Valor: </p>
+            <p style={{ margin: 10, fontWeight: 'bold', fontSize: 18, }}>Pagamento</p>
+            <div style={{ marginLeft: 10 }}>
+              <div>
+                <TextField
+                  id="standard-basic"
+                  label="Plano"
+                  variant="standard"
+                  select
+                  value={plano}
+                  onChange={handlePlanoChange}
+                  sx={{ width: 195 }}
+                >
+                  <MenuItem value="Mensal" >Mesal</MenuItem>
+                  <MenuItem value="Trimestral">Trimestral</MenuItem>
+                  <MenuItem value="Semestral">Semestral</MenuItem>
+                  <MenuItem value="Anual">Anual</MenuItem>
+                </TextField>
+              </div>
+
+              <div style={{marginLeft: -10, marginTop: 5}}>
+                <FormControl fullWidth={false} sx={{ m: 1 }}>
+                  <InputLabel htmlFor="outlined-adornment-amount">Valor</InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-amount"
+                    startAdornment={<InputAdornment position="start">R$</InputAdornment>}
+                    label="Amount"
+                  />
+                </FormControl>
+              </div>
+
+              <div style={{ display: "flex", marginTop: 5, marginBottom: -10, }}>
+                <p style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Data de Pagamento: </p>
+                <LocalizationProvider locale={ptBR} dateAdapter={AdapterDayjs}>
+                  <DatePicker style={{ borderColor: 'red' }} format='DD-MM-YYYY' />
+                </LocalizationProvider>
+              </div>
             </div>
           </div>
 
@@ -177,7 +253,7 @@ const styles = {
   },
   divDupla: {
     width: '95%',
-    minHeight: '55vh',
+    minHeight: '56vh',
     marginTop: 20,
     display: "flex",
     justifyContent: 'space-between',
@@ -187,14 +263,14 @@ const styles = {
   divCadastro: {
     backgroundColor: '#f5f3f3',
     width: '48%',
-    minHeight: '55vh',
+    minHeight: '56vh',
     boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
     borderRadius: 20,
   },
   divPagamentos: {
     backgroundColor: '#f5f3f3',
     width: '45%',
-    height: '25vh',
+    height: '33vh',
     boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
     borderRadius: 20,
   },
