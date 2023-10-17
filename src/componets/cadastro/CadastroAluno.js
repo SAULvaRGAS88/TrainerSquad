@@ -1,15 +1,25 @@
 import * as React from 'react';
+// import { useState } from 'react';
 import { Button, Modal, Box, Typography, TextField } from '@mui/material';
 import { HeaderApp } from '../headerApp/HeaderApp';
 import { Link } from 'react-router-dom';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 export const CadastroAluno = () => {
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+
+  // const [selectedDate, setSelectedDate] = useState(null);
+
+  // const handleDateChange = (date) => {
+  //   setSelectedDate(date);
+  // };
 
   return (
     <div style={styles.containerPrincipal}>
@@ -19,35 +29,87 @@ export const CadastroAluno = () => {
         <div style={styles.divDupla}>
 
           <div style={styles.divCadastro}>
-            <p>Dados Pessoais</p>
-            <div style={{marginLeft: 10}}>
-              <div style={{display: "flex"}}>
-                {/* <p>Nome: </p> */}
+            <p style={{ margin: 10, fontWeight: 'bold', fontSize: 18, }}>Dados Pessoais</p>
+            <div style={{ marginLeft: 10 }}>
+              <div style={{}}>
                 <TextField
-                            id="standard-basic"
-                            label="Nome"
-                            variant="standard"
-                            InputLabelProps={{
-                                
-                            }}
-                            sx={{
-                                //'& label': { color: 'white' },
-                                //'& fieldset': { borderColor: 'white' },
-                                //color: 'white',
-                               // '& input': { color: 'white' }
-
-                            }}
-                            //value={usuario}
-                            // onChange={(e) => setUsuario(e.target.value)}
-                        />
+                  id="standard-basic"
+                  label="Nome"
+                  variant="standard"
+                  InputLabelProps={{
+                  }}
+                  //value={usuario}
+                  // onChange={(e) => setUsuario(e.target.value)}
+                  inputProps={{
+                    inputMode: 'text'
+                  }}
+                />
               </div>
-              
-              <p>CPF: </p>
-              <p>Data de Nascimento</p>
-              <p>Telefone: </p>
-              <p>E-Mail: </p>
-              <p>Sexo: </p>
-              <p>Status: </p>
+              <div>
+                <TextField
+                  id="standard-basic"
+                  label="CPF"
+                  variant="standard"
+                  InputLabelProps={{
+                  }}
+                  //value={usuario}
+                  // onChange={(e) => setUsuario(e.target.value)}
+                  inputProps={{
+                    inputMode: 'numeric' // Define o inputMode como "numeric" para aceitar apenas números
+                  }}
+                />
+              </div>
+              <div style={{display: "flex", marginTop: 5}}>
+                <p >Data Nascimento</p>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker />
+                </LocalizationProvider>
+              </div>
+              <div>
+                <TextField
+                  id="standard-basic"
+                  label="Telefone"
+                  variant="standard"
+                  InputLabelProps={{
+                  }}
+                //value={usuario}
+                // onChange={(e) => setUsuario(e.target.value)}
+                />
+              </div>
+              <div>
+                <TextField
+                  id="standard-basic"
+                  label="E-Mail"
+                  variant="standard"
+                  InputLabelProps={{
+                  }}
+                //value={usuario}
+                // onChange={(e) => setUsuario(e.target.value)}
+                />
+              </div>
+              <div>
+                <TextField
+                  id="standard-basic"
+                  label="Sexo"
+                  variant="standard"
+                  InputLabelProps={{
+                  }}
+                //value={usuario}
+                // onChange={(e) => setUsuario(e.target.value)}
+                />
+              </div>
+              <div>
+                <TextField
+                  id="standard-basic"
+                  label="Status"
+                  variant="standard"
+                  InputLabelProps={{
+                  }}
+                //value={usuario}
+                // onChange={(e) => setUsuario(e.target.value)}
+                />
+              </div>
+
             </div>
           </div>
 
@@ -160,6 +222,6 @@ const styles = {
     p: 4,
     backgroundColor: 'white',
     justifyContent: 'center',
-    display:'flex'
+    display: 'flex'
   },
 }
