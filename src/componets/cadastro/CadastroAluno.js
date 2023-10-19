@@ -136,17 +136,6 @@ export const CadastroAluno = () => {
                   <MenuItem value="Não Informar">Não Informar</MenuItem>
                 </TextField>
               </div>
-              <div>
-                <TextField
-                  id="standard-basic"
-                  label="Status"
-                  variant="standard"
-                  InputLabelProps={{
-                  }}
-                //value={usuario}
-                // onChange={(e) => setUsuario(e.target.value)}
-                />
-              </div>
 
               <div style={{ display: "flex", marginTop: 5, marginBottom: -10, }}>
                 <p style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Data Nascimento: </p>
@@ -263,7 +252,7 @@ const styles = {
   divCadastro: {
     backgroundColor: '#f5f3f3',
     width: '48%',
-    minHeight: '56vh',
+    height: '50vh',
     boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
     borderRadius: 20,
   },

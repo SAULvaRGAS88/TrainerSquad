@@ -35,6 +35,8 @@ export const TelaInicial = () => {
                     </div>
                     <div style={{ width: "100%", alignItems: 'center', display: "flex", flexDirection: "column", }}>
                         <Button
+                            component={Link}
+                            to="/cadastroPersonal"
                             sx={{
                                 color: 'black',
                                 backgroundColor: '#798FA7',
