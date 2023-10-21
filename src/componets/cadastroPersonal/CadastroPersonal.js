@@ -14,6 +14,7 @@ export const CadastroPersonal = () => {
         auth.onAuthStateChanged((user) => {
             if (user) {
                 const { uid, displayName, photoURL } = user
+                window.location.href = '/dashBoard';
                 if (!displayName || !photoURL)
                     throw new Error("O usuário não possui Nome ou Foto")
                 setUser({
@@ -24,7 +25,6 @@ export const CadastroPersonal = () => {
             }
         })
     }, [])
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -161,7 +161,7 @@ export const CadastroPersonal = () => {
                                 onKeyDown={handleKeyDown}
                             />
                         </div>
-                        {cadastroError && <p style={{ color: 'red', margin: 0 }}>Favor revivar os dados informados.</p>}
+                        {cadastroError && <p style={{ color: 'red', margin: 0 }}>Favor revisar os dados informados.</p>}
                         <div style={{ display: "flex", justifyContent: 'space-between' }}>
                             <Button
                                 style={styles.Button}
@@ -178,9 +178,7 @@ export const CadastroPersonal = () => {
                                 }}
                                 variant="contained"
                                 onClick={loginGoogle}>
-
                                 entrar
-
                             </Button>
                         </div>
                     </form>

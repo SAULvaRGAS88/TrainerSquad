@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 
 
 export const DashBoard = () => {
+
   return (
     <div style={styles.containerPrincipal}>
       <div style={styles.containerSecundaria}>
