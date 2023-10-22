@@ -26,6 +26,7 @@ export const HeaderApp = () => {
         const auth = firebase.auth();
         const unsubscribe = auth.onAuthStateChanged((user) => {
             if (user) {
+                console.log(user) 
                 const { displayName, photoURL } = user;
                 if (displayName || photoURL) {
                     setUserDisplayName(displayName);

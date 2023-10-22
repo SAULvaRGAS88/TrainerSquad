@@ -13,14 +13,15 @@ export const CadastroPersonal = () => {
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
             if (user) {
-                const { uid, displayName, photoURL } = user
+                const { uid, displayName, photoURL, email } = user
                 window.location.href = '/dashBoard';
                 if (!displayName || !photoURL)
                     throw new Error("O usuário não possui Nome ou Foto")
                 setUser({
                     id: uid,
                     avatar: photoURL,
-                    name: displayName
+                    name: displayName,
+                    email: email
                 })
             }
         })
@@ -51,13 +52,14 @@ export const CadastroPersonal = () => {
         const provider = new firebase.auth.GoogleAuthProvider();
         const result = await auth.signInWithPopup(provider);
         if (result.user) {
-            const { uid, displayName, photoURL } = result.user
+            const { uid, displayName, photoURL, email } = result.user
             if (!displayName || !photoURL)
                 throw new Error("O usuário não possui Nome ou Foto")
             setUser({
                 id: uid,
                 avatar: photoURL,
-                name: displayName
+                name: displayName,
+                email: email
             })
         }
     };
