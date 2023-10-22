@@ -1,8 +1,47 @@
-import React from 'react'
+import { useState, useEffect } from 'react';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { Link } from 'react-router-dom';
+import LogoutIcon from '@mui/icons-material/Logout';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 export const HeaderApp = () => {
+
+    const [userDisplayName, setUserDisplayName] = useState(null);
+    const [userphotoURL, setuserphotoURL] = useState(null);
+
+    const handleLogout = () => {
+        const auth = firebase.auth();
+        auth.signOut()
+            .then(() => {
+                console.log('Logout bem-sucedido');
+                window.location.href = '/';
+            })
+            .catch((error) => {
+                console.error('Erro ao fazer logout', error);
+            });
+    };
+
+    useEffect(() => {
+        const auth = firebase.auth();
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+            if (user) {
+                console.log(user) 
+                const { displayName, photoURL } = user;
+                if (displayName || photoURL) {
+                    setUserDisplayName(displayName);
+                    setuserphotoURL(photoURL);
+                }
+            } else {
+                setUserDisplayName(null);
+                setuserphotoURL(null);
+            }
+        });
+        return () => {
+            unsubscribe();
+        };
+    }, []);
+
     return (
         <div style={styles.header}>
             <div style={styles.Icon}>
@@ -18,7 +57,9 @@ export const HeaderApp = () => {
                 </div>
 
                 <div style={styles.divP}>
-                    <p>Fuluno Treinador</p>
+                    {userphotoURL && <img src={userphotoURL} alt="Foto do usuário" style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 20 }} />}
+                    {userDisplayName ? <p>{userDisplayName}</p> : <p></p>}
+                    <LogoutIcon onClick={handleLogout} style={{ cursor: "pointer", marginLeft: 20, fontSize: 34 }} />
                 </div>
 
             </div>
@@ -52,7 +93,10 @@ const styles = {
         marginRight: 20,
         color: 'white',
         fontSize: 20,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     divLinks: {
         display: "flex",
