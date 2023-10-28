@@ -14,19 +14,10 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-<<<<<<< HEAD
-    "date-fns": "^2.30.0",
-    "dayjs": "^1.11.10",
-    "firebase": "8.10",
-=======
-<<<<<<< Updated upstream
-=======
     "axios": "^1.6.0",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.10",
     "firebase": "8.10",
->>>>>>> Stashed changes
->>>>>>> cfc28350d812969bffb926fe60c7857ea4e96225
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-number-format": "^5.3.1",
