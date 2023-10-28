@@ -1,10 +1,27 @@
 import { Button, TextField, InputAdornment, IconButton } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import url from '../../service/service';
 
 export const Login = () => {
+
+
+    const fetchPersonalUsers = () => {
+        url.get('/personal/users')
+            .then(response => {
+                console.log('Resposta:', response.data);
+            })
+            .catch(error => {
+                console.error('Erro aqui>>>>>>>>>>>>>>>:', error);
+            });
+    };
+
+    useEffect(() => {
+        fetchPersonalUsers();
+    }, []);
+
 
     const [usuario, setUsuario] = useState('');
     const [senha, setSenha] = useState('');
