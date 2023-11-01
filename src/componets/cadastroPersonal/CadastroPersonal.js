@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 // import { useAuth } from '../../hooks/useAuth';
 // import url from '../../service/service';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Importe o useNavigate
 
 
 export const CadastroPersonal = () => {
@@ -12,6 +13,8 @@ export const CadastroPersonal = () => {
     const [nome, setNome] = useState('');
     const [senha, setSenha] = useState('');
     const [email, setEmail] = useState('');
+    const navigate = useNavigate(); // Use o hook useNavigate
+
     // console.log(user)
     // useEffect(() => {
     //     auth.onAuthStateChanged((user) => {
@@ -32,29 +35,22 @@ export const CadastroPersonal = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         try {
-            const response = await axios.post('/api/personal', {
-                nome: nome,
-                senha: senha,
-                email: email,
-            });
-
-            if (response.status === 201) {
-                // Redirecionar o usuário para a rota do dashboard no front-end
-                window.location.href = "/dashboard";
-            }
+          const response = await axios.post('/api/personal', {
+            nome: nome,
+            senha: senha,
+            email: email,
+          });
+    
+          if (response.status === 201) {
+            navigate('/dashboard');
+          }
         } catch (error) {
-            console.error('Erro ao cadastrar:', error);
-            setCadastroError(true);
+          console.error('Erro ao cadastrar:', error);
+          setCadastroError(true);
         }
-    };
-
-    const handleKeyDown = (e) => {
-        if (e.key === 'Enter') {
-            handleSubmit();
-        }
-    };
+      };
 
     // const CriarCadastro = () => {
     //     if (nome === '' && senha === '' && email === '') {
@@ -161,7 +157,7 @@ export const CadastroPersonal = () => {
                                     width: 300,
                                     boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)'
                                 }}
-                                onKeyDown={handleKeyDown}
+                                // onKeyDown={handleKeyDown}
                             />
                         </div>
 
@@ -182,6 +178,7 @@ export const CadastroPersonal = () => {
                                 onKeyDown={handleKeyDown}
                             />
                         </div> */}
+
                         {cadastroError && <p>Ocorreu um erro ao cadastrar. Verifique os dados.</p>}
                         <div style={{ display: "flex", justifyContent: 'space-between' }}>
                             <Button
