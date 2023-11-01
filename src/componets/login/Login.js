@@ -1,12 +1,12 @@
 import { Button, TextField, InputAdornment, IconButton } from '@mui/material';
-import React, {  useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import url from '../../service/service';
 import { useNavigate } from 'react-router-dom'; // Importe o useNavigate
 
-export const Login =  () => {
+export const Login = () => {
 
     const [usuario, setUsuario] = useState('');
     const [senha, setSenha] = useState('');
@@ -16,8 +16,8 @@ export const Login =  () => {
 
     const handleSubmit = async (e) => {
         try {
-            const response = await url.get(`/api/personal/nome${usuario}`);
-            
+            const response = await url.get(`/api/personal/nome/${usuario}`);
+            //teste
             if (response.status === 200) {
                 navigate('/dashboard');
             } else {
