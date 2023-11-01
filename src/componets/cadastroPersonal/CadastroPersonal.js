@@ -1,56 +1,34 @@
 import { Button, TextField } from '@mui/material';
 import React, { useState } from 'react'
-// import { firebase, auth } from '../../service/firebase'
-// import { useAuth } from '../../hooks/useAuth';
 import url from '../../service/service';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Importe o useNavigate
+import { useNavigate } from 'react-router-dom';
 
 
 export const CadastroPersonal = () => {
-    // const { setUser } = useAuth();
     const [cadastroError, setCadastroError] = useState(false);
     const [nome, setNome] = useState('');
     const [senha, setSenha] = useState('');
     const [email, setEmail] = useState('');
-    const navigate = useNavigate(); // Use o hook useNavigate
-
-    // console.log(user)
-    // useEffect(() => {
-    //     auth.onAuthStateChanged((user) => {
-    //         if (user) {
-    //             const { uid, displayName, photoURL, email } = user
-    //             window.location.href = '/dashBoard';
-    //             if (!displayName || !photoURL)
-    //                 throw new Error("O usuário não possui Nome ou Foto")
-    //             setUser({
-    //                 id: uid,
-    //                 avatar: photoURL,
-    //                 name: displayName,
-    //                 email: email
-    //             })
-    //         }
-    //     })
-    // }, [])
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         try {
-          const response = await url.post('/api/personal', {
-            nome: nome,
-            senha: senha,
-            email: email,
-          });
-    
-          if (response.status === 201) {
-            navigate('/dashboard');
-          }
+            const response = await url.post('/api/personal', {
+                nome: nome,
+                senha: senha,
+                email: email,
+            });
+
+            if (response.status === 201) {
+                navigate('/dashboard');
+            }
         } catch (error) {
-          console.error('Erro ao cadastrar:', error);
-          setCadastroError(true);
+            console.error('Erro ao cadastrar:', error);
+            setCadastroError(true);
         }
-      };
+    };
 
     // const CriarCadastro = () => {
     //     if (nome === '' && senha === '' && email === '') {
@@ -157,7 +135,7 @@ export const CadastroPersonal = () => {
                                     width: 300,
                                     boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)'
                                 }}
-                                // onKeyDown={handleKeyDown}
+                            // onKeyDown={handleKeyDown}
                             />
                         </div>
 
