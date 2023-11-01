@@ -1,68 +1,85 @@
 import { Button, TextField } from '@mui/material';
-import React, { useEffect, useState } from 'react'
-import { firebase, auth } from '../../service/firebase'
-import { useAuth } from '../../hooks/useAuth';
+import React, { useState } from 'react'
+// import { firebase, auth } from '../../service/firebase'
+// import { useAuth } from '../../hooks/useAuth';
+// import url from '../../service/service';
+import axios from 'axios';
+
 
 export const CadastroPersonal = () => {
-    const { user, setUser } = useAuth()
-    const [cadastroError, setcadastroError] = useState(false);
+    // const { setUser } = useAuth();
+    const [cadastroError, setCadastroError] = useState(false);
     const [nome, setNome] = useState('');
     const [senha, setSenha] = useState('');
     const [email, setEmail] = useState('');
-    console.log(user)
-    useEffect(() => {
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                const { uid, displayName, photoURL, email } = user
-                window.location.href = '/dashBoard';
-                if (!displayName || !photoURL)
-                    throw new Error("O usuário não possui Nome ou Foto")
-                setUser({
-                    id: uid,
-                    avatar: photoURL,
-                    name: displayName,
-                    email: email
-                })
-            }
-        })
-    }, [])
+    // console.log(user)
+    // useEffect(() => {
+    //     auth.onAuthStateChanged((user) => {
+    //         if (user) {
+    //             const { uid, displayName, photoURL, email } = user
+    //             window.location.href = '/dashBoard';
+    //             if (!displayName || !photoURL)
+    //                 throw new Error("O usuário não possui Nome ou Foto")
+    //             setUser({
+    //                 id: uid,
+    //                 avatar: photoURL,
+    //                 name: displayName,
+    //                 email: email
+    //             })
+    //         }
+    //     })
+    // }, [])
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Realize aqui a ação de envio do formulário, por exemplo, enviar os dados para o servidor
-        // Pode usar usuario e senha para isso
+
+        try {
+            const response = await axios.post('/api/personal', {
+                nome: nome,
+                senha: senha,
+                email: email,
+            });
+
+            if (response.status === 201) {
+                // Redirecionar o usuário para a rota do dashboard no front-end
+                window.location.href = "/dashboard";
+            }
+        } catch (error) {
+            console.error('Erro ao cadastrar:', error);
+            setCadastroError(true);
+        }
     };
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
-            CriarCadastro();
+            handleSubmit();
         }
     };
 
-    const CriarCadastro = () => {
-        if (nome === '' && senha === '' && email === '') {
-            window.location.href = '/dashBoard';
-        } else {
-            setcadastroError(true);
-        }
-    };
+    // const CriarCadastro = () => {
+    //     if (nome === '' && senha === '' && email === '') {
+    //         window.location.href = '/dashBoard';
+    //     } else {
+    //         setCadastroError(true);
+    //     }
+    // };
 
 
-    const loginGoogle = async () => {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        const result = await auth.signInWithPopup(provider);
-        if (result.user) {
-            const { uid, displayName, photoURL, email } = result.user
-            if (!displayName || !photoURL)
-                throw new Error("O usuário não possui Nome ou Foto")
-            setUser({
-                id: uid,
-                avatar: photoURL,
-                name: displayName,
-                email: email
-            })
-        }
-    };
+    // const loginGoogle = async () => {
+    //     const provider = new firebase.auth.GoogleAuthProvider();
+    //     const result = await auth.signInWithPopup(provider);
+    //     if (result.user) {
+    //         const { uid, displayName, photoURL, email } = result.user
+    //         if (!displayName || !photoURL)
+    //             throw new Error("O usuário não possui Nome ou Foto")
+    //         setUser({
+    //             id: uid,
+    //             avatar: photoURL,
+    //             name: displayName,
+    //             email: email
+    //         })
+    //     }
+    // };
 
 
     return (
@@ -111,7 +128,7 @@ export const CadastroPersonal = () => {
                             />
                         </div>
 
-                        <div style={styles.imput}>
+                        {/* <div style={styles.imput}>
                             <TextField
                                 id="standard-basic"
                                 label="Confirme E-mail"
@@ -127,13 +144,14 @@ export const CadastroPersonal = () => {
                                     boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)'
                                 }}
                             />
-                        </div>
+                        </div> */}
 
                         <div style={styles.imput}>
                             <TextField
                                 id="standard-basic"
                                 label="Senha"
                                 variant="outlined"
+                                onChange={(e) => setSenha(e.target.value)}
                                 InputLabelProps={{
                                     style: { color: 'white' }
                                 }}
@@ -143,10 +161,11 @@ export const CadastroPersonal = () => {
                                     width: 300,
                                     boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)'
                                 }}
+                                onKeyDown={handleKeyDown}
                             />
                         </div>
 
-                        <div style={styles.imput}>
+                        {/* <div style={styles.imput}>
                             <TextField
                                 id="standard-basic"
                                 label="Confirme Senha"
@@ -162,13 +181,13 @@ export const CadastroPersonal = () => {
                                 }}
                                 onKeyDown={handleKeyDown}
                             />
-                        </div>
-                        {cadastroError && <p style={{ color: 'red', margin: 0 }}>Favor revisar os dados informados.</p>}
+                        </div> */}
+                        {cadastroError && <p>Ocorreu um erro ao cadastrar. Verifique os dados.</p>}
                         <div style={{ display: "flex", justifyContent: 'space-between' }}>
                             <Button
                                 style={styles.Button}
                                 variant="contained"
-                                onClick={CriarCadastro}
+                                onClick={handleSubmit}
                             >Criar</Button>
                             <Button
                                 style={{
@@ -179,7 +198,7 @@ export const CadastroPersonal = () => {
                                     opacity: 0.6
                                 }}
                                 variant="contained"
-                                onClick={loginGoogle}>
+                                onClick={() => { }}>
                                 entrar
                             </Button>
                         </div>
