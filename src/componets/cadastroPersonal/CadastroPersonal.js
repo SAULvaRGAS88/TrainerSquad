@@ -2,7 +2,7 @@ import { Button, TextField } from '@mui/material';
 import React, { useState } from 'react'
 // import { firebase, auth } from '../../service/firebase'
 // import { useAuth } from '../../hooks/useAuth';
-// import url from '../../service/service';
+import url from '../../service/service';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Importe o useNavigate
 
@@ -37,7 +37,7 @@ export const CadastroPersonal = () => {
         e.preventDefault();
     
         try {
-          const response = await axios.post('/api/personal', {
+          const response = await url.post('/api/personal', {
             nome: nome,
             senha: senha,
             email: email,
