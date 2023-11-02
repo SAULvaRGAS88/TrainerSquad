@@ -1,4 +1,4 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { Link } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -7,9 +7,13 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 export const HeaderApp = () => {
 
-    const [userDisplayName, setUserDisplayName] = useState(null);
-    const [userphotoURL, setuserphotoURL] = useState(null);
+    // const [userDisplayName, setUserDisplayName] = useState(null);
+    // const [userphotoURL, setuserphotoURL] = useState(null);
 
+    const logout = () =>{
+        window.location.href = '/'
+    }
+    
     // const handleLogout = () => {
     //     // const auth = firebase.auth();
     //     auth.signOut()
@@ -57,9 +61,9 @@ export const HeaderApp = () => {
                 </div>
 
                 <div style={styles.divP}>
-                    {userphotoURL && <img src={userphotoURL} alt="Foto do usuário" style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 20 }} />}
-                    {userDisplayName ? <p>{userDisplayName}</p> : <p></p>}
-                    <LogoutIcon onClick={()=>{}} style={{ cursor: "pointer", marginLeft: 20, fontSize: 34 }} />
+                    {/* {userphotoURL && <img src={userphotoURL} alt="Foto do usuário" style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 20 }} />}
+                    {userDisplayName ? <p>{userDisplayName}</p> : <p></p>} */}
+                    <LogoutIcon onClick={logout} style={{ cursor: "pointer", marginLeft: 20, fontSize: 34 }} />
                 </div>
 
             </div>
