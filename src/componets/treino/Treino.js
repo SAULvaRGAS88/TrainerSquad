@@ -12,10 +12,10 @@ export const Treino = () => {
                 <div style={styles.titulo}>
                     <h2>Detalhamento de Treinos</h2>
                     <div style={styles.listaTreino}>
-                        <Button variant="contained" >Treino A</Button>
-                        <Button variant="contained" >Treino B</Button>
-                        <Button variant="contained" >Treino C</Button>
-                        <Button variant="contained" >Treino D</Button>
+                        <Button size='small' variant="contained" >Treino A</Button>
+                        <Button size='small' variant="contained" >Treino B</Button>
+                        <Button size='small' variant="contained" >Treino C</Button>
+                        <Button size='small' variant="contained" >Treino D</Button>
                     </div>
                 </div>
                 {/* Subtítulo Detalhamento do treino do aluno tal */}
@@ -23,12 +23,6 @@ export const Treino = () => {
                     <p style={styles.paragrafoSubTitulo}>DETALHAMENTO DO TREINO</p>
                 </div>
                 <div style={styles.espacoTreinos}>
-                    <div style={styles.divTreinos}>
-                        <Button variant="contained" style={styles.btnTreino}>Treino A</Button>
-                        <Button variant="contained" style={styles.btnTreino}>Treino B</Button>
-                        <Button variant="contained" style={styles.btnTreino}>Treino C</Button>
-                        <Button variant="contained" style={styles.btnTreino}>Treino D</Button>
-                    </div>
                     <TabelaComInclusao />
                 </div>
             </div>
@@ -65,9 +59,9 @@ const styles = {
         fontSize: 'medium'
     },
     listaTreino: {
-        width: '30%',
+        width: '50%',
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'space-evenly',
     },
     subTitulo: {
         width: '95%',
@@ -83,12 +77,6 @@ const styles = {
     espacoTreinos: {
         width: '90%',
         display: 'flex',
-        justifyContent: 'space-between'
-    },
-    divTreinos: {
-        width: '8%',
-        display: 'flex',
-        flexDirection: 'column',
         justifyContent: 'space-between'
     },
     btnTreino: {
