@@ -1,8 +1,19 @@
 import { Button } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import url from '../../service/service'
 
 export const TelaInicial = () => {
+    const fetchMessage = () => {
+        url.get('/').then(response => {
+            const message = response.data.message;
+            console.log('Mensagem do backend:', message);
+        }).catch(error => {
+            console.error('Erro ao recuperar a mensagem do backend:', error);
+        });
+    };
+    
+    fetchMessage();
     return (
         <div style={styles.containerPrincipal}>
             <div style={styles.containerSecundaria}>

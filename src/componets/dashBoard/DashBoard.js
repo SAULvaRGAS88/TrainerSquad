@@ -9,9 +9,24 @@ import PaidIcon from '@mui/icons-material/Paid';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CancelIcon from '@mui/icons-material/Cancel';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
 
 
 export const DashBoard = () => {
+
+  const events = [
+    { title: 'Meeting', start: new Date() }
+  ]
+
+  function renderEventContent(eventInfo) {
+    return (
+      <>
+        <b>{eventInfo.timeText}</b>
+        <i>{eventInfo.event.title}</i>
+      </>
+    )
+  }
 
   return (
     <div style={styles.containerPrincipal}>
@@ -79,6 +94,17 @@ export const DashBoard = () => {
           </div>
 
           <div style={styles.calender}>
+            <div >
+              <FullCalendar
+
+                plugins={[dayGridPlugin]}
+                initialView='dayGridMonth'
+                weekends={true}
+                events={events}
+                eventContent={renderEventContent}
+                height="400px" // Altura desejada
+              />
+            </div>
 
           </div>
         </div>

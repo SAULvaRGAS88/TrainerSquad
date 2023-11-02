@@ -65,7 +65,7 @@ const styles = {
     },
     subTitulo: {
         width: '95%',
-        border: 10,
+        // border: 10,
         border: '#E7E7E7'
     },
     paragrafoSubTitulo: {

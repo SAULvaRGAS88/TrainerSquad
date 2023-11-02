@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import url from '../../service/service';
+import { useNavigate } from 'react-router-dom'; // Importe o useNavigate
 
 export const Login = () => {
 
@@ -10,19 +12,22 @@ export const Login = () => {
     const [senha, setSenha] = useState('');
     const [mostrarSenha, setMostrarSenha] = useState(false);
     const [loginError, setLoginError] = useState(false);
+    const navigate = useNavigate(); // Use o hook useNavigate
 
-    const efetuarLogin = () => {
-        if (usuario === 'teste' && senha === '1234') {
-            window.location.href = '/dashBoard';
-        } else {
+    const handleSubmit = async (e) => {
+        try {
+            const response = await url.get(`/api/personal/nome/${usuario}`);
+            //teste
+            if (response.status === 200) {
+                navigate('/dashboard');
+            } else {
+                setLoginError(true);
+            }
+        } catch (error) {
+            console.error('Erro ao efetuar login:', error);
             setLoginError(true);
         }
-    };
-
-    const handleSubmit = (e) => {
         e.preventDefault();
-        // Realize aqui a ação de envio do formulário, por exemplo, enviar os dados para o servidor
-        // Pode usar usuario e senha para isso
     };
 
     const FuncaoMostrarSenha = () => {
@@ -31,7 +36,6 @@ export const Login = () => {
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
-            efetuarLogin();
         }
     };
 
@@ -105,7 +109,7 @@ export const Login = () => {
 
                         <div style={{ alignItems: 'center', display: "flex", flexDirection: "column", width: "100%", }}>
                             <Button
-                                onClick={efetuarLogin}
+                                onClick={handleSubmit}
                                 sx={{
                                     color: 'black',
                                     backgroundColor: '#798FA7',
