@@ -6,7 +6,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Paper,
+  Paper
 } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 
@@ -89,9 +89,10 @@ export const TabelaComInclusao = () => {
             <TableBody>
             {dados.map((linha, index) => (
                 <TableRow key={index}>
-                <TableCell>
+                <TableCell style={styles.linhasTabela}>
                     {linhaEditando === index ? (
                     <input
+                        style={styles.inputExercicio}
                         type="text"
                         name="exercicio"
                         value={linha.exercicio}
@@ -101,9 +102,10 @@ export const TabelaComInclusao = () => {
                     linha.exercicio
                     )}
                 </TableCell>
-                <TableCell>
+                <TableCell style={styles.linhasTabela}>
                     {linhaEditando === index ? (
                     <input
+                        style={styles.inputSerie}
                         type="number"
                         name="serie"
                         value={linha.serie}
@@ -113,9 +115,10 @@ export const TabelaComInclusao = () => {
                     linha.serie
                     )}
                 </TableCell>
-                <TableCell>
+                <TableCell style={styles.linhasTabela}>
                     {linhaEditando === index ? (
                     <input
+                        style={styles.inputSerie}
                         type="number"
                         name="repeticoes"
                         value={linha.repeticoes}
@@ -125,9 +128,10 @@ export const TabelaComInclusao = () => {
                     linha.repeticoes
                     )}
                 </TableCell>
-                <TableCell>
+                <TableCell style={styles.linhasTabela}>
                     {linhaEditando === index ? (
                     <input
+                        style={styles.inputSerie}
                         type="number"
                         name="carga"
                         value={linha.carga}
@@ -137,7 +141,7 @@ export const TabelaComInclusao = () => {
                     linha.carga
                     )}
                 </TableCell>
-                <TableCell>
+                <TableCell style={styles.linhasTabela}>
                     {linhaEditando === index ? (
                     <input
                         type="text"
@@ -149,7 +153,7 @@ export const TabelaComInclusao = () => {
                     linha.observacao
                     )}
                 </TableCell>
-                <TableCell>
+                <TableCell style={styles.linhasTabela}>
                     {linhaEditando === index ? (
                     <Button
                         variant="contained"
@@ -161,6 +165,7 @@ export const TabelaComInclusao = () => {
                     ) : (
                     <>
                         <Button
+                        size='small'
                         variant="outlined"
                         color="primary"
                         onClick={() => editarLinha(index)}
@@ -168,6 +173,7 @@ export const TabelaComInclusao = () => {
                         Editar
                         </Button>
                         <Button
+                        size='small'
                         variant="outlined"
                         color="error"
                         onClick={() => excluirLinha(index)}
@@ -182,44 +188,49 @@ export const TabelaComInclusao = () => {
             </TableBody>
         </Table>
             <br></br>
+        <div style={styles.inputs}>
+          <input style={styles.inputExercicio}
+              type="text"
+              name="exercicio"
+              value={novaLinha.exercicio}
+              placeholder="Exercício"
+              onChange={handleChange}
+          />
+          <input style={styles.inputSerie}
+              type="number"
+              name="serie"
+              value={novaLinha.serie}
+              placeholder="Série"
+              onChange={handleChange}
+          />
+          <input style={styles.inputSerie}
+              type="number"
+              name="repeticoes"
+              value={novaLinha.repeticoes}
+              placeholder="Repetições"
+              onChange={handleChange}
+          />
+          <input style={styles.inputSerie}
+              type="number"
+              name="carga"
+              value={novaLinha.carga}
+              placeholder="Carga"
+              onChange={handleChange}
+          />
+          <input
+              type="text"
+              name="observacao"
+              value={novaLinha.observacao}
+              placeholder="Observação"
+              onChange={handleChange}
+          />
+        </div>
+        </Paper>
+        {/* Botões Incluir e Salvar */}
+        <div style={styles.btnSalvarIncluir}>
         <Button variant="contained" color="primary" onClick={adicionarLinha}>
             Incluir
         </Button>
-        <input
-            type="text"
-            name="exercicio"
-            value={novaLinha.exercicio}
-            placeholder="Exercício"
-            onChange={handleChange}
-        />
-        <input
-            type="number"
-            name="serie"
-            value={novaLinha.serie}
-            placeholder="Série"
-            onChange={handleChange}
-        />
-        <input
-            type="number"
-            name="repeticoes"
-            value={novaLinha.repeticoes}
-            placeholder="Repetições"
-            onChange={handleChange}
-        />
-        <input
-            type="number"
-            name="carga"
-            value={novaLinha.carga}
-            placeholder="Carga"
-            onChange={handleChange}
-        />
-        <input
-            type="text"
-            name="observacao"
-            value={novaLinha.observacao}
-            placeholder="Observação"
-            onChange={handleChange}
-        />
         <Button
             variant="contained"
             color="primary"
@@ -228,8 +239,8 @@ export const TabelaComInclusao = () => {
         >
             Salvar
         </Button>
-        </Paper>
-        
+
+        </div>
     </div>
   );
 };
@@ -237,5 +248,26 @@ export const TabelaComInclusao = () => {
 const styles = {
     espacoTreinos: {
         width: '90%'
+    },
+    btnSalvarIncluir: {
+      width: '90%',
+      display: 'flex',
+      justifyContent: 'space-evenly',
+      marginTop: '10px'
+    },
+    inputs: {
+      width: '90%',
+      display: 'flex',
+      justifyContent: 'space-evenly',
+      paddingBottom: '10px'
+    },
+    inputExercicio: {
+      width: '150px'
+    },
+    inputSerie: {
+      width: '80px'
+    },
+    linhasTabela: {
+      padding: '5px 20px'
     }
 }
