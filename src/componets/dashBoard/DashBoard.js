@@ -38,16 +38,17 @@ export const DashBoard = () => {
     try {
       const response = await url.get(`/api/aluno/alunos`);
       const alunos = response.data;
-
-      const lRetorno = alunos.reduce((accumulator, aluno) => {
-        accumulator.push({
-          nome: aluno.nome,
+  
+      const lRetorno = [];
+      for (let i = 0; i < alunos.length; i++) {
+        lRetorno.push({
+          nome: alunos[i].nome,
+          id: alunos[i].id
         });
-        return accumulator;
-      }, []);
-
+      }
+  
       setNomeAluno(lRetorno);
-
+      console.log(lRetorno);
     } catch (error) {
       console.error('Erro ao consultar alunos:', error);
     }
@@ -56,16 +57,19 @@ export const DashBoard = () => {
 
 
   const retornaStatusPag = async () => {
-
     try {
       const response = await url.get(`/api/pagamento/pagamentos`);
       const status = response.data;
-
-      const lRetorno = status.map((pag) => ({
-        status: pag.status,
-      }));
+      
+      const lRetorno = [];
+      for (let i = 0; i < status.length; i++) {
+        lRetorno.push({ 
+          status: status[i].status 
+        });
+      }
+      
       setStatus(lRetorno);
-
+      console.log(lRetorno);
     } catch (error) {
       console.error('Erro ao consultar Status:', error);
     }
@@ -110,16 +114,16 @@ export const DashBoard = () => {
                       <p>{item.nome}</p>
                     </div>
 
-                    <div style={{ width: "32%", display: "flex", justifyContent: "center", alignItems: "center"  }}>
-                      {status != "pendente" ? <CancelIcon htmlColor='red'/> : <CheckCircleOutlineIcon htmlColor='green'/>}
+                    <div style={{ width: "32%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                      {status != "pendente" ? <CancelIcon htmlColor='red' /> : <CheckCircleOutlineIcon htmlColor='green' />}
                       {/* <p>{status[index].status}</p> */}
 
                     </div>
 
                     <div style={{ width: "32%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                      <div style={{ backgroundColor: 'yellow', margin: 5 }}><PersonOutlineIcon /></div>
-                      <div style={{ backgroundColor: 'greenyellow', margin: 5 }}><PaidIcon /></div>
-                      <div style={{ backgroundColor: '#59D0F5', margin: 5 }}><FitnessCenterIcon /></div>
+                      <div style={{ backgroundColor: 'yellow', margin: 5, cursor: "pointer" }} onClick={() => { }}><PersonOutlineIcon /></div>
+                      <div style={{ backgroundColor: 'greenyellow', margin: 5, cursor: "pointer" }}><PaidIcon /></div>
+                      <div style={{ backgroundColor: '#59D0F5', margin: 5, cursor: "pointer" }}><FitnessCenterIcon /></div>
                     </div>
 
                   </div>
