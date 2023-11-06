@@ -19,7 +19,7 @@ export const AppRoutes = () => {
         <RouterRoute element={<CadastroAluno />} path="/cadastroAluno/:id" />
         <RouterRoute element={<ControlePagamento />} path="/controlePagamento/:id" />
         <RouterRoute element={<Treino />} path="/treino/:id" />
-        <RouterRoute element={<AvaliacaoFisica />} path="/avaliacaoFisica/:id" />
+        <RouterRoute element={<AvaliacaoFisica />} path="/avaliacaoFisica" />
         <RouterRoute element={<CadastroPersonal />} path="/cadastroPersonal" />
       </Routes>
     </BrowserRouter>

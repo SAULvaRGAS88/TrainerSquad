@@ -2,17 +2,17 @@ import * as React from 'react';
 import { useState } from 'react';
 import { Button, Modal, Box, Typography, TextField } from '@mui/material';
 import { HeaderApp } from '../headerApp/HeaderApp';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { ptBR } from 'date-fns/locale'
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputAdornment from '@mui/material/InputAdornment';
+// import FormControl from '@mui/material/FormControl';
+// import InputLabel from '@mui/material/InputLabel';
+// import OutlinedInput from '@mui/material/OutlinedInput';
+// import InputAdornment from '@mui/material/InputAdornment';
 import url from '../../service/service';
 import { useParams } from 'react-router-dom';
 
@@ -20,7 +20,7 @@ import { useParams } from 'react-router-dom';
 export const AvaliacaoFisica = () => {
   const [cadastroError, setCadastroError] = useState(false);
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+//   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [peso, setPeso] = useState('');
   const [altura, setAltura] = useState('');

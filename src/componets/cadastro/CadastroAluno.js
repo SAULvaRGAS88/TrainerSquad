@@ -20,7 +20,7 @@ export const CadastroAluno = () => {
 
   const [cadastroError, setCadastroError] = useState(false);
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  // const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [cpf, setCpf] = useState('');
   const [telefone, setTelefone] = useState('');
