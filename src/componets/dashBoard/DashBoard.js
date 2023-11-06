@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { HeaderApp } from '../headerApp/HeaderApp';
-import { Button } from '@mui/material';
+import { Button, Dialog, DialogContent } from '@mui/material';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
@@ -31,6 +31,10 @@ export const DashBoard = () => {
     )
   }
 
+  const [alunoParaEditar, setAlunoParaEditar] = useState(null);
+  const [openAluno, setOpenAluno] = useState(false);
+  const [openFinanceiro, setOpenFinanceiro] = useState(false);
+  const [openTreino, setOpenTreino] = useState(false);
   const [nomeAluno, setNomeAluno] = useState([]);
   const [status, setStatus] = useState([]);
 
@@ -38,15 +42,16 @@ export const DashBoard = () => {
     try {
       const response = await url.get(`/api/aluno/alunos`);
       const alunos = response.data;
-  
+
       const lRetorno = [];
       for (let i = 0; i < alunos.length; i++) {
         lRetorno.push({
           nome: alunos[i].nome,
-          id: alunos[i].id
+          id: alunos[i].id,
+          telefone: alunos[i].telefone,
         });
       }
-  
+
       setNomeAluno(lRetorno);
       console.log(lRetorno);
     } catch (error) {
@@ -54,20 +59,18 @@ export const DashBoard = () => {
     }
   }
 
-
-
   const retornaStatusPag = async () => {
     try {
       const response = await url.get(`/api/pagamento/pagamentos`);
       const status = response.data;
-      
+
       const lRetorno = [];
       for (let i = 0; i < status.length; i++) {
-        lRetorno.push({ 
-          status: status[i].status 
+        lRetorno.push({
+          status: status[i].status
         });
       }
-      
+
       setStatus(lRetorno);
       console.log(lRetorno);
     } catch (error) {
@@ -79,6 +82,8 @@ export const DashBoard = () => {
     retornaAlunosDb();
     retornaStatusPag();
   }, []);
+
+  const [alunoIdParaEditar, setAlunoIdParaEditar] = useState(null);
 
   return (
     <div style={styles.containerPrincipal}>
@@ -104,31 +109,28 @@ export const DashBoard = () => {
 
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", maxHeight: "300px", overflowY: "auto" }}>
               {nomeAluno && status && nomeAluno.length === status.length &&
                 nomeAluno.map((item, index) => (
-
-                  <div key={index} style={{ display: "flex", justifyContent: "space-between", width: "96%", }}>
-
-                    <div style={{ width: "32%", display: "flex", justifyContent: "center", }}>
+                  <div key={index} style={{ display: "flex", justifyContent: "space-between", width: "96%" }}>
+                    <div style={{ width: "32%", display: "flex", justifyContent: "center" }}>
                       <p>{item.nome}</p>
                     </div>
-
                     <div style={{ width: "32%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                      {status != "pendente" ? <CancelIcon htmlColor='red' /> : <CheckCircleOutlineIcon htmlColor='green' />}
-                      {/* <p>{status[index].status}</p> */}
-
+                      {status !== "pendente" ? <CancelIcon htmlColor='red' /> : <CheckCircleOutlineIcon htmlColor='green' />}
                     </div>
-
                     <div style={{ width: "32%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                      <div style={{ backgroundColor: 'yellow', margin: 5, cursor: "pointer" }} onClick={() => { }}><PersonOutlineIcon /></div>
-                      <div style={{ backgroundColor: 'greenyellow', margin: 5, cursor: "pointer" }}><PaidIcon /></div>
-                      <div style={{ backgroundColor: '#59D0F5', margin: 5, cursor: "pointer" }}><FitnessCenterIcon /></div>
+                      <div style={{ backgroundColor: 'yellow', margin: 5, cursor: "pointer" }} onClick={() => {
+                        setAlunoIdParaEditar(item.id);
+                        setOpenAluno(true);
+                      }}><PersonOutlineIcon /></div>
+                      <div style={{ backgroundColor: 'greenyellow', margin: 5, cursor: "pointer" }}><PaidIcon onClick={() => { setOpenFinanceiro(true) }} /></div>
+                      <div style={{ backgroundColor: '#59D0F5', margin: 5, cursor: "pointer" }}><FitnessCenterIcon onClick={() => { setOpenTreino(true) }} /></div>
                     </div>
-
                   </div>
                 ))}
             </div>
+
           </div>
           {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */}
           <div style={styles.calender}>
@@ -147,7 +149,6 @@ export const DashBoard = () => {
           </div>
         </div>
 
-
         <div style={styles.divButtons}>
           <Button
             component={Link}
@@ -165,6 +166,55 @@ export const DashBoard = () => {
             style={styles.Button}
             variant="contained"> <FitnessCenterIcon style={{ fontSize: 40, color: 'green' }} /> CADASTRAR TREINO</Button>
         </div>
+
+
+        <Dialog open={openAluno} onClose={() => setOpenAluno(false)}>
+          <DialogContent style={styles.customDialogStyle}>
+            <h2>Editar Aluno</h2>
+            {nomeAluno &&
+              nomeAluno
+                .filter((aluno) => aluno.id === alunoIdParaEditar)
+                .map((aluno, index) => (
+                  <div key={index} style={styles.uptadeAluno}>
+                    <p style={styles.p}>Nome: {aluno.nome}</p>
+                    <input type="text" placeholder="Nome do Aluno" />
+                    <p style={styles.p}>Telefone: {aluno.telefone}</p>
+                    <input type="text" placeholder="Telefone do Aluno" />
+                    <div style={styles.buttonContainer}>
+                      <button style={styles.saveButton}>Salvar</button>
+                      <button style={styles.closeButton} onClick={() => { setOpenAluno(false) }}>Fechar</button>
+                    </div>
+                  </div>
+                ))}
+          </DialogContent>
+        </Dialog>
+
+
+
+
+        <Dialog open={openFinanceiro} onClose={() => setOpenFinanceiro(false)}>
+          <DialogContent style={styles.customDialogStyle}>
+            <h2>Editar Financeiro</h2>
+            <input type="text" placeholder="Nome do Aluno" />
+            <input type="text" placeholder="Idade do Aluno" />
+            <div>
+              <button>Salvar</button> <button onClick={() => { setOpenFinanceiro(false) }}>Fechar</button>
+            </div>
+
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={openTreino} onClose={() => setOpenTreino(false)}>
+          <DialogContent style={styles.customDialogStyle}>
+            <h2>Editar Treino</h2>
+            <input type="text" placeholder="Nome do Aluno" />
+            <input type="text" placeholder="Idade do Aluno" />
+            <div>
+              <button>Salvar</button> <button onClick={() => { setOpenTreino(false) }}>Fechar</button>
+            </div>
+
+          </DialogContent>
+        </Dialog>
 
 
       </div>
@@ -245,14 +295,59 @@ const styles = {
     borderBottomStyle: 'solid',
     borderWidth: 'thin',
     width: "96%",
-    // alignItems: "center"
   },
   detalhes: {
     dflexDirection: "row",
     display: "flex",
     justifyContent: 'space-between',
-    // marginTop: 20,
-    // width: "96%",
     alignItems: "center"
   },
+  customDialogStyle: {
+    backgroundColor: 'white',
+    padding: '20px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  uptadeAluno: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "20px",
+    backgroundColor: "white",
+    borderRadius: "8px",
+    boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+    maxWidth: "300px",
+    margin: "0 auto",
+  },
+  
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "10px",
+  },
+  
+  saveButton: {
+    backgroundColor: "#4CAF50",
+    color: "white",
+    padding: "10px 20px",
+    border: "none",
+    borderRadius: "5px",
+    marginRight: "10px",
+    cursor: "pointer",
+  },
+  
+  closeButton: {
+    backgroundColor: "#f44336",
+    color: "white",
+    padding: "10px 20px",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+  },
+  p:{
+    margin: 0
+  }
+  
+
 };

@@ -21,7 +21,7 @@ export const HeaderApp = () => {
             <div style={styles.divBox}>
                 <div style={styles.divLinks}>
                     <Link to={`/dashboard/${id}`} style={{ textDecoration: 'none', color: 'white' }}>HOME</Link>
-                    <Link to={`/cadastroAluno/${id}`} style={{ textDecoration: 'none', color: 'white' }}>ALUNOS</Link>
+                    <Link to={`/alunos/${id}`} style={{ textDecoration: 'none', color: 'white' }}>ALUNOS</Link>
                     <Link to={`/controlePagamento/${id}`} style={{ textDecoration: 'none', color: 'white' }}>PAGAMENTOS</Link>
                     <Link to={`/treino/${id}`} style={{ textDecoration: 'none', color: 'white' }}>TREINOS</Link>
 
