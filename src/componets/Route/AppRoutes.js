@@ -14,13 +14,13 @@ export const AppRoutes = () => {
     <BrowserRouter>
       <Routes>
         <RouterRoute element={<TelaInicial />} path="/" exact />
-        <RouterRoute element={<Login />} path="login"/>
-        <RouterRoute element={<DashBoard />} path="/dashboard" />
-        <RouterRoute element={<CadastroAluno/>} path="/cadastroAluno" />
-        <RouterRoute element={<ControlePagamento/>} path="/controlePagamento" />
-        <RouterRoute element={<Treino/>} path="/treino"/>
-        <RouterRoute element={<AvaliacaoFisica/>} path="/avaliacaoFisica"/>
-        <RouterRoute element={<CadastroPersonal/>} path="/cadastroPersonal"/>
+        <RouterRoute element={<Login />} path="login" />
+        <RouterRoute element={<DashBoard />} path="/dashboard/:id" />
+        <RouterRoute element={<CadastroAluno />} path="/cadastroAluno/:id" />
+        <RouterRoute element={<ControlePagamento />} path="/controlePagamento/:id" />
+        <RouterRoute element={<Treino />} path="/treino/:id" />
+        <RouterRoute element={<AvaliacaoFisica />} path="/avaliacaoFisica/:id" />
+        <RouterRoute element={<CadastroPersonal />} path="/cadastroPersonal" />
       </Routes>
     </BrowserRouter>
   )

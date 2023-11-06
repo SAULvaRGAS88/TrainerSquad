@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { HeaderApp } from '../headerApp/HeaderApp';
 import { Button } from '@mui/material';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
@@ -11,13 +11,16 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-
+import url from '../../service/service';
+import { useParams } from 'react-router-dom';
 
 export const DashBoard = () => {
 
   const events = [
     { title: 'Meeting', start: new Date() }
   ]
+
+  const { id } = useParams();
 
   function renderEventContent(eventInfo) {
     return (
@@ -28,71 +31,106 @@ export const DashBoard = () => {
     )
   }
 
+  const [nomeAluno, setNomeAluno] = useState([]);
+  const [status, setStatus] = useState([]);
+
+  const retornaAlunosDb = async () => {
+    try {
+      const response = await url.get(`/api/aluno/alunos`);
+      const alunos = response.data;
+  
+      const lRetorno = [];
+      for (let i = 0; i < alunos.length; i++) {
+        lRetorno.push({
+          nome: alunos[i].nome,
+          id: alunos[i].id
+        });
+      }
+  
+      setNomeAluno(lRetorno);
+      console.log(lRetorno);
+    } catch (error) {
+      console.error('Erro ao consultar alunos:', error);
+    }
+  }
+
+
+
+  const retornaStatusPag = async () => {
+    try {
+      const response = await url.get(`/api/pagamento/pagamentos`);
+      const status = response.data;
+      
+      const lRetorno = [];
+      for (let i = 0; i < status.length; i++) {
+        lRetorno.push({ 
+          status: status[i].status 
+        });
+      }
+      
+      setStatus(lRetorno);
+      console.log(lRetorno);
+    } catch (error) {
+      console.error('Erro ao consultar Status:', error);
+    }
+  }
+
+  useEffect(() => {
+    retornaAlunosDb();
+    retornaStatusPag();
+  }, []);
+
   return (
     <div style={styles.containerPrincipal}>
       <div style={styles.containerSecundaria}>
         <HeaderApp />
 
+        {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */}
         <div style={styles.BoxDuplo}>
 
           <div style={styles.infoAlunos}>
-
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <div style={{ display: "flex", flexDirection: "column", width: "-webkit-fill-available", alignItems: "center" }}>
               <div style={styles.divTile}>
                 <p style={{ margin: 0, fontWeight: 'bold', fontSize: 16 }}>LISTA DE ALUNOS</p>
               </div>
+
               <div style={styles.divdetalhes}>
-                <p style={{ marginLeft: 30 }}>Nome</p>
-                <p>Pagamento</p>
-                <p style={{ marginRight: 30 }}>Editar</p>
-              </div>
-            </div>
 
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <div style={styles.detalhes}>
-
-                <div style={{ display: 'flex', width: "32%" }}>Fulano Meneszes da silva</div>
-
-                <div style={{ width: "32%", display: "flex", justifyContent: "center" }}> <CancelIcon sx={{ color: "red" }} /></div>
-
-                <div style={{ display: "flex", justifyContent: "flex-end", width: "32%" }}>
-                  <div style={{ backgroundColor: 'yellow', margin: 5 }}><PersonOutlineIcon /></div>
-                  <div><PaidIcon style={{ backgroundColor: 'greenyellow', margin: 5 }} /></div>
-                  <div><FitnessCenterIcon style={{ backgroundColor: '#59D0F5', margin: 5 }} /></div>
-                </div>
+                <div style={{ width: "32%", display: "flex", justifyContent: "center" }}><p style={{}}>Nome</p></div>
+                <div style={{ width: "32%", display: "flex", justifyContent: "center" }}><p>Pagamento</p></div>
+                <div style={{ width: "32%", display: "flex", justifyContent: "center" }}><p >Editar</p></div>
 
               </div>
+
             </div>
 
-            <div style={{ display: "flex", justifyContent: "center", }}>
-              <div style={styles.detalhes}>
-                <div style={{ marginLeft: 30 }}>Ciclana Fantinel</div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              {nomeAluno && status && nomeAluno.length === status.length &&
+                nomeAluno.map((item, index) => (
 
-                <div> <CheckCircleOutlineIcon sx={{ color: "green" }} /></div>
+                  <div key={index} style={{ display: "flex", justifyContent: "space-between", width: "96%", }}>
 
-                <div style={{ display: "flex", marginRight: 30 }}>
-                  <div style={{ backgroundColor: 'yellow', margin: 5 }}><PersonOutlineIcon /></div>
-                  <div><PaidIcon style={{ backgroundColor: 'greenyellow', margin: 5 }} /></div>
-                  <div><FitnessCenterIcon style={{ backgroundColor: '#59D0F5', margin: 5 }} /></div>
-                </div>
-              </div>
+                    <div style={{ width: "32%", display: "flex", justifyContent: "center", }}>
+                      <p>{item.nome}</p>
+                    </div>
+
+                    <div style={{ width: "32%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                      {status != "pendente" ? <CancelIcon htmlColor='red' /> : <CheckCircleOutlineIcon htmlColor='green' />}
+                      {/* <p>{status[index].status}</p> */}
+
+                    </div>
+
+                    <div style={{ width: "32%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                      <div style={{ backgroundColor: 'yellow', margin: 5, cursor: "pointer" }} onClick={() => { }}><PersonOutlineIcon /></div>
+                      <div style={{ backgroundColor: 'greenyellow', margin: 5, cursor: "pointer" }}><PaidIcon /></div>
+                      <div style={{ backgroundColor: '#59D0F5', margin: 5, cursor: "pointer" }}><FitnessCenterIcon /></div>
+                    </div>
+
+                  </div>
+                ))}
             </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <div style={styles.detalhes}>
-                <div style={{ marginLeft: 30 }}>Beltrano Teixeira </div>
-
-                <div> <CancelIcon sx={{ color: "red" }} /></div>
-
-                <div style={{ display: "flex", marginRight: 30 }}>
-                  <div style={{ backgroundColor: 'yellow', margin: 5 }}><PersonOutlineIcon /></div>
-                  <div><PaidIcon style={{ backgroundColor: 'greenyellow', margin: 5 }} /></div>
-                  <div><FitnessCenterIcon style={{ backgroundColor: '#59D0F5', margin: 5 }} /></div>
-                </div>
-              </div>
-            </div>
-
           </div>
-
+          {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */}
           <div style={styles.calender}>
             <div >
               <FullCalendar
@@ -109,10 +147,11 @@ export const DashBoard = () => {
           </div>
         </div>
 
+
         <div style={styles.divButtons}>
           <Button
             component={Link}
-            to="/cadastroAluno"
+            to={`/cadastroAluno/${id}`}
             style={styles.Button}
             variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> CADASTRAR ALUNO</Button>
           <Button
@@ -129,7 +168,7 @@ export const DashBoard = () => {
 
 
       </div>
-    </div>
+    </div >
 
   )
 }
@@ -205,15 +244,15 @@ const styles = {
     borderBottomColor: "grey",
     borderBottomStyle: 'solid',
     borderWidth: 'thin',
-    width: "95%",
-    alignItems: "center"
+    width: "96%",
+    // alignItems: "center"
   },
   detalhes: {
     dflexDirection: "row",
     display: "flex",
     justifyContent: 'space-between',
-    marginTop: 20,
-    width: "96%",
+    // marginTop: 20,
+    // width: "96%",
     alignItems: "center"
   },
 };

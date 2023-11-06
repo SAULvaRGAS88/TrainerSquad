@@ -13,12 +13,12 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
-
 import url from '../../service/service';
-import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 export const CadastroAluno = () => {
 
+  const [cadastroError, setCadastroError] = useState(false);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -28,13 +28,37 @@ export const CadastroAluno = () => {
   const [plano, setPlano] = useState('');
   const [nomeAluno, setNomeAluno] = useState('');
   const [email, setEmail] = useState('');
-
-  const [id, setId] = useState('');
-  // const [dtNasc, setDtNasc] = useState('');
+  const [dataNasc, setDataNasc] = useState('');
+  const [dataPagamento, setDataPagamento] = useState('');
   const [valor, setValor] = useState('');
-  // const [dtPag, setDtPag] = useState('');
-  const [cadastroError, setCadastroError] = useState(false);
-  const navigate = useNavigate();
+
+  const { id } = useParams();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await url.post(`/api/aluno/aluno/${id}`, {
+        sexo: sexo,
+        nome: nomeAluno,
+        cpf: cpf,
+        dt_nascimento: dataNasc,
+        telefone: telefone,
+        email: email,
+        plano: plano,
+        pagamento: {
+          dt_pagamento: dataPagamento,
+          valor: valor
+        }
+      });
+      if (response.status === 201) {
+
+      }
+    } catch (error) {
+      console.error('Erro ao cadastrar:', error);
+      setCadastroError(true);
+    }
+  };
 
   const formatCpf = (value) => {
     const numericValue = value.replace(/\D/g, '');
@@ -43,11 +67,6 @@ export const CadastroAluno = () => {
       '$1.$2.$3-$4'
     );
     return formattedCpf;
-  };
-  const handleCpfChange = (e) => {
-    const inputValue = e.target.value;
-    const formattedCpf = formatCpf(inputValue);
-    setCpf(formattedCpf);
   };
 
   const formatTelefone = (value) => {
@@ -59,188 +78,151 @@ export const CadastroAluno = () => {
     return formattedTelefone;
   };
 
-  const handleTelefoneChange = (e) => {
-    const inputValue = e.target.value;
-    const formattedTelefone = formatTelefone(inputValue);
-    setTelefone(formattedTelefone);
+  const handleDateChange = (novaData) => {
+    setDataNasc(novaData);
   };
-
-  const handleSexoChange = (event) => {
-    setSexo(event.target.value);
+  const handleDatePagChange = (novaData) => {
+    setDataPagamento(novaData);
   };
-  const handlePlanoChange = (event) => {
-    setPlano(event.target.value);
-  };
-  const handleNomeAlunoChange = (event) => {
-    setNomeAluno(event.target.value);
-  };
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-        const response = await url.get(`/api/personal/${id}`);
-        //teste
-        if (response.status === 200) {
-          const response = await url.post(`/api/aluno/${id}`, {
-              sexo: sexo,
-              nome: nomeAluno,
-              cpf: cpf,
-              // dt_nascimento: dtNasc,
-              telefone: telefone,
-              email: email,
-              plano: plano,
-              pagamento: {
-                valor: valor,
-                // dt_pagamento: dtPag,
-              }
-  
-          });
-  
-          if (response.status === 201) {
-              navigate('/dashboard');
-          }
-        } else {
-          setCadastroError(true);
-        }
-    } catch (error) {
-        console.error('Erro ao cadastrar:', error);
-        setCadastroError(true);
-    }
-};
 
   return (
     <div style={styles.containerPrincipal}>
       <div style={styles.containerSecundaria}>
         <HeaderApp />
 
-        <div style={styles.divDupla}>
-
-          <div style={styles.divCadastro}>
+        <div style={styles.divDupla} >
+          <form style={styles.divCadastro} onSubmit={handleSubmit} >
             <p style={{ margin: 10, fontWeight: 'bold', fontSize: 18, }}>Dados Pessoais</p>
             <div style={{ marginLeft: 10 }}>
+              <div style={{}}>
+                <TextField
+                  id="standard-basic"
+                  label="Nome"
+                  variant="standard"
+                  value={nomeAluno}
+                  onChange={(e) => setNomeAluno(e.target.value)}
+                  inputProps={{
+                    inputMode: 'text'
+                  }}
+                  sx={{ width: 300 }}
+                />
+              </div>
+              <div>
+                <TextField
+                  id="standard-basic"
+                  label="CPF"
+                  variant="standard"
+                  value={cpf}
+                  onChange={(e) => setCpf(e.target.value)}
+                  inputProps={{
+                    inputMode: 'numeric'
+                  }}
+                  sx={{ width: 300 }}
+                />
+              </div>
 
-              <form onSubmit={handleSubmit}>
-                <div style={{}}>
-                  <TextField
-                    id="standard-basic"
-                    label="Nome"
-                    variant="standard"
-                    value={nomeAluno}
-                    onChange={handleNomeAlunoChange}
-                    inputProps={{
-                      inputMode: 'text'
-                    }}
+              <div>
+                <TextField
+                  id="standard-basic"
+                  label="Telefone"
+                  variant="standard"
+                  value={telefone}
+                  onChange={(e) => setTelefone(e.target.value)}
+                  sx={{ width: 300 }}
+                />
+              </div>
+              <div>
+                <TextField
+                  id="standard-basic"
+                  label="E-Mail"
+                  variant="standard"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  sx={{ width: 300 }}
+                />
+              </div>
+              <div>
+                <TextField
+                  id="standard-basic"
+                  label="Sexo"
+                  variant="standard"
+                  select
+                  value={sexo}
+                  onChange={(e) => setSexo(e.target.value)}
+                  sx={{ width: 300 }}
+                >
+                  <MenuItem value="Masculino" >Masculino</MenuItem>
+                  <MenuItem value="Feminino">Feminino</MenuItem>
+                  <MenuItem value="Não Informar">Não Informar</MenuItem>
+                </TextField>
+              </div>
+
+              <div style={{ display: "flex", marginTop: 5, marginBottom: -10, }}>
+                <p style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Data Nascimento: </p>
+                <LocalizationProvider locale={ptBR} dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    style={{ borderColor: 'red' }}
+                    format='DD-MM-YYYY'
+                    onChange={handleDateChange}
+                    value={dataNasc}
+                    sx={{ width: 175 }}
                   />
-                </div>
-                <div>
-                  <TextField
-                    id="standard-basic"
-                    label="CPF"
-                    variant="standard"
-                    value={cpf}
-                    onChange={handleCpfChange}
-                    inputProps={{
-                      inputMode: 'numeric'
-                    }}
-                  />
-                </div>
-                <div>
-                  <TextField
-                    id="standard-basic"
-                    label="Telefone"
-                    variant="standard"
-                    value={telefone}
-                    onChange={handleTelefoneChange}
-                  />
-                </div>
-                <div>
-                  <TextField
-                    id="standard-basic"
-                    label="E-Mail"
-                    variant="standard"
-                    value={email}
-                    onChange={handleEmailChange}
-                  />
-                </div>
-                <div>
-                  <TextField
-                    id="standard-basic"
-                    label="Sexo"
-                    variant="standard"
-                    select
-                    value={sexo}
-                    onChange={handleSexoChange}
-                    sx={{ width: 195 }}
-                  >
-                    <MenuItem value="Masculino" >Masculino</MenuItem>
-                    <MenuItem value="Feminino">Feminino</MenuItem>
-                    <MenuItem value="Não Informar">Não Informar</MenuItem>
-                  </TextField>
-                </div>
-                <div style={{ display: "flex", marginTop: 5, marginBottom: -10, }}>
-                  <p style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Data Nascimento: </p>
-                  {<LocalizationProvider locale={ptBR} dateAdapter={AdapterDayjs}>
-                    <DatePicker style={{ borderColor: 'red' }} format='DD-MM-YYYY' />
-                  </LocalizationProvider>}
-                </div>
-                <div>
-                  <TextField
-                    type="hidden"
-                    id="standard-basic"
-                    label="Id"
-                    variant="standard"
-                    value={id}
-                    onChange={(e) => setId(e.target.value)}
-                  />
-                </div>
-              </form>
+                </LocalizationProvider>
+              </div>
+
             </div>
-          </div>
 
-          <div style={styles.divPagamentos}>
+          </form>
+
+          <form style={styles.divPagamentos} onSubmit={handleSubmit}>
+
             <p style={{ margin: 10, fontWeight: 'bold', fontSize: 18, }}>Pagamento</p>
             <div style={{ marginLeft: 10 }}>
-              <form>
-                <div>
-                  <TextField
-                    id="standard-basic"
-                    label="Plano"
-                    variant="standard"
-                    select
-                    value={plano}
-                    onChange={handlePlanoChange}
-                    sx={{ width: 195 }}
-                  >
-                    <MenuItem value="Mensal" >Mesal</MenuItem>
-                    <MenuItem value="Trimestral">Trimestral</MenuItem>
-                    <MenuItem value="Semestral">Semestral</MenuItem>
-                    <MenuItem value="Anual">Anual</MenuItem>
-                  </TextField>
-                </div>
-                <div style={{marginLeft: -10, marginTop: 5}}>
-                  <FormControl fullWidth={false} sx={{ m: 1 }}>
-                    <InputLabel htmlFor="outlined-adornment-amount">Valor</InputLabel>
-                    <OutlinedInput
-                      id="outlined-adornment-amount"
-                      startAdornment={<InputAdornment position="start" onChange={(e) => setValor(e.target.value)}>R$</InputAdornment>}
-                      label="Amount"
-                    />
-                  </FormControl>
-                </div>
-                <div style={{ display: "flex", marginTop: 5, marginBottom: -10, }}>
-                  <p style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Data de Pagamento: </p>
-                  {<LocalizationProvider locale={ptBR} dateAdapter={AdapterDayjs}>
-                    <DatePicker style={{ borderColor: 'red' }} format='DD-MM-YYYY'/>
-                  </LocalizationProvider>}
-                </div>
-              </form>
-            </div>
-          </div>
+              <div>
+                <TextField
+                  id="standard-basic"
+                  label="Plano"
+                  variant="standard"
+                  select
+                  value={plano}
+                  onChange={(e) => setPlano(e.target.value)}
+                  sx={{ width: 300 }}                >
+                  <MenuItem value="Mensal" >Mensal</MenuItem>
+                  <MenuItem value="Trimestral">Trimestral</MenuItem>
+                  <MenuItem value="Semestral">Semestral</MenuItem>
+                  <MenuItem value="Anual">Anual</MenuItem>
+                </TextField>
+              </div>
 
+              <div style={{ marginLeft: -10, marginTop: 5 }}>
+                <FormControl fullWidth={false} sx={{ m: 1 }}>
+                  <InputLabel htmlFor="outlined-adornment-amount">Valor</InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-amount"
+                    startAdornment={<InputAdornment position="start">R$</InputAdornment>}
+                    label="Amount"
+                    value={valor}
+                    onChange={(e) => setValor(e.target.value)}
+                    sx={{ width: 150 }}
+                  />
+                </FormControl>
+              </div>
+
+              <div style={{ display: "flex", marginTop: 5, marginBottom: -10, }}>
+                <p style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Data de Pagamento: </p>
+                <LocalizationProvider locale={ptBR} dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    style={{ borderColor: 'red' }}
+                    format='DD-MM-YYYY'
+                    onChange={handleDatePagChange}
+                    value={dataPagamento}
+                    sx={{ width: 150 }}
+                  />
+                </LocalizationProvider>
+              </div>
+            </div>
+
+          </form>
         </div>
 
         <div style={{ width: "60%", alignItems: 'center', display: "flex", flexDirection: "row", marginTop: 20, justifyContent: 'space-between' }}>
@@ -249,10 +231,9 @@ export const CadastroAluno = () => {
             to="/avaliacaoFisica"
             style={styles.Button}
             variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> CADASTRAR AVALIAÇÂO FíSICA</Button>
-          
           {cadastroError && <p>Ocorreu um erro ao cadastrar. Verifique os dados.</p>}
           <Button
-            onClick={handleOpen}
+            onClick={handleSubmit}
             style={styles.Button}
             variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> CADASTRAR ALUNO</Button>
 
