@@ -1,13 +1,12 @@
 import React from 'react'
 import { HeaderApp } from '../headerApp/HeaderApp'
 
-
-export const AvaliacaoFisica = () => {
+export const AllAlunos = () => {
     return (
         <div style={styles.containerPrincipal}>
             <div style={styles.containerSecundaria}>
                 <HeaderApp />
-                <h1>Aqui será a página de Avaliação com ID que já está vindo</h1>
+                <h1>Aqui vão todos os alunos cadastrados... ativos e inativos</h1>
             </div>
         </div>
     )
