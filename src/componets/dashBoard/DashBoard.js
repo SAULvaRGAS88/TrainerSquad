@@ -33,7 +33,7 @@ export const DashBoard = () => {
   }
 
   const navigate = useNavigate()
-  const [openAluno, setOpenAluno] = useState(false);
+  // const [openAluno, setOpenAluno] = useState(false);
   const [openFinanceiro, setOpenFinanceiro] = useState(false);
   const [openTreino, setOpenTreino] = useState(false);
   const [nomeAluno, setNomeAluno] = useState([]);
@@ -83,8 +83,6 @@ export const DashBoard = () => {
     retornaAlunosDb();
     retornaStatusPag();
   }, []);
-
-  const [alunoIdParaEditar, setAlunoIdParaEditar] = useState(null);
 
   return (
     <div style={styles.containerPrincipal}>
@@ -169,7 +167,7 @@ export const DashBoard = () => {
             variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> CADASTRAR ALUNO</Button>
           <Button
             component={Link}
-            to="/controlePagamento"
+            to={`/controlePagamento/${id}`}
             style={styles.Button}
             variant="contained"> <AttachMoneyIcon style={{ fontSize: 40, color: 'green' }} /> CONTROLE DE PAGAMENTO</Button>
           {/* <Button
@@ -180,7 +178,7 @@ export const DashBoard = () => {
         </div>
 
 
-        <Dialog open={openAluno} onClose={() => setOpenAluno(false)}>
+        {/* <Dialog open={openAluno} onClose={() => setOpenAluno(false)}>
           <DialogContent style={styles.customDialogStyle}>
             <h2>Editar Aluno</h2>
             {nomeAluno &&
@@ -199,7 +197,7 @@ export const DashBoard = () => {
                   </div>
                 ))}
           </DialogContent>
-        </Dialog>
+        </Dialog> */}
 
 
 
