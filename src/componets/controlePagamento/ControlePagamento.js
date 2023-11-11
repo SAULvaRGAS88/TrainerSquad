@@ -1,14 +1,63 @@
-import React from 'react'
+import React,{useState, useEffect} from 'react'
 import { HeaderApp } from '../headerApp/HeaderApp'
 import { Button } from '@mui/material';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import SearchIcon from '@mui/icons-material/Search';
-
+import url from '../../service/service';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 export const ControlePagamento = () => {
 const { id } = useParams();
+
+const [nomeAluno, setNomeAluno] = useState([]);
+const [status, setStatus] = useState([]);
+const retornaAlunosDb = async () => {
+    try {
+        const response = await url.get(`/api/aluno/alunos`);
+        const alunos = response.data;
+
+        const lRetorno = [];
+        for (let i = 0; i < alunos.length; i++) {
+            lRetorno.push({
+            nome: alunos[i].nome,
+            id: alunos[i].id,
+            telefone: alunos[i].telefone,
+                });
+            }
+
+        setNomeAluno(lRetorno);
+        console.log(lRetorno);
+        } catch (error) {
+        console.error('Erro ao consultar alunos:', error);
+        }
+}
+
+const retornaStatusPag = async () => {
+    try {
+        const response = await url.get(`/api/pagamento/pagamentos`);
+        const status = response.data;
+
+        const lRetorno = [];
+        for (let i = 0; i < status.length; i++) {
+            lRetorno.push({
+            status: status[i].status
+            });
+        }
+
+        setStatus(lRetorno);
+        console.log(lRetorno);
+        } catch (error) {
+        console.error('Erro ao consultar Status:', error);
+        }
+    }
+
+useEffect(() => {
+    retornaAlunosDb();
+    retornaStatusPag();
+}, []);
+
+const [alunoIdParaEditar, setAlunoIdParaEditar] = useState(null);
     return (
         <div style={styles.containerPrincipal}>
             <div style={styles.containerSecundaria}>
