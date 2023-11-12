@@ -166,7 +166,8 @@ const styles = {
         width: '80vw',
         height: '55vh',
         boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
-        overflowY: 'auto'
+        overflowY: 'auto',
+        marginTop: 20
     },
     containerBusca: {
         backgroundColor: 'rgb(255, 255, 255)',
