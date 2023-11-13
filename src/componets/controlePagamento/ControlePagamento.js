@@ -6,6 +6,7 @@ export const ControlePagamento = () => {
         <div style={styles.containerPrincipal}>
             <div style={styles.containerSecundaria}>
                 <HeaderApp />
+                <h1>Aqui será feito o controle de Pagamento</h1>
             </div>
         </div>
     )

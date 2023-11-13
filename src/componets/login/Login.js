@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import url from '../../service/service';
-import { useNavigate } from 'react-router-dom'; // Importe o useNavigate
+import { useNavigate } from 'react-router-dom'; 
 
 export const Login = () => {
 
@@ -12,7 +12,7 @@ export const Login = () => {
     const [senha, setSenha] = useState('');
     const [mostrarSenha, setMostrarSenha] = useState(false);
     const [loginError, setLoginError] = useState(false);
-    const navigate = useNavigate(); // Use o hook useNavigate
+    const navigate = useNavigate()
  // window.location.replace(window.location.href + 'ProfileSelection?userid=' + response.data.user_id )
                 // <Route path="/profileselection" element={<ProfileSelection />}/>
     const handleSubmit = async (e) => {

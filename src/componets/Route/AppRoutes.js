@@ -8,6 +8,8 @@ import { Treino } from '../treino/Treino';
 import { AvaliacaoFisica } from '../avaliacaoFisica/AvaliacaoFisica';
 import { TelaInicial } from '../telaInicial/TelaInicial';
 import { CadastroPersonal } from '../cadastroPersonal/CadastroPersonal';
+import { AllAlunos } from '../allAlunos/AllAlunos';
+import { EditarAluno } from '../editarAluno/EditarAluno';
 
 export const AppRoutes = () => {
   return (
@@ -19,8 +21,10 @@ export const AppRoutes = () => {
         <RouterRoute element={<CadastroAluno />} path="/cadastroAluno/:id" />
         <RouterRoute element={<ControlePagamento />} path="/controlePagamento/:id" />
         <RouterRoute element={<Treino />} path="/treino/:id" />
-        <RouterRoute element={<AvaliacaoFisica />} path="/avaliacaoFisica" />
+        <RouterRoute element={<AvaliacaoFisica />} path="/avaliacaoFisica/:id" />
         <RouterRoute element={<CadastroPersonal />} path="/cadastroPersonal" />
+        <RouterRoute element={<AllAlunos />} path="/alunos/:id" />
+        <RouterRoute element={<EditarAluno />} path="/editarAluno/:id" />
       </Routes>
     </BrowserRouter>
   )

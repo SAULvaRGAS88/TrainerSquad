@@ -1,16 +1,38 @@
-// import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { Link } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useParams } from 'react-router-dom';
+import url from '../../service/service';
 
 export const HeaderApp = () => {
-
+    const [person, setPerson] = useState([]);
     const { id } = useParams();
 
     const logout = () => {
-        window.location.href = '/'
+        window.location.href = '/';
+    };
+
+    const retornaDadosPersonal = async () => {
+        try {
+            const response = await url.get(`/api/personal/${id}`);
+            const person = response.data;
+
+            const lRetorno = [];
+            const nome = person.nome;
+            lRetorno.push({
+                nome: nome
+            });
+
+            setPerson(lRetorno);
+        } catch (error) {
+            console.error('Erro ao consultar DadosPersonal:', error);
+        }
     }
+
+    useEffect(() => {
+        retornaDadosPersonal()
+    }, []);
 
     return (
         <div style={styles.header}>
@@ -21,13 +43,15 @@ export const HeaderApp = () => {
             <div style={styles.divBox}>
                 <div style={styles.divLinks}>
                     <Link to={`/dashboard/${id}`} style={{ textDecoration: 'none', color: 'white' }}>HOME</Link>
-                    <Link to={`/cadastroAluno/${id}`} style={{ textDecoration: 'none', color: 'white' }}>ALUNOS</Link>
-                    <Link to={`/controlePagamento/${id}`} style={{ textDecoration: 'none', color: 'white' }}>PAGAMENTOS</Link>
-                    <Link to={`/treino/${id}`} style={{ textDecoration: 'none', color: 'white' }}>TREINOS</Link>
-
+                    <Link to={`/alunos/${id}`} style={{ textDecoration: 'none', color: 'white', marginLeft: 30 }}>ALUNOS</Link>
                 </div>
 
                 <div style={styles.divP}>
+                    {person && person.map((item, index) => (
+                        <div key={index}>
+                            <p>{item.nome}</p>
+                        </div>
+                    ))}
                     <LogoutIcon onClick={logout} style={{ cursor: "pointer", marginLeft: 20, fontSize: 34 }} />
                 </div>
 
@@ -69,7 +93,7 @@ const styles = {
     },
     divLinks: {
         display: "flex",
-        justifyContent: "space-between",
+        // justifyContent: "space-between",
         width: 450,
         textTraformation: "none",
         fontSize: 20,

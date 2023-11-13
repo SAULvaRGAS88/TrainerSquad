@@ -20,7 +20,7 @@ export const CadastroAluno = () => {
 
   const [cadastroError, setCadastroError] = useState(false);
   const [open, setOpen] = React.useState(false);
-  // const handleOpen = () => setOpen(true);
+  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [cpf, setCpf] = useState('');
   const [telefone, setTelefone] = useState('');
@@ -225,17 +225,17 @@ export const CadastroAluno = () => {
           </form>
         </div>
 
-        <div style={{ width: "60%", alignItems: 'center', display: "flex", flexDirection: "row", marginTop: 20, justifyContent: 'space-between' }}>
-          <Button
+        <div style={{ width: "60%", alignItems: 'center', display: "flex", flexDirection: "row", marginTop: 20, justifyContent: 'center' }}>
+          {/* <Button
             component={Link}
             to="/avaliacaoFisica"
             style={styles.Button}
-            variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> CADASTRAR AVALIAÇÂO FíSICA</Button>
+            variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> CADASTRAR AVALIAÇÂO FíSICA</Button> */}
           {cadastroError && <p>Ocorreu um erro ao cadastrar. Verifique os dados.</p>}
           <Button
             onClick={handleSubmit}
             style={styles.Button}
-            variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> CADASTRAR ALUNO</Button>
+            variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> SALVAR ALUNO</Button>
 
           <Modal
             open={open}

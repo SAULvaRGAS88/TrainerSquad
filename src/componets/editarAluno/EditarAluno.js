@@ -1,13 +1,12 @@
 import React from 'react'
 import { HeaderApp } from '../headerApp/HeaderApp'
 
-
-export const AvaliacaoFisica = () => {
+export const EditarAluno = () => {
     return (
         <div style={styles.containerPrincipal}>
             <div style={styles.containerSecundaria}>
                 <HeaderApp />
-                <h1>Aqui será a página de Avaliação com ID que já está vindo</h1>
+                <h1>Aqui será editado o aluno com ID que jão esta vindo</h1>
             </div>
         </div>
     )
