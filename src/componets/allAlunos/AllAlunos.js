@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react'
 import { HeaderApp } from '../headerApp/HeaderApp'
 // import SearchIcon from '@mui/icons-material/Search';
@@ -66,10 +67,17 @@ export const AllAlunos = () => {
         retornaStatusPag();
     }, []);
 
+=======
+import React from 'react'
+import { HeaderApp } from '../headerApp/HeaderApp'
+
+export const AllAlunos = () => {
+>>>>>>> b4f6080d1d1493dbcde7f425582fa3aed5fa8e9a
     return (
         <div style={styles.containerPrincipal}>
             <div style={styles.containerSecundaria}>
                 <HeaderApp />
+<<<<<<< HEAD
 
                 {/* <div style={styles.containerBusca}>
                     <div style={styles.divIconProcura}>
@@ -141,6 +149,12 @@ export const AllAlunos = () => {
             </div>
         </div>
     );
+=======
+                <h1>Aqui vão todos os alunos cadastrados... ativos e inativos</h1>
+            </div>
+        </div>
+    )
+>>>>>>> b4f6080d1d1493dbcde7f425582fa3aed5fa8e9a
 }
 
 const styles = {
@@ -160,6 +174,7 @@ const styles = {
         flexDirection: "column",
         alignItems: 'center',
         boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
+<<<<<<< HEAD
     },
     container: {
         backgroundColor: 'rgb(255, 255, 255)',
@@ -203,3 +218,7 @@ const styles = {
     }
 }
 
+=======
+    }
+}
+>>>>>>> b4f6080d1d1493dbcde7f425582fa3aed5fa8e9a

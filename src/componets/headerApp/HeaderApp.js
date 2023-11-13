@@ -64,8 +64,8 @@ const styles = {
     header: {
         backgroundColor: '#1F2B45',
         width: '95%',
-        height: 100,
-        marginTop: 20,
+        height: 75,
+        marginTop: 15,
         alignItems: 'center',
         display: 'flex',
         borderRadius: 10,
