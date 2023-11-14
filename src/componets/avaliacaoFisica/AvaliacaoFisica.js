@@ -1,13 +1,16 @@
 import React from 'react'
 import { HeaderApp } from '../headerApp/HeaderApp'
-
+import { useLocation } from 'react-router-dom';
 
 export const AvaliacaoFisica = () => {
+    const location = useLocation();
+    const itemId = location.state?.itemId;
+    console.log(itemId)
     return (
         <div style={styles.containerPrincipal}>
             <div style={styles.containerSecundaria}>
                 <HeaderApp />
-                <h1>Aqui será a página de Avaliação com ID que já está vindo</h1>
+                <h1>Aqui será a página de Avaliação com Item ID: {itemId}</h1>
             </div>
         </div>
     )

@@ -2,8 +2,12 @@ import React from 'react'
 import { HeaderApp } from '../headerApp/HeaderApp';
 import { TabelaComInclusao } from './TabelaComInclusao';
 import { Button } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 
 export const Treino = () => {
+    const location = useLocation();
+    const itemId = location.state?.itemId;
+    console.log(itemId)
     return (
         <div style={styles.containerPrincipal}>
             <div style={styles.containerSecundaria}>
