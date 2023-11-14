@@ -10,6 +10,7 @@ import { TelaInicial } from '../telaInicial/TelaInicial';
 import { CadastroPersonal } from '../cadastroPersonal/CadastroPersonal';
 import { AllAlunos } from '../allAlunos/AllAlunos';
 import { EditarAluno } from '../editarAluno/EditarAluno';
+import { ListaAvaliacaoFisica } from '../avaliacaoFisica/ListaAvaliacaoFisica';
 
 export const AppRoutes = () => {
   return (
@@ -25,6 +26,7 @@ export const AppRoutes = () => {
         <RouterRoute element={<CadastroPersonal />} path="/cadastroPersonal" />
         <RouterRoute element={<AllAlunos />} path="/alunos/:id" />
         <RouterRoute element={<EditarAluno />} path="/editarAluno/:id" />
+        <RouterRoute element={<ListaAvaliacaoFisica />} path="/ListaAvaliacaoFisica/:id" />
       </Routes>
     </BrowserRouter>
   )
