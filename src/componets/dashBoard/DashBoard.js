@@ -5,7 +5,7 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { Link } from 'react-router-dom';
-import PaidIcon from '@mui/icons-material/Paid';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CancelIcon from '@mui/icons-material/Cancel';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
@@ -13,6 +13,7 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import url from '../../service/service';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const DashBoard = () => {
 
@@ -31,8 +32,8 @@ export const DashBoard = () => {
     )
   }
 
-  const [alunoParaEditar, setAlunoParaEditar] = useState(null);
-  const [openAluno, setOpenAluno] = useState(false);
+  const navigate = useNavigate()
+  // const [openAluno, setOpenAluno] = useState(false);
   const [openFinanceiro, setOpenFinanceiro] = useState(false);
   const [openTreino, setOpenTreino] = useState(false);
   const [nomeAluno, setNomeAluno] = useState([]);
@@ -40,7 +41,7 @@ export const DashBoard = () => {
 
   const retornaAlunosDb = async () => {
     try {
-      const response = await url.get(`/api/aluno/alunos`);
+      const response = await url.get(`/api/aluno/${id}/aluno`)
       const alunos = response.data;
 
       const lRetorno = [];
@@ -49,6 +50,7 @@ export const DashBoard = () => {
           nome: alunos[i].nome,
           id: alunos[i].id,
           telefone: alunos[i].telefone,
+          idusuario: alunos[i].idusuario
         });
       }
 
@@ -61,7 +63,7 @@ export const DashBoard = () => {
 
   const retornaStatusPag = async () => {
     try {
-      const response = await url.get(`/api/pagamento/pagamentos`);
+      const response = await url.get(`/api/aluno/${id}/pag`);
       const status = response.data;
 
       const lRetorno = [];
@@ -82,8 +84,6 @@ export const DashBoard = () => {
     retornaAlunosDb();
     retornaStatusPag();
   }, []);
-
-  const [alunoIdParaEditar, setAlunoIdParaEditar] = useState(null);
 
   return (
     <div style={styles.containerPrincipal}>
@@ -120,12 +120,23 @@ export const DashBoard = () => {
                       {status !== "pendente" ? <CancelIcon htmlColor='red' /> : <CheckCircleOutlineIcon htmlColor='green' />}
                     </div>
                     <div style={{ width: "32%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                      <div style={{ backgroundColor: 'yellow', margin: 5, cursor: "pointer" }} onClick={() => {
-                        setAlunoIdParaEditar(item.id);
-                        setOpenAluno(true);
-                      }}><PersonOutlineIcon /></div>
-                      <div style={{ backgroundColor: 'greenyellow', margin: 5, cursor: "pointer" }}><PaidIcon onClick={() => { setOpenFinanceiro(true) }} /></div>
-                      <div style={{ backgroundColor: '#59D0F5', margin: 5, cursor: "pointer" }}><FitnessCenterIcon onClick={() => { setOpenTreino(true) }} /></div>
+                      <div style={{ backgroundColor: 'yellow', margin: 5, cursor: "pointer", display: "flex" }}
+                        onClick={() => {
+                          navigate(`/editarAluno/${id}`, { id })
+                        }}
+                      >
+                        <PersonOutlineIcon />
+                      </div>
+                      <div style={{ backgroundColor: 'greenyellow', margin: 5, cursor: "pointer", display: "flex" }}><FavoriteIcon
+                        onClick={() => {
+                          navigate(`/avaliacaoFisica/${id}`, { state: { itemId: item.id } })
+                        }} />
+                      </div>
+                      <div style={{ backgroundColor: '#59D0F5', margin: 5, cursor: "pointer", display: "flex" }}><FitnessCenterIcon
+                        onClick={() => {
+                          navigate(`/treino/${id}`, { state: { itemId: item.id } })
+                        }} />
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -142,33 +153,14 @@ export const DashBoard = () => {
                 weekends={true}
                 events={events}
                 eventContent={renderEventContent}
-                height="400px" // Altura desejada
+                height="470px" // Altura desejada
               />
             </div>
 
           </div>
         </div>
 
-        <div style={styles.divButtons}>
-          <Button
-            component={Link}
-            to={`/cadastroAluno/${id}`}
-            style={styles.Button}
-            variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> CADASTRAR ALUNO</Button>
-          <Button
-            component={Link}
-            to="/controlePagamento"
-            style={styles.Button}
-            variant="contained"> <AttachMoneyIcon style={{ fontSize: 40, color: 'green' }} /> CONTROLE DE PAGAMENTO</Button>
-          <Button
-            component={Link}
-            to="/treino"
-            style={styles.Button}
-            variant="contained"> <FitnessCenterIcon style={{ fontSize: 40, color: 'green' }} /> CADASTRAR TREINO</Button>
-        </div>
-
-
-        <Dialog open={openAluno} onClose={() => setOpenAluno(false)}>
+        {/* <Dialog open={openAluno} onClose={() => setOpenAluno(false)}>
           <DialogContent style={styles.customDialogStyle}>
             <h2>Editar Aluno</h2>
             {nomeAluno &&
@@ -187,7 +179,7 @@ export const DashBoard = () => {
                   </div>
                 ))}
           </DialogContent>
-        </Dialog>
+        </Dialog> */}
 
 
 
@@ -244,7 +236,7 @@ const styles = {
   },
   BoxDuplo: {
     width: '95%',
-    minHeight: '55vh',
+    minHeight: '65vh',
     marginTop: 20,
     display: "flex",
     justifyContent: 'space-between',
@@ -259,7 +251,7 @@ const styles = {
   calender: {
     backgroundColor: '#f5f3f3',
     width: '48%',
-    minHeight: '55vh',
+    minHeight: '65vh',
     boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
     borderRadius: 20
   },
@@ -320,13 +312,13 @@ const styles = {
     maxWidth: "300px",
     margin: "0 auto",
   },
-  
+
   buttonContainer: {
     display: "flex",
     justifyContent: "center",
     marginTop: "10px",
   },
-  
+
   saveButton: {
     backgroundColor: "#4CAF50",
     color: "white",
@@ -336,7 +328,7 @@ const styles = {
     marginRight: "10px",
     cursor: "pointer",
   },
-  
+
   closeButton: {
     backgroundColor: "#f44336",
     color: "white",
@@ -345,9 +337,9 @@ const styles = {
     borderRadius: "5px",
     cursor: "pointer",
   },
-  p:{
+  p: {
     margin: 0
   }
-  
+
 
 };

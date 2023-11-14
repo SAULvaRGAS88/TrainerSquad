@@ -180,6 +180,7 @@ const [alunoIdParaEditar, setAlunoIdParaEditar] = useState(null);
           </DialogContent>
         </Dialog>
 
+                <h1>Aqui será feito o controle de Pagamento</h1>
             </div>
           
         </div>
