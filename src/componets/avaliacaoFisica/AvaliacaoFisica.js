@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { HeaderApp } from '../headerApp/HeaderApp';
-import { TextField, MenuItem } from '@mui/material';
+import { TextField, MenuItem } from '@mui/material';import { useLocation } from 'react-router-dom';
 
 export const AvaliacaoFisica = () => {
 
@@ -53,6 +53,9 @@ export const AvaliacaoFisica = () => {
     const [massaDeGordura, setMassaDeGordura] = useState('');
 
 
+    const location = useLocation();
+    const itemId = location.state?.itemId;
+    console.log(itemId)
     return (
         <div style={styles.containerPrincipal}>
             <div style={styles.containerSecundaria}>
