@@ -58,7 +58,7 @@ export const AllAlunos = () => {
             }
 
             setStatus(lRetorno);
-            // console.log(lRetorno);
+            console.log(lRetorno);
         } catch (error) {
             console.error('Erro ao consultar Status:', error);
         }
@@ -123,7 +123,7 @@ export const AllAlunos = () => {
                                         </Grid>
                                         <Grid item xs={6} md={3}>
                                             <Typography style={styles.textCard} variant="body1">Avaliação Física <Button onClick={() => {
-                                                navigate(`/avaliacaoFisica/${id}`, { state: { itemId: item.id } })
+                                                navigate(`/ListaAvaliacaoFisica/${id}`, { state: { itemId: item.id } })
                                             }} variant="text">fazer Avaliação</Button> </Typography>
                                         </Grid>
                                         <Grid item xs={6} md={3}>

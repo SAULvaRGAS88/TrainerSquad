@@ -75,70 +75,67 @@ export const ListaAvaliacaoFisica = () => {
                 </div> */}
 
                 <div style={styles.container}>
-                    {nomeAluno && nomeAluno.map((index) => {
-                        // const alunoId = item.id;
-                        // const statusItem = status.concat(statusItem => statusItem.id_aluno === alunoId) 
-                        // if (statusItem) { 
-                            return  (
-                                <Card key={index} style={styles.card}>
-                                    <Grid container spacing={2}>
-                                        <Grid item xs={6} md={3}>
-                                            <Typography style={styles.textCard} variant="body1"> <span style={{fontWeight:"bold", fontSize: 18}}>Nome:</span> {index.nome}</Typography>
-                                        </Grid>
-                                        <Grid item xs={6} md={3}>
-                                            <Typography style={styles.textCard} variant="body1">Objetivo: {index.objetivo}</Typography>
-                                        </Grid>
-                                        <Grid item xs={6} md={3}>
-                                            <Typography style={styles.textCard} variant="body1">Data: {index.data}</Typography>
-                                        </Grid>
-                                        <Grid item xs={6} md={3}>
-                                            <Typography style={styles.textCard} variant="body1">Peso: {index.peso}</Typography>
-                                        </Grid>
-                                        <Grid item xs={6} md={3}>
-                                            <Typography style={styles.textCard} variant="body1">Altura: {index.altura}</Typography>
-                                        </Grid>
-                                        <Grid item xs={6} md={3}>
-                                            <Typography style={styles.textCard} variant="body1">IMC: {index.imc}</Typography>
-                                        </Grid>
-                                        <Grid item xs={6} md={3}>
-                                            <Typography style={styles.textCard} variant="body1">Idade: {index.idade}</Typography>
-                                        </Grid>
-                                        <Grid item xs={6} md={3}>
-                                            <Typography style={styles.textCard} variant="body1">Sexo: {index.sexo}</Typography>
-                                        </Grid>
-                                        <Grid item xs={6} md={3}>
-                                            <Typography style={styles.textCard} variant="body1">Circunferência Bíceps: {index.circ_punho}</Typography>
-                                        </Grid>
-                                        <Grid item xs={6} md={3}>
-                                            <Typography style={styles.textCard} variant="body1">Circunferência Abdominal: {index.circ_abd}</Typography>
-                                        </Grid>
-                                        <Grid item xs={6} md={3}>
-                                            <Typography style={styles.textCard} variant="body1">Circunferência Glúteo: {index.circ_gluteo}</Typography>
-                                        </Grid>
-                                        <Grid item xs={6} md={3}>
-                                            <Typography style={styles.textCard} variant="body1">Massa Gordura: {index.massa_gordura}</Typography>
-                                        </Grid>
-                                        <Grid item xs={6} md={3}>
-                                            <Typography style={styles.textCard} variant="body1">Porcentagem Gordura (%): {index.porc_gordura}</Typography>
-                                        </Grid>
-                                        <Grid item xs={6} md={3}>
-                                            <Typography style={styles.textCard} variant="body1">Massa Magra: {index.massa_magra}</Typography>
-                                        </Grid>
-                                        <Grid item xs={6} md={3}>
-                                            <Typography style={styles.textCard} variant="body1">Porcentagem Massa Muscular (%): {index.porc_massa_musc}</Typography>
-                                        </Grid>
-                                        <Grid item xs={6} md={3}>
-                                            <Typography style={styles.textCard} variant="body1">Massa Muscular: {index.massa_musc}</Typography>
-                                        </Grid>
-                                    </Grid>
-                                </Card>
-                            );
-                        // }
 
-                        // return null;
-                    })}
+                    {nomeAluno.length > 0 ? (
+                        nomeAluno.map((index) => (
+                            <Card key={index} style={styles.card}>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={6} md={3}>
+                                        <Typography style={styles.textCard} variant="body1"> <span style={{ fontWeight: "bold", fontSize: 18 }}>Nome:</span> {index.nome}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6} md={3}>
+                                        <Typography style={styles.textCard} variant="body1">Objetivo: {index.objetivo}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6} md={3}>
+                                        <Typography style={styles.textCard} variant="body1">Data: {index.data}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6} md={3}>
+                                        <Typography style={styles.textCard} variant="body1">Peso: {index.peso}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6} md={3}>
+                                        <Typography style={styles.textCard} variant="body1">Altura: {index.altura}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6} md={3}>
+                                        <Typography style={styles.textCard} variant="body1">IMC: {index.imc}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6} md={3}>
+                                        <Typography style={styles.textCard} variant="body1">Idade: {index.idade}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6} md={3}>
+                                        <Typography style={styles.textCard} variant="body1">Sexo: {index.sexo}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6} md={3}>
+                                        <Typography style={styles.textCard} variant="body1">Circunferência Bíceps: {index.circ_punho}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6} md={3}>
+                                        <Typography style={styles.textCard} variant="body1">Circunferência Abdominal: {index.circ_abd}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6} md={3}>
+                                        <Typography style={styles.textCard} variant="body1">Circunferência Glúteo: {index.circ_gluteo}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6} md={3}>
+                                        <Typography style={styles.textCard} variant="body1">Massa Gordura: {index.massa_gordura}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6} md={3}>
+                                        <Typography style={styles.textCard} variant="body1">Porcentagem Gordura (%): {index.porc_gordura}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6} md={3}>
+                                        <Typography style={styles.textCard} variant="body1">Massa Magra: {index.massa_magra}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6} md={3}>
+                                        <Typography style={styles.textCard} variant="body1">Porcentagem Massa Muscular (%): {index.porc_massa_musc}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6} md={3}>
+                                        <Typography style={styles.textCard} variant="body1">Massa Muscular: {index.massa_musc}</Typography>
+                                    </Grid>
+                                </Grid>
+                            </Card>
+                        ))
+                    ) : (
+                        <h1 style={{display: "flex" , justifyContent: "center"}}>Aluno não possui Avaliação Física </h1>
+                    )}
                 </div>
-                
+
                 <div style={styles.divButtons}>
                     <Button
                         component={Link}
@@ -146,7 +143,7 @@ export const ListaAvaliacaoFisica = () => {
                         style={styles.Button}
                         variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> CADASTRAR NOVA AVALIAÇÃO</Button>
                 </div>
-                
+
             </div>
         </div>
     );
