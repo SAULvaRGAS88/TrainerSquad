@@ -101,12 +101,12 @@ export const ControlePagamento = () => {
                             <p style={{ margin: 0, fontWeight: 'bold', fontSize: 16 }}>LISTA DE ALUNOS</p>
                         </div>
                         <div style={styles.divdetalhes}>
-                            <div style={{ width: "32%", display: "flex", justifyContent: "center" }}><p style={{}}>Nome Do Aluno</p></div>
-                            <div style={{ width: "32%", display: "flex", justifyContent:  "center" }}><p >Plano</p></div>
-                            <div style={{ width: "32%", display: "flex", justifyContent:  "center" }}><p >Data pagamento</p></div>
-                            <div style={{ width: "32%", display: "flex", justifyContent:  "center" }}><p >Status </p></div>
-                            <div style={{ width: "32%", display: "flex", justifyContent:  "center"}}><p >Valor</p></div>
-                            <div style={{ width: "32%", display: "flex", justifyContent: "right"}}><p >Ação</p></div>
+                            <div style={{ width: '32%', display: "flex", justifyContent: "center" }}><p style={{ margin: 10,  fontSize: 16, fontFamily: "serif", width: "100%",  display: "flex", justifyContent: "space-between"}}>Nome Do Aluno</p></div>
+                            <div style={{ width: "32%", display: "flex", justifyContent: "center" }}><p style={{ margin: 10, marginRight: 80, fontSize: 16, fontFamily: "serif", width: "100%",  display: "flex", justifyContent: "center"}} >Plano</p></div>
+                            <div style={{ width: "32%", display: "flex", justifyContent: "center" }}><p style={{ margin: 10, marginLeft: 40, fontSize: 16, fontFamily: "serif", width: "100%",  display: "flex", justifyContent: "center"}} >Data de Pagamento</p></div>
+                            <div style={{ width: "32%", display: "flex", justifyContent: "center" }}><p style={{ margin: 10, marginLeft: 40,fontSize: 16, fontFamily: "serif", width: "100%",  display: "flex", justifyContent: "center"}} >Status </p></div>
+                            <div style={{ width: "32%", display: "flex", justifyContent: "center"}}><p style={{ margin: 10,  marginLeft: 80, fontSize: 16, fontFamily: "serif", width: "100%",  display: "flex", justifyContent: "center"}} >Valor</p></div>
+                            <div style={{ width: "32%", display: "flex", justifyContent: "center"}}><p style={{ margin: 10,  fontSize: 16, fontFamily: "serif", width: "100%",  display: "flex", justifyContent: "right"}} >Ação</p></div>
                         </div>
 
                         <div style={styles.divDadosAlunos}>
@@ -115,12 +115,12 @@ export const ControlePagamento = () => {
                                 const statusItem = pagamento.concat(statusItem => statusItem.id_aluno === alunoId)
                                 if (statusItem) {
                                     return (
-                                        <div key={index} style={{display: "flex", justifyContent: "space-between", width: "96%" }}>
-                                            <p style={{ margin: 0, fontWeight: 'bold', fontSize: 16 }}>{item.nome}</p>
-                                            <p>{item.plano}</p>
-                                            <p>{statusItem[index].dt_pagamento}</p>
-                                            <p>{statusItem[index].status}</p>
-                                            <p>{statusItem[index].valor}</p>
+                                        <div key={index} style={{display: "flex", justifyContent: "space-between", width: "100%" }}>
+                                            <p style={{ margin: 0,  fontSize: 16, fontFamily: "serif", width: "100%",  display: "flex", justifyContent: "space-between" }}>{item.nome}</p>
+                                            <p style={{ margin: 0,  fontSize: 16, fontFamily: "serif", width: "100%",  display: "flex", justifyContent: "space-between" }}>{item.plano}</p>
+                                            <p style={{ margin: 0,  fontSize: 16, fontFamily: "serif", width: "100%",  display: "flex", justifyContent: "space-between" }} >{statusItem[index].dt_pagamento}</p>
+                                            <p style={{ margin: 0,  fontSize: 16, fontFamily: "serif", width: "100%",  display: "flex", justifyContent: "space-between" }}>{statusItem[index].status}</p>
+                                            <p style={{ margin: 0,  fontSize: 16, fontFamily: "serif", width: "100%",  display: "flex", justifyContent: "space-between" }}>{statusItem[index].valor}</p>
                                             <div style={{ backgroundColor: 'green', margin: 5, cursor: "pointer", display: "flex" }}
                         onClick={() => {
                           navigate(`/editarAluno/${id}`, { id })
@@ -129,55 +129,14 @@ export const ControlePagamento = () => {
                         <AttachMoneyIcon />
                       </div>
                                         </div>
-                                    );
+                                    )
                                 }
                                 return null;
                             })}
                         </div>
                     </div>
                 </div>
-                <Dialog open={openPagamento} onClose={() => setOpenPagamento(false)}>
-                    <DialogContent style={styles.customDialogStyle}>
-                        <h2>Editar Pagamento</h2>
-                        {pagamento && pagamento
-                            .filter((pagamento) => pagamento.id === pagamentoIdParaEditar)
-                            .map((pagamento, index) => (
-                                <div key={index} style={styles.uptadePagamento}>
-                                    <p style={styles.p}>Data: {pagamento.dt_pagamento}</p>
-                                    <input type="text" placeholder="Data de Pagamento" />
-                                    <p style={styles.p}>status: {pagamento.statusPagamento}</p>
-                                    <input type="text" placeholder="Status do Pagamento" />
-                                    <p style={styles.p}>status: {pagamento.valor_pagamento}</p>
-                                    <input type="text" placeholder="Valor do Pagamento" />
-                                    <div style={styles.buttonContainer}>
-                                        <button style={styles.saveButton}>Salvar</button>
-                                        <button style={styles.closeButton} onClick={() => { setOpenPagamento(false) }}>Fechar</button>
-                                    </div>
-                                </div>
-                            ))}
-                    </DialogContent>
-                </Dialog>
-                <Dialog open={openAluno} onClose={() => setOpenAluno(false)}>
-                    <DialogContent style={styles.customDialogStyle}>
-                        <h2>Editar Aluno</h2>
-                        {nomeAluno &&
-                            nomeAluno
-                                .filter((aluno) => aluno.id === alunoIdParaEditar)
-                                .map((aluno, index) => (
-                                    <div key={index} style={styles.uptadeAluno}>
-                                        <p style={styles.p}>Nome: {aluno.nome}</p>
-                                        <input type="text" placeholder="Nome do Aluno" />
-                                        <p style={styles.p}>Telefone: {aluno.telefone}</p>
-                                        <input type="text" placeholder="Telefone do Aluno" />
-                                        <div style={styles.buttonContainer}>
-                                            <button style={styles.saveButton}>Salvar</button>
-                                            <button style={styles.closeButton} onClick={() => { setOpenAluno(false) }}>Fechar</button>
-                                        </div>
-                                    </div>
-                                ))}
-                    </DialogContent>
-                </Dialog>
-
+             
 
             </div>
 
@@ -204,46 +163,7 @@ const styles = {
         boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
         overflow: "hidden",
     },
-    buscar: {
-
-        backgroundColor: '#E7E7E7',
-        width: '40%',
-        minHeight: '6vh',
-        marginTop: 20,
-        display: 'inline-block',
-        justifyContent: 'center',
-        flexDirection: "column",
-        alignItems: 'right',
-        boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
-        borderRadius: 10,
-    },
-    divIcon: {
-        display: 'inline-block',
-        float: 'left',
-        margin: '2px',
-        padding: '5px',
-        justifyContent: 'center',
-        width: "10%",
-        alignItems: 'left'
-    },
-    listaPagamentos: {
-        backgroundColor: '#E7E7E7',
-        width: '90%',
-        minHeight: '40vh',
-        marginTop: 20,
-        display: 'flex',
-        flexDirection: "column",
-        alignItems: 'center',
-        boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
-        borderRadius: 10,
-
-    },
-    edicaoPagamento: {
-        width: "25%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
-    },
+  
 
     infoAlunos: {
         backgroundColor: '#f5f3f3',
@@ -253,21 +173,25 @@ const styles = {
         borderRadius: 10,
         marginTop: 20,
         overflow: "hidden",
+        color: "black",
+        fontFamily: "serif",
+        fontSize: 16,
 
     },
     divdetalhes: {
-        dflexDirection: "column",
         display: "flex",
-        // justifyContent: 'center',
-        marginTop: 20,
+        width: '96%',
         alignItems: "center",
+        overflowY: "auto",
+        padding: '5px',
+        margin: 0,
+        justifyContent: "center",
+        float: "center",
         borderBottomColor: "grey",
         borderBottomStyle: 'solid',
-        // borderWidth: 'thin',
-        width: "96%",
-        margin: 10,
-        overflowY: "auto"
-      
+        borderWidth: 'thin',
+        overflowY: "auto",
+  
     },
     divDadosAlunos: {
         display: "flex",
@@ -275,7 +199,13 @@ const styles = {
         flexDirection: "column",
         alignItems: "center",
         maxHeight: "300px",
-        overflowY: "auto"
+        overflowY: "auto",
+        padding: '10px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.5)',
+        borderRadius: 10,
+        margin: 10,
+        justifyContent: "center",
+        float: "center"
     },
    
 
@@ -287,65 +217,6 @@ const styles = {
     },
    
 
-    divinfoStatus: {
-        width: "12%",
-        display: "inline-block",
-        float: "left",
-        justifyContent: "space-around",
-        flexDirection: "column",
-        alignItems: "center",
-        maxHeight: "300px",
-        overflowY: "auto"
-    },
-    divButtons: {
-        marginTop: 20,
-        width: "95%",
-        display: 'flex',
-        justifyContent: 'space-around',
-
-    },
-    Button: {
-        width: '25%',
-        height: 50,
-        boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
-        backgroundColor: '#f5f3f3',
-        color: 'black',
-        cursor: 'pointer',
-        display: 'flex',
-        justifyContent: 'space-around',
-        fontWeight: 'bold',
-        borderRadius: 50
-    },
-    link: {
-        display: 'inline-block',
-        justifyContent: 'right',
-        width: "10%",
-        alignItems: 'right',
-        margin: '5px'
-
-    },
-    uptadePagamento: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "20px",
-        backgroundColor: "white",
-        borderRadius: "8px",
-        boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
-        maxWidth: "300px",
-        margin: "0 auto",
-    },
-    customDialogStyle: {
-        backgroundColor: 'white',
-        padding: '20px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    p:{
-        width: "32%", 
-        display: "flex", 
-        justifyContent: "center" 
-    },
+   
 
 }
