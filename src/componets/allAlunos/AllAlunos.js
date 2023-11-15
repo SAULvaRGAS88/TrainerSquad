@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import url from '../../service/service';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 export const AllAlunos = () => {
 
@@ -13,9 +14,11 @@ export const AllAlunos = () => {
     const [status, setStatus] = useState('');
     const navigate = useNavigate()
 
+    const { id } = useParams();
+
     const retornaAlunosDb = async () => {
         try {
-            const response = await url.get(`/api/aluno/alunos`);
+            const response = await url.get(`/api/aluno/${id}/aluno`)
             const alunos = response.data;
 
             const lRetorno = [];
@@ -42,7 +45,7 @@ export const AllAlunos = () => {
 
     const retornaStatusPag = async () => {
         try {
-            const response = await url.get(`/api/pagamento/pagamentos`);
+            const response = await url.get(`/api/aluno/${id}/pag`);
             const status = response.data;
 
             const lRetorno = [];
@@ -55,7 +58,7 @@ export const AllAlunos = () => {
             }
 
             setStatus(lRetorno);
-            // console.log(lRetorno);
+            console.log(lRetorno);
         } catch (error) {
             console.error('Erro ao consultar Status:', error);
         }
@@ -64,6 +67,7 @@ export const AllAlunos = () => {
     useEffect(() => {
         retornaAlunosDb();
         retornaStatusPag();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -119,14 +123,14 @@ export const AllAlunos = () => {
                                         </Grid>
                                         <Grid item xs={6} md={3}>
                                             <Typography style={styles.textCard} variant="body1">Avaliação Física <Button onClick={() => {
-                                                navigate(`/avaliacaoFisica/${item.id}`)
+                                                navigate(`/ListaAvaliacaoFisica/${id}`, { state: { itemId: item.id } })
                                             }} variant="text">fazer Avaliação</Button> </Typography>
                                         </Grid>
                                         <Grid item xs={6} md={3}>
                                             <Typography style={styles.textCard} variant="body1">Editar Aluno <Button
                                                 variant="text"
                                                 onClick={() => {
-                                                    navigate(`/editarAluno/${item.id}`)
+                                                    navigate(`/editarAluno/${id}`, { state: { itemId: item.id } })
                                                 }}
                                             >Editar</Button> </Typography>
                                         </Grid>
@@ -164,7 +168,7 @@ const styles = {
     container: {
         backgroundColor: 'rgb(255, 255, 255)',
         width: '80vw',
-        height: '55vh',
+        height: '65vh',
         boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
         overflowY: 'auto',
         marginTop: 20

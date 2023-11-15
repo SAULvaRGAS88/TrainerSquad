@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { HeaderApp } from '../headerApp/HeaderApp';
-import { Button, Dialog, DialogContent } from '@mui/material';
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import { Dialog, DialogContent } from '@mui/material';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import { Link } from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -83,6 +80,7 @@ export const DashBoard = () => {
   useEffect(() => {
     retornaAlunosDb();
     retornaStatusPag();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -122,14 +120,14 @@ export const DashBoard = () => {
                     <div style={{ width: "32%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                       <div style={{ backgroundColor: 'yellow', margin: 5, cursor: "pointer", display: "flex" }}
                         onClick={() => {
-                          navigate(`/editarAluno/${id}`, { id })
+                          navigate(`/editarAluno/${id}`, { state: { itemId: item.id } })
                         }}
                       >
                         <PersonOutlineIcon />
                       </div>
                       <div style={{ backgroundColor: 'greenyellow', margin: 5, cursor: "pointer", display: "flex" }}><FavoriteIcon
                         onClick={() => {
-                          navigate(`/avaliacaoFisica/${id}`, { state: { itemId: item.id } })
+                          navigate(`/ListaAvaliacaoFisica/${id}`, { state: { itemId: item.id } })
                         }} />
                       </div>
                       <div style={{ backgroundColor: '#59D0F5', margin: 5, cursor: "pointer", display: "flex" }}><FitnessCenterIcon
