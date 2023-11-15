@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { HeaderApp } from '../headerApp/HeaderApp';
-import { Button, Dialog, DialogContent } from '@mui/material';
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import { Dialog, DialogContent } from '@mui/material';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import { Link } from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -41,7 +38,7 @@ export const DashBoard = () => {
 
   const retornaAlunosDb = async () => {
     try {
-      const response = await url.get(`/api/aluno/alunos`);
+      const response = await url.get(`/api/aluno/${id}/aluno`)
       const alunos = response.data;
 
       const lRetorno = [];
@@ -50,6 +47,7 @@ export const DashBoard = () => {
           nome: alunos[i].nome,
           id: alunos[i].id,
           telefone: alunos[i].telefone,
+          idusuario: alunos[i].idusuario
         });
       }
 
@@ -62,7 +60,7 @@ export const DashBoard = () => {
 
   const retornaStatusPag = async () => {
     try {
-      const response = await url.get(`/api/pagamento/pagamentos`);
+      const response = await url.get(`/api/aluno/${id}/pag`);
       const status = response.data;
 
       const lRetorno = [];
@@ -82,6 +80,7 @@ export const DashBoard = () => {
   useEffect(() => {
     retornaAlunosDb();
     retornaStatusPag();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -121,19 +120,19 @@ export const DashBoard = () => {
                     <div style={{ width: "32%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                       <div style={{ backgroundColor: 'yellow', margin: 5, cursor: "pointer", display: "flex" }}
                         onClick={() => {
-                          navigate(`/editarAluno/${item.id}`)
+                          navigate(`/editarAluno/${id}`, { state: { itemId: item.id } })
                         }}
                       >
                         <PersonOutlineIcon />
                       </div>
                       <div style={{ backgroundColor: 'greenyellow', margin: 5, cursor: "pointer", display: "flex" }}><FavoriteIcon
                         onClick={() => {
-                          navigate(`/avaliacaoFisica/${item.id}`)
+                          navigate(`/ListaAvaliacaoFisica/${id}`, { state: { itemId: item.id } })
                         }} />
                       </div>
                       <div style={{ backgroundColor: '#59D0F5', margin: 5, cursor: "pointer", display: "flex" }}><FitnessCenterIcon
                         onClick={() => {
-                          navigate(`/treino/${item.id}`)
+                          navigate(`/treino/${id}`, { state: { itemId: item.id } })
                         }} />
                       </div>
                     </div>
@@ -152,31 +151,12 @@ export const DashBoard = () => {
                 weekends={true}
                 events={events}
                 eventContent={renderEventContent}
-                height="400px" // Altura desejada
+                height="470px" // Altura desejada
               />
             </div>
 
           </div>
         </div>
-
-        <div style={styles.divButtons}>
-          <Button
-            component={Link}
-            to={`/cadastroAluno/${id}`}
-            style={styles.Button}
-            variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> CADASTRAR ALUNO</Button>
-          <Button
-            component={Link}
-            to={`/controlePagamento/${id}`}
-            style={styles.Button}
-            variant="contained"> <AttachMoneyIcon style={{ fontSize: 40, color: 'green' }} /> CONTROLE DE PAGAMENTO</Button>
-          {/* <Button
-            component={Link}
-            to="/treino"
-            style={styles.Button}
-            variant="contained"> <FitnessCenterIcon style={{ fontSize: 40, color: 'green' }} /> CADASTRAR TREINO</Button> */}
-        </div>
-
 
         {/* <Dialog open={openAluno} onClose={() => setOpenAluno(false)}>
           <DialogContent style={styles.customDialogStyle}>
@@ -254,7 +234,7 @@ const styles = {
   },
   BoxDuplo: {
     width: '95%',
-    minHeight: '55vh',
+    minHeight: '65vh',
     marginTop: 20,
     display: "flex",
     justifyContent: 'space-between',
@@ -269,7 +249,7 @@ const styles = {
   calender: {
     backgroundColor: '#f5f3f3',
     width: '48%',
-    minHeight: '55vh',
+    minHeight: '65vh',
     boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
     borderRadius: 20
   },
