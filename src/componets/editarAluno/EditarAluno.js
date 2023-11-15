@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Button, Modal, Box, Typography, TextField } from '@mui/material';
+import { Button, Modal, Box, Typography, TextField, Input, Select } from '@mui/material';
 import { HeaderApp } from '../headerApp/HeaderApp';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -91,61 +91,81 @@ export const EditarAluno = () => {
         setDataPagamento(novaData);
     };
 
-    const retornaAlunosDb = async () => {
+    const retornaAlunoDb = async () => {
         try {
-            const response = await url.get(`/api/aluno/${id}/aluno`)
+            const response = await url.get(`/api/aluno/${itemId}`)
             const alunos = response.data;
+            if (alunos) {
+                const lRetorno = {
+                    nome: alunos.nome,
+                    id: alunos.id,
+                    telefone: alunos.telefone,
+                    sexo: alunos.sexo,
+                    cpf: alunos.cpf,
+                    dt_nascimento: alunos.dt_nascimento,
+                    email: alunos.email,
+                    status: alunos.status,
+                    plano: alunos.plano
 
-            const lRetorno = [];
-            for (let i = 0; i < alunos.length; i++) {
-                lRetorno.push({
-                    nome: alunos[i].nome,
-                    id: alunos[i].id,
-                    telefone: alunos[i].telefone,
-                    sexo: alunos[i].sexo,
-                    cpf: alunos[i].cpf,
-                    dt_nascimento: alunos[i].dt_nascimento,
-                    email: alunos[i].email,
-                    status: alunos[i].status,
-                    plano: alunos[i].plano,
-                });
+                };
+
+                setAlunoDb(lRetorno);
+
+            } else {
+                console.log('Nenhum dado encontrado.');
             }
-
-            setAlunoDb(lRetorno);
-            // console.log(lRetorno, 'alunos');
         } catch (error) {
-            console.error('Erro ao consultar alunos:', error);
+            console.error('Erro ao consultar aluno:', error);
         }
     }
 
-    const retornaStatusPag = async () => {
+    const retornaPagamentoDb = async () => {
         try {
-            const response = await url.get(`/api/aluno/${id}/pag`);
+            const response = await url.get(`/api/pagamento/${itemId}`);
             const status = response.data;
-            console.log(response.data)
-            const lRetorno = [];
-
-            for (let i = 0; i < status.length; i++) {
-                lRetorno.push({
-                    valor: status[i].valor,
-                    dt_pagamento: status[i].dt_pagamento,
-                    status: status[i].status,
-                    id_aluno: status[i].id_aluno,
-                });
+            if (status) {
+                const lRetorno = {
+                    valor: status.valor,
+                    dt_pagamento: status.dt_pagamento,
+                    status: status.status,
+                    id_aluno: status.id_aluno,
+                    id: status.id
+                }
+                setStatus(lRetorno);
+                console.log(lRetorno)
+            } else {
+                console.log('Nenhum dado encontrado.');
             }
-
-            setStatus(lRetorno);
-            console.log(lRetorno, 'pagamento');
         } catch (error) {
             console.error('Erro ao consultar Status:', error);
         }
     }
 
     useEffect(() => {
-        retornaAlunosDb();
-        retornaStatusPag();
+        retornaAlunoDb();
+        retornaPagamentoDb();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [itemId]);
+
+    const opcoesPlano = ['Mensal', 'Trimestral', 'Semestral', "Anual"];
+    const opcoesSexo = ['Masculino', 'Feminino', 'Não Informar'];
+    const handleSexoChange = (e) => {
+        setAlunoDb({ ...alunoDb, sexo: e.target.value });
+    };
+    const handleChangePlano = (e) => {
+        setStatus({ ...status, plano: e.target.value });
+    };
+
+    const formatarData = (dataString) => {
+        if (!dataString) {
+            return "";
+        }
+
+        const ano = dataString.slice(0, 4);
+        const mes = dataString.slice(5, 7);
+        const dia = dataString.slice(8, 10);
+        return `${dia}-${mes}-${ano}`;
+    };
 
     return (
 
@@ -158,70 +178,79 @@ export const EditarAluno = () => {
                         <p style={{ margin: 10, fontWeight: 'bold', fontSize: 18, }}>Dados Pessoais</p>
                         <div style={{ marginLeft: 10 }}>
                             <div style={{}}>
-                                <TextField
-                                    id="standard-basic"
-                                    label={alunoDb.nome}
-                                    variant="standard"
-                                    value={aluno}
-                                    onChange={(e) => setAluno(e.target.value)}
+                                <InputLabel htmlFor="nome">Nome</InputLabel>
+                                <Input
+                                    id="nome"
+                                    type="text"
+                                    value={alunoDb.nome}
+                                    onChange={(e) => setAlunoDb({ ...alunoDb, nome: e.target.value })}
                                     inputProps={{
-                                        inputMode: 'text'
+                                        inputMode: 'text',
                                     }}
                                     sx={{ width: 300 }}
                                 />
                             </div>
                             <div>
-                                <TextField
-                                    id="standard-basic"
-                                    label="CPF"
-                                    variant="standard"
-                                    value={cpf}
-                                    onChange={(e) => setCpf(e.target.value)}
+                                <InputLabel htmlFor="cpf">CPF</InputLabel>
+                                <Input
+                                    id="nome"
+                                    type="text"
+                                    value={alunoDb.cpf}
+                                    onChange={(e) => setAlunoDb({ ...alunoDb, cpf: e.target.value })}
                                     inputProps={{
-                                        inputMode: 'numeric'
+                                        inputMode: 'text',
                                     }}
                                     sx={{ width: 300 }}
                                 />
                             </div>
 
                             <div>
-                                <TextField
-                                    id="standard-basic"
-                                    label="Telefone"
-                                    variant="standard"
-                                    value={telefone}
-                                    onChange={(e) => setTelefone(e.target.value)}
+                                <InputLabel htmlFor="Telefone">Telefone</InputLabel>
+                                <Input
+                                    id="nome"
+                                    type="text"
+                                    value={alunoDb.telefone}
+                                    onChange={(e) => setAlunoDb({ ...alunoDb, telefone: e.target.value })}
+                                    inputProps={{
+                                        inputMode: 'text',
+                                    }}
                                     sx={{ width: 300 }}
                                 />
                             </div>
                             <div>
-                                <TextField
-                                    id="standard-basic"
-                                    label="E-Mail"
-                                    variant="standard"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                <InputLabel htmlFor="email">E-mail</InputLabel>
+                                <Input
+                                    id="nome"
+                                    type="text"
+                                    value={alunoDb.email}
+                                    onChange={(e) => setAlunoDb({ ...alunoDb, email: e.target.value })}
+                                    inputProps={{
+                                        inputMode: 'text',
+                                    }}
                                     sx={{ width: 300 }}
                                 />
                             </div>
                             <div>
-                                <TextField
-                                    id="standard-basic"
-                                    label="Sexo"
-                                    variant="standard"
-                                    select
-                                    value={sexo}
-                                    onChange={(e) => setSexo(e.target.value)}
+                                <InputLabel htmlFor="sexo">Sexo</InputLabel>
+                                <Select
+                                    id="sexo"
+                                    value={alunoDb.sexo || opcoesSexo[0]}
+                                    onChange={handleSexoChange}
                                     sx={{ width: 300 }}
                                 >
-                                    <MenuItem value="Masculino" >Masculino</MenuItem>
-                                    <MenuItem value="Feminino">Feminino</MenuItem>
-                                    <MenuItem value="Não Informar">Não Informar</MenuItem>
-                                </TextField>
+                                    {opcoesSexo.map((opcao, index) => (
+                                        <MenuItem key={index} value={opcao}>
+                                            {opcao}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
                             </div>
 
                             <div style={{ display: "flex", marginTop: 5, marginBottom: -10, }}>
                                 <p style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Data Nascimento: </p>
+                                <p style={{ marginLeft: 10, marginRight: 10 }}>
+                                    {formatarData(alunoDb.dt_nascimento)}
+                                </p>
                                 <LocalizationProvider locale={ptBR} dateAdapter={AdapterDayjs}>
                                     <DatePicker
                                         style={{ borderColor: 'red' }}
@@ -242,19 +271,19 @@ export const EditarAluno = () => {
                         <p style={{ margin: 10, fontWeight: 'bold', fontSize: 18, }}>Pagamento</p>
                         <div style={{ marginLeft: 10 }}>
                             <div>
-                                <TextField
-                                    id="standard-basic"
-                                    label="Plano"
-                                    variant="standard"
-                                    select
-                                    value={plano}
-                                    onChange={(e) => setPlano(e.target.value)}
-                                    sx={{ width: 300 }}                >
-                                    <MenuItem value="Mensal" >Mensal</MenuItem>
-                                    <MenuItem value="Trimestral">Trimestral</MenuItem>
-                                    <MenuItem value="Semestral">Semestral</MenuItem>
-                                    <MenuItem value="Anual">Anual</MenuItem>
-                                </TextField>
+                            <InputLabel htmlFor="plano">Plano</InputLabel>
+                                <Select
+                                    id="plano"
+                                    value={alunoDb.plano || opcoesPlano[0]}
+                                    onChange={handleChangePlano}
+                                    sx={{ width: 300 }}
+                                >
+                                    {opcoesPlano.map((opcao, index) => (
+                                        <MenuItem key={index} value={opcao}>
+                                            {opcao}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
                             </div>
 
                             <div style={{ marginLeft: -10, marginTop: 5 }}>
@@ -264,8 +293,8 @@ export const EditarAluno = () => {
                                         id="outlined-adornment-amount"
                                         startAdornment={<InputAdornment position="start">R$</InputAdornment>}
                                         label="Amount"
-                                        value={valor}
-                                        onChange={(e) => setValor(e.target.value)}
+                                        value={status.valor}
+                                    onChange={(e) => setAlunoDb({ ...status, valor: e.target.value })}
                                         sx={{ width: 150 }}
                                     />
                                 </FormControl>
@@ -274,6 +303,9 @@ export const EditarAluno = () => {
                             <div style={{ display: "flex", marginTop: 5, marginBottom: -10, }}>
                                 <p style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Data de Pagamento: </p>
                                 <LocalizationProvider locale={ptBR} dateAdapter={AdapterDayjs}>
+                                <p style={{ marginLeft: 10, marginRight: 10 }}>
+                                    {formatarData(status.dt_pagamento)}
+                                </p>
                                     <DatePicker
                                         style={{ borderColor: 'red' }}
                                         format='DD-MM-YYYY'
@@ -296,9 +328,9 @@ export const EditarAluno = () => {
             variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> CADASTRAR AVALIAÇÂO FíSICA</Button> */}
                     {cadastroError && <p>Ocorreu um erro ao cadastrar. Verifique os dados.</p>}
                     <Button
-                        onClick={handleSubmit}
+                        onClick={() => { }}
                         style={styles.Button}
-                        variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> SALVAR ALUNO</Button>
+                        variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> EDITAR CADASTRO</Button>
 
                     <Modal
                         open={open}
@@ -350,14 +382,14 @@ const styles = {
     divCadastro: {
         backgroundColor: '#f5f3f3',
         width: '48%',
-        height: '50vh',
+        height: '60vh',
         boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
         borderRadius: 20,
     },
     divPagamentos: {
         backgroundColor: '#f5f3f3',
         width: '45%',
-        height: '33vh',
+        height: '43vh',
         boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
         borderRadius: 20,
     },
