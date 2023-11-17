@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { HeaderApp } from '../headerApp/HeaderApp';
-import { Dialog, DialogContent } from '@mui/material';
+import { useParams, useNavigate } from 'react-router-dom';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CancelIcon from '@mui/icons-material/Cancel';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
 import url from '../../service/service';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+
 
 export const DashBoard = () => {
 
@@ -35,24 +34,17 @@ export const DashBoard = () => {
   const [openTreino, setOpenTreino] = useState(false);
   const [nomeAluno, setNomeAluno] = useState([]);
   const [status, setStatus] = useState([]);
+  // console.log(status)
 
   const retornaAlunosDb = async () => {
     try {
-      const response = await url.get(`/api/aluno/${id}/aluno`)
-      const alunos = response.data;
-
-      const lRetorno = [];
-      for (let i = 0; i < alunos.length; i++) {
-        lRetorno.push({
-          nome: alunos[i].nome,
-          id: alunos[i].id,
-          telefone: alunos[i].telefone,
-          idusuario: alunos[i].idusuario
-        });
-      }
-
-      setNomeAluno(lRetorno);
-      console.log(lRetorno);
+      const response = await url.get(`/api/aluno/${id}/aluno`);
+      setNomeAluno(response.data.map(aluno => ({
+        nome: aluno.nome,
+        id: aluno.id,
+        telefone: aluno.telefone,
+        idusuario: aluno.idusuario
+      })));
     } catch (error) {
       console.error('Erro ao consultar alunos:', error);
     }
@@ -61,27 +53,21 @@ export const DashBoard = () => {
   const retornaStatusPag = async () => {
     try {
       const response = await url.get(`/api/aluno/${id}/pag`);
-      const status = response.data;
-
-      const lRetorno = [];
-      for (let i = 0; i < status.length; i++) {
-        lRetorno.push({
-          status: status[i].status
-        });
-      }
-
-      setStatus(lRetorno);
-      console.log(lRetorno);
+      setStatus(response.data.map(statusItem => ({
+        status: statusItem.status,
+        id_aluno: statusItem.id_aluno
+      })));
     } catch (error) {
       console.error('Erro ao consultar Status:', error);
     }
   }
 
+
   useEffect(() => {
     retornaAlunosDb();
     retornaStatusPag();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [id]);
 
   return (
     <div style={styles.containerPrincipal}>
@@ -108,36 +94,58 @@ export const DashBoard = () => {
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", maxHeight: "300px", overflowY: "auto" }}>
-              {nomeAluno && status && nomeAluno.length === status.length &&
-                nomeAluno.map((item, index) => (
-                  <div key={index} style={{ display: "flex", justifyContent: "space-between", width: "96%" }}>
-                    <div style={{ width: "32%", display: "flex", justifyContent: "center" }}>
-                      <p>{item.nome}</p>
-                    </div>
-                    <div style={{ width: "32%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                      {status !== "pendente" ? <CancelIcon htmlColor='red' /> : <CheckCircleOutlineIcon htmlColor='green' />}
-                    </div>
-                    <div style={{ width: "32%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                      <div style={{ backgroundColor: 'yellow', margin: 5, cursor: "pointer", display: "flex" }}
-                        onClick={() => {
-                          navigate(`/editarAluno/${id}`, { state: { itemId: item.id } })
-                        }}
-                      >
-                        <PersonOutlineIcon />
+
+              {nomeAluno && status && nomeAluno.map((item, index) => {
+                const alunoId = item.id;
+                const statusItem = status.concat(statusItem => statusItem.id_aluno === alunoId)
+                if (statusItem) {
+                  return (
+
+                    <div key={index} style={{ display: "flex", justifyContent: "space-between", width: "96%" }}>
+
+                      <div style={{ width: "32%", display: "flex", justifyContent: "center" }}>
+                        <p>{item.nome}</p>
                       </div>
-                      <div style={{ backgroundColor: 'greenyellow', margin: 5, cursor: "pointer", display: "flex" }}><FavoriteIcon
-                        onClick={() => {
-                          navigate(`/ListaAvaliacaoFisica/${id}`, { state: { itemId: item.id } })
-                        }} />
+
+                      <div style={{ width: "32%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        {statusItem && statusItem[index] && statusItem[index].status && statusItem[index].status.trim().toLowerCase() === "pendente" ? (
+                          <CancelIcon style={{ color: 'red' }} />
+                        ) : (
+                          <CheckCircleOutlineIcon style={{ color: 'green' }} />
+                        )}
+
+
+
                       </div>
-                      <div style={{ backgroundColor: '#59D0F5', margin: 5, cursor: "pointer", display: "flex" }}><FitnessCenterIcon
-                        onClick={() => {
-                          navigate(`/treino/${id}`, { state: { itemId: item.id } })
-                        }} />
+
+                      <div style={{ width: "32%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <div style={{ backgroundColor: 'yellow', margin: 5, cursor: "pointer", display: "flex" }}
+                          onClick={() => {
+                            navigate(`/editarAluno/${id}`, { state: { itemId: item.id } })
+                            console.log(statusItem.id_aluno, 'id')
+                          }}
+
+                        >
+                          <PersonOutlineIcon />
+                        </div>
+                        <div style={{ backgroundColor: 'greenyellow', margin: 5, cursor: "pointer", display: "flex" }}><FavoriteIcon
+                          onClick={() => {
+                            navigate(`/ListaAvaliacaoFisica/${id}`, { state: { itemId: item.id } })
+                          }} />
+                        </div>
+                        <div style={{ backgroundColor: '#59D0F5', margin: 5, cursor: "pointer", display: "flex" }}><FitnessCenterIcon
+                          onClick={() => {
+                            navigate(`/treino/${id}`, { state: { itemId: item.id } })
+                          }} />
+                        </div>
                       </div>
+
                     </div>
-                  </div>
-                ))}
+                  )
+                }
+                return null;
+              })}
+
             </div>
 
           </div>
@@ -157,56 +165,6 @@ export const DashBoard = () => {
 
           </div>
         </div>
-
-        {/* <Dialog open={openAluno} onClose={() => setOpenAluno(false)}>
-          <DialogContent style={styles.customDialogStyle}>
-            <h2>Editar Aluno</h2>
-            {nomeAluno &&
-              nomeAluno
-                .filter((aluno) => aluno.id === alunoIdParaEditar)
-                .map((aluno, index) => (
-                  <div key={index} style={styles.uptadeAluno}>
-                    <p style={styles.p}>Nome: {aluno.nome}</p>
-                    <input type="text" placeholder="Nome do Aluno" />
-                    <p style={styles.p}>Telefone: {aluno.telefone}</p>
-                    <input type="text" placeholder="Telefone do Aluno" />
-                    <div style={styles.buttonContainer}>
-                      <button style={styles.saveButton}>Salvar</button>
-                      <button style={styles.closeButton} onClick={() => { setOpenAluno(false) }}>Fechar</button>
-                    </div>
-                  </div>
-                ))}
-          </DialogContent>
-        </Dialog> */}
-
-
-
-
-        <Dialog open={openFinanceiro} onClose={() => setOpenFinanceiro(false)}>
-          <DialogContent style={styles.customDialogStyle}>
-            <h2>Editar Financeiro</h2>
-            <input type="text" placeholder="Nome do Aluno" />
-            <input type="text" placeholder="Idade do Aluno" />
-            <div>
-              <button>Salvar</button> <button onClick={() => { setOpenFinanceiro(false) }}>Fechar</button>
-            </div>
-
-          </DialogContent>
-        </Dialog>
-
-        <Dialog open={openTreino} onClose={() => setOpenTreino(false)}>
-          <DialogContent style={styles.customDialogStyle}>
-            <h2>Editar Treino</h2>
-            <input type="text" placeholder="Nome do Aluno" />
-            <input type="text" placeholder="Idade do Aluno" />
-            <div>
-              <button>Salvar</button> <button onClick={() => { setOpenTreino(false) }}>Fechar</button>
-            </div>
-
-          </DialogContent>
-        </Dialog>
-
-
       </div>
     </div >
 
@@ -341,3 +299,52 @@ const styles = {
 
 
 };
+
+{/* <Dialog open={openAluno} onClose={() => setOpenAluno(false)}>
+          <DialogContent style={styles.customDialogStyle}>
+            <h2>Editar Aluno</h2>
+            {nomeAluno &&
+              nomeAluno
+                .filter((aluno) => aluno.id === alunoIdParaEditar)
+                .map((aluno, index) => (
+                  <div key={index} style={styles.uptadeAluno}>
+                    <p style={styles.p}>Nome: {aluno.nome}</p>
+                    <input type="text" placeholder="Nome do Aluno" />
+                    <p style={styles.p}>Telefone: {aluno.telefone}</p>
+                    <input type="text" placeholder="Telefone do Aluno" />
+                    <div style={styles.buttonContainer}>
+                      <button style={styles.saveButton}>Salvar</button>
+                      <button style={styles.closeButton} onClick={() => { setOpenAluno(false) }}>Fechar</button>
+                    </div>
+                  </div>
+                ))}
+          </DialogContent>
+        </Dialog> */}
+
+
+
+
+{/* <Dialog open={openFinanceiro} onClose={() => setOpenFinanceiro(false)}>
+          <DialogContent style={styles.customDialogStyle}>
+            <h2>Editar Financeiro</h2>
+            <input type="text" placeholder="Nome do Aluno" />
+            <input type="text" placeholder="Idade do Aluno" />
+            <div>
+              <button>Salvar</button> <button onClick={() => { setOpenFinanceiro(false) }}>Fechar</button>
+            </div>
+
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={openTreino} onClose={() => setOpenTreino(false)}>
+          <DialogContent style={styles.customDialogStyle}>
+            <h2>Editar Treino</h2>
+            <input type="text" placeholder="Nome do Aluno" />
+            <input type="text" placeholder="Idade do Aluno" />
+            <div>
+              <button>Salvar</button> <button onClick={() => { setOpenTreino(false) }}>Fechar</button>
+            </div>
+
+          </DialogContent>
+        </Dialog> */}
+

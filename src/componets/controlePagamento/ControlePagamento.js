@@ -101,42 +101,44 @@ export const ControlePagamento = () => {
                             <p style={{ margin: 0, fontWeight: 'bold', fontSize: 16 }}>LISTA DE ALUNOS</p>
                         </div>
                         <div style={styles.divdetalhes}>
-                            <div style={{ width: '32%', display: "flex", justifyContent: "center" }}><p style={{ margin: 10,  fontSize: 16, fontFamily: "serif", width: "100%",  display: "flex", justifyContent: "space-between"}}>Nome Do Aluno</p></div>
-                            <div style={{ width: "32%", display: "flex", justifyContent: "center" }}><p style={{ margin: 10, marginRight: 80, fontSize: 16, fontFamily: "serif", width: "100%",  display: "flex", justifyContent: "center"}} >Plano</p></div>
-                            <div style={{ width: "32%", display: "flex", justifyContent: "center" }}><p style={{ margin: 10, marginLeft: 40, fontSize: 16, fontFamily: "serif", width: "100%",  display: "flex", justifyContent: "center"}} >Data de Pagamento</p></div>
-                            <div style={{ width: "32%", display: "flex", justifyContent: "center" }}><p style={{ margin: 10, marginLeft: 40,fontSize: 16, fontFamily: "serif", width: "100%",  display: "flex", justifyContent: "center"}} >Status </p></div>
-                            <div style={{ width: "32%", display: "flex", justifyContent: "center"}}><p style={{ margin: 10,  marginLeft: 80, fontSize: 16, fontFamily: "serif", width: "100%",  display: "flex", justifyContent: "center"}} >Valor</p></div>
-                            <div style={{ width: "32%", display: "flex", justifyContent: "center"}}><p style={{ margin: 10,  fontSize: 16, fontFamily: "serif", width: "100%",  display: "flex", justifyContent: "right"}} >Ação</p></div>
+                            <div style={{ width: '32%', display: "flex", justifyContent: "center" }}><p style={{ margin: 10, fontSize: 16, fontFamily: "serif", width: "100%", display: "flex", justifyContent: "space-between" }}>Nome Do Aluno</p></div>
+                            <div style={{ width: "32%", display: "flex", justifyContent: "center" }}><p style={{ margin: 10, marginRight: 80, fontSize: 16, fontFamily: "serif", width: "100%", display: "flex", justifyContent: "center" }} >Plano</p></div>
+                            <div style={{ width: "32%", display: "flex", justifyContent: "center" }}><p style={{ margin: 10, marginLeft: 40, fontSize: 16, fontFamily: "serif", width: "100%", display: "flex", justifyContent: "center" }} >Data de Pagamento</p></div>
+                            <div style={{ width: "32%", display: "flex", justifyContent: "center" }}><p style={{ margin: 10, marginLeft: 40, fontSize: 16, fontFamily: "serif", width: "100%", display: "flex", justifyContent: "center" }} >Status </p></div>
+                            <div style={{ width: "32%", display: "flex", justifyContent: "center" }}><p style={{ margin: 10, marginLeft: 80, fontSize: 16, fontFamily: "serif", width: "100%", display: "flex", justifyContent: "center" }} >Valor</p></div>
+                            <div style={{ width: "32%", display: "flex", justifyContent: "center" }}><p style={{ margin: 10, fontSize: 16, fontFamily: "serif", width: "100%", display: "flex", justifyContent: "right" }} >Ação</p></div>
                         </div>
 
                         <div style={styles.divDadosAlunos}>
                             {nomeAluno && pagamento && nomeAluno.map((item, index) => {
                                 const alunoId = item.id;
-                                const statusItem = pagamento.concat(statusItem => statusItem.id_aluno === alunoId)
-                                if (statusItem) {
+                                const statusItem = pagamento.concat(statusItem => statusItem.id_aluno === alunoId);
+                                if (statusItem && statusItem[index]) {
                                     return (
-                                        <div key={index} style={{display: "flex", justifyContent: "space-between", width: "100%" }}>
-                                            <p style={{ margin: 0,  fontSize: 16, fontFamily: "serif", width: "100%",  display: "flex", justifyContent: "space-between" }}>{item.nome}</p>
-                                            <p style={{ margin: 0,  fontSize: 16, fontFamily: "serif", width: "100%",  display: "flex", justifyContent: "space-between" }}>{item.plano}</p>
-                                            <p style={{ margin: 0,  fontSize: 16, fontFamily: "serif", width: "100%",  display: "flex", justifyContent: "space-between" }} >{statusItem[index].dt_pagamento}</p>
-                                            <p style={{ margin: 0,  fontSize: 16, fontFamily: "serif", width: "100%",  display: "flex", justifyContent: "space-between" }}>{statusItem[index].status}</p>
-                                            <p style={{ margin: 0,  fontSize: 16, fontFamily: "serif", width: "100%",  display: "flex", justifyContent: "space-between" }}>{statusItem[index].valor}</p>
+                                        <div key={index} style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+                                            <p style={{ margin: 0, fontSize: 16, fontFamily: "serif", width: "100%", display: "flex", justifyContent: "space-between" }}>{item.nome}</p>
+                                            <p style={{ margin: 0, fontSize: 16, fontFamily: "serif", width: "100%", display: "flex", justifyContent: "space-between" }}>{item.plano}</p>
+                                            <p style={{ margin: 0, fontSize: 16, fontFamily: "serif", width: "100%", display: "flex", justifyContent: "space-between" }} >{statusItem[index].dt_pagamento}</p>
+                                            <p style={{ margin: 0, fontSize: 16, fontFamily: "serif", width: "100%", display: "flex", justifyContent: "space-between" }}>{statusItem[index].status}</p>
+                                            <p style={{ margin: 0, fontSize: 16, fontFamily: "serif", width: "100%", display: "flex", justifyContent: "space-between" }}>{statusItem[index].valor}</p>
                                             <div style={{ backgroundColor: 'green', margin: 5, cursor: "pointer", display: "flex" }}
-                        onClick={() => {
-                          navigate(`/editarAluno/${id}`, { id })
-                        }}
-                      >
-                        <AttachMoneyIcon />
-                      </div>
+                                                onClick={() => {
+                                                    navigate(`/editarAluno/${id}`, { state: { itemId: item.id } })
+                                                }}
+                                            >
+                                                <AttachMoneyIcon />
+                                            </div>
                                         </div>
-                                    )
+                                    );
                                 }
                                 return null;
                             })}
+
                         </div>
+
                     </div>
                 </div>
-             
+
 
             </div>
 
@@ -163,7 +165,7 @@ const styles = {
         boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
         overflow: "hidden",
     },
-  
+
 
     infoAlunos: {
         backgroundColor: '#f5f3f3',
@@ -191,7 +193,7 @@ const styles = {
         borderBottomStyle: 'solid',
         borderWidth: 'thin',
         overflowY: "auto",
-  
+
     },
     divDadosAlunos: {
         display: "flex",
@@ -207,7 +209,7 @@ const styles = {
         justifyContent: "center",
         float: "center"
     },
-   
+
 
     divTile: {
         display: "flex",
@@ -215,8 +217,8 @@ const styles = {
         marginTop: 20,
 
     },
-   
 
-   
+
+
 
 }

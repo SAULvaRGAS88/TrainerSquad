@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Button, Modal, Box, Typography, TextField, Input, Select } from '@mui/material';
+import { Button, Modal, Box, Typography, Input, Select } from '@mui/material';
 import { HeaderApp } from '../headerApp/HeaderApp';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -14,75 +14,26 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import url from '../../service/service';
 import { useParams } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 
 
 export const EditarAluno = () => {
 
+    const navigate = useNavigate()
     const location = useLocation();
     const itemId = location.state?.itemId;
-    console.log(itemId)
-
     const [cadastroError, setCadastroError] = useState(false);
+    const [exclusao, setExclusao] = useState(false);
     const [open, setOpen] = React.useState(false);
     // const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [cpf, setCpf] = useState('');
-    const [telefone, setTelefone] = useState('');
-    const [sexo, setSexo] = useState('');
-    const [plano, setPlano] = useState('');
-    const [aluno, setAluno] = useState('');
-    const [email, setEmail] = useState('');
     const [dataNasc, setDataNasc] = useState('');
     const [dataPagamento, setDataPagamento] = useState('');
-    const [valor, setValor] = useState('');
     const [status, setStatus] = useState('');
     const [alunoDb, setAlunoDb] = useState('');
 
     const { id } = useParams();
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await url.post(`/api/aluno/aluno/${id}`, {
-                sexo: sexo,
-                nome: aluno,
-                cpf: cpf,
-                dt_nascimento: dataNasc,
-                telefone: telefone,
-                email: email,
-                plano: plano,
-                pagamento: {
-                    dt_pagamento: dataPagamento,
-                    valor: valor
-                }
-            });
-            if (response.status === 201) {
-
-            }
-        } catch (error) {
-            console.error('Erro ao cadastrar:', error);
-            setCadastroError(true);
-        }
-    };
-
-    // const formatCpf = (value) => {
-    //     const numericValue = value.replace(/\D/g, '');
-    //     const formattedCpf = numericValue.replace(
-    //         /(\d{3})(\d{3})(\d{3})(\d{2})/,
-    //         '$1.$2.$3-$4'
-    //     );
-    //     return formattedCpf;
-    // };
-
-    // const formatTelefone = (value) => {
-    //     const numericValue = value.replace(/\D/g, '');
-    //     const formattedTelefone = numericValue.replace(
-    //         /(\d{2})(\d)(\d{4})(\d{4})/,
-    //         '($1) $2 $3-$4'
-    //     );
-    //     return formattedTelefone;
-    // };
 
     const handleDateChange = (novaData) => {
         setDataNasc(novaData);
@@ -110,7 +61,7 @@ export const EditarAluno = () => {
                 };
 
                 setAlunoDb(lRetorno);
-
+                // console.log(lRetorno, "log de aluno")
             } else {
                 console.log('Nenhum dado encontrado.');
             }
@@ -132,7 +83,7 @@ export const EditarAluno = () => {
                     id: status.id
                 }
                 setStatus(lRetorno);
-                console.log(lRetorno)
+                // console.log(lRetorno, "log de pagamento")
             } else {
                 console.log('Nenhum dado encontrado.');
             }
@@ -141,9 +92,73 @@ export const EditarAluno = () => {
         }
     }
 
+    const updateData = async (endpoint, data, successMessage) => {
+        try {
+            const response = await url.put(endpoint, data);
+            console.log(response, successMessage);
+            if (response.status === 200) {
+                console.log(`Atualização bem-sucedida em ${successMessage}:`, response.data);
+            }
+            return response;
+        } catch (error) {
+            console.error(`Erro ao atualizar ${successMessage}:`, error);
+            setCadastroError(true);
+            return null;
+        }
+    };
+
+    const handleSubmitAtualizar = async () => {
+        console.log("Dados do aluno a serem enviados:", {
+            sexo: alunoDb.sexo,
+            nome: alunoDb.nome,
+            cpf: alunoDb.cpf,
+            dt_nascimento: alunoDb.dt_nascimento,
+            telefone: alunoDb.telefone,
+            email: alunoDb.email,
+            plano: alunoDb.plano,
+        });
+        const alunoUpdateResponse = await updateData(`/api/aluno/${itemId}`, {
+            sexo: alunoDb.sexo,
+            nome: alunoDb.nome,
+            cpf: alunoDb.cpf,
+            dt_nascimento: alunoDb.dt_nascimento,
+            telefone: alunoDb.telefone,
+            email: alunoDb.email,
+            plano: alunoDb.plano,
+        }, 'aluno');
+
+        if (alunoUpdateResponse) {
+            console.log("Dados de Pagamento a serem enviados:", {
+                dt_pagamento: status.dt_pagamento,
+                valor: status.valor,
+            });
+            const pagamentoUpdateResponse = await updateData(`/api/pagamento/${itemId}`, {
+                dt_pagamento: status.dt_pagamento,
+                valor: status.valor,
+            }, 'pagamento');
+        }
+    };
+
+    const deletarAluno = async () => {
+        try {
+            const response = await url.delete(`/api/aluno/${itemId}`);
+
+            if (response.status === 200) {
+                console.log('Aluno excluído com sucesso!');
+                setExclusao()
+                navigate(`/dashBoard/${id}`)
+            } else {
+                console.log('Falha ao excluir aluno.');
+            }
+        } catch (error) {
+            console.error('Erro ao excluir aluno:', error.message);
+        }
+    };
+
+
     useEffect(() => {
         retornaAlunoDb();
-        retornaPagamentoDb();
+        retornaPagamentoDb()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [itemId]);
 
@@ -174,7 +189,7 @@ export const EditarAluno = () => {
                 <HeaderApp />
 
                 <div style={styles.divDupla} >
-                    <form style={styles.divCadastro} onSubmit={handleSubmit} >
+                    <form style={styles.divCadastro} onSubmit={handleSubmitAtualizar} >
                         <p style={{ margin: 10, fontWeight: 'bold', fontSize: 18, }}>Dados Pessoais</p>
                         <div style={{ marginLeft: 10 }}>
                             <div style={{}}>
@@ -253,7 +268,7 @@ export const EditarAluno = () => {
                                 </p>
                                 <LocalizationProvider locale={ptBR} dateAdapter={AdapterDayjs}>
                                     <DatePicker
-                                        style={{ borderColor: 'red' }}
+                                        style={{ borderColor: '' }}
                                         format='DD-MM-YYYY'
                                         onChange={handleDateChange}
                                         value={dataNasc}
@@ -266,12 +281,12 @@ export const EditarAluno = () => {
 
                     </form>
 
-                    <form style={styles.divPagamentos} onSubmit={handleSubmit}>
+                    <form style={styles.divPagamentos} onSubmit={handleSubmitAtualizar}>
 
                         <p style={{ margin: 10, fontWeight: 'bold', fontSize: 18, }}>Pagamento</p>
                         <div style={{ marginLeft: 10 }}>
                             <div>
-                            <InputLabel htmlFor="plano">Plano</InputLabel>
+                                <InputLabel htmlFor="plano">Plano</InputLabel>
                                 <Select
                                     id="plano"
                                     value={alunoDb.plano || opcoesPlano[0]}
@@ -294,7 +309,7 @@ export const EditarAluno = () => {
                                         startAdornment={<InputAdornment position="start">R$</InputAdornment>}
                                         label="Amount"
                                         value={status.valor}
-                                    onChange={(e) => setAlunoDb({ ...status, valor: e.target.value })}
+                                        onChange={(e) => setAlunoDb({ ...status, valor: e.target.value })}
                                         sx={{ width: 150 }}
                                     />
                                 </FormControl>
@@ -303,34 +318,48 @@ export const EditarAluno = () => {
                             <div style={{ display: "flex", marginTop: 5, marginBottom: -10, }}>
                                 <p style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Data de Pagamento: </p>
                                 <LocalizationProvider locale={ptBR} dateAdapter={AdapterDayjs}>
-                                <p style={{ marginLeft: 10, marginRight: 10 }}>
-                                    {formatarData(status.dt_pagamento)}
-                                </p>
-                                    <DatePicker
-                                        style={{ borderColor: 'red' }}
-                                        format='DD-MM-YYYY'
-                                        onChange={handleDatePagChange}
-                                        value={dataPagamento}
-                                        sx={{ width: 150 }}
-                                    />
+                                    <p style={{ marginLeft: 10, marginRight: 10 }}>
+                                        {status && status.dt_pagamento ? formatarData(status.dt_pagamento) : 'Data não disponível'}
+                                    </p>
+                                    {status && status.dt_pagamento && (
+                                        <DatePicker
+                                            style={{ borderColor: 'red' }}
+                                            format='DD-MM-YYYY'
+                                            onChange={handleDatePagChange}
+                                            value={dataPagamento || null}
+                                            sx={{ width: 150 }}
+                                        />
+
+                                    )}
                                 </LocalizationProvider>
                             </div>
+
+
                         </div>
 
                     </form>
                 </div>
 
-                <div style={{ width: "60%", alignItems: 'center', display: "flex", flexDirection: "row", marginTop: 20, justifyContent: 'center' }}>
-                    {/* <Button
-            component={Link}
-            to="/avaliacaoFisica"
-            style={styles.Button}
-            variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> CADASTRAR AVALIAÇÂO FíSICA</Button> */}
+                <div style={{ width: "60%", alignItems: 'center', display: "flex", flexDirection: "row", marginTop: 20, justifyContent: 'space-around' }}>
                     {cadastroError && <p>Ocorreu um erro ao cadastrar. Verifique os dados.</p>}
+
                     <Button
-                        onClick={() => { }}
+                        onClick={handleSubmitAtualizar}
                         style={styles.Button}
-                        variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> EDITAR CADASTRO</Button>
+                        variant="contained"
+                    >
+                        <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> EDITAR CADASTRO
+                    </Button>
+
+                    {exclusao && <p>Aluno não pode ser Excluído</p>}
+
+                    <Button
+                        onClick={deletarAluno}
+                        style={styles.Button}
+                        variant="contained"
+                    >
+                        <PersonRemoveIcon style={{ fontSize: 40, color: 'red' }} /> EXCLUIR ALUNO
+                    </Button>
 
                     <Modal
                         open={open}
@@ -344,8 +373,8 @@ export const EditarAluno = () => {
                             </Typography>
                         </Box>
                     </Modal>
-
                 </div>
+
             </div>
 
         </div>
@@ -420,3 +449,21 @@ const styles = {
         display: 'flex'
     },
 }
+
+// const formatCpf = (value) => {
+//     const numericValue = value.replace(/\D/g, '');
+//     const formattedCpf = numericValue.replace(
+//         /(\d{3})(\d{3})(\d{3})(\d{2})/,
+//         '$1.$2.$3-$4'
+//     );
+//     return formattedCpf;
+// };
+
+// const formatTelefone = (value) => {
+//     const numericValue = value.replace(/\D/g, '');
+//     const formattedTelefone = numericValue.replace(
+//         /(\d{2})(\d)(\d{4})(\d{4})/,
+//         '($1) $2 $3-$4'
+//     );
+//     return formattedTelefone;
+// };

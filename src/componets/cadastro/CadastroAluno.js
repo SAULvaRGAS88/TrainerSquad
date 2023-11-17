@@ -15,9 +15,11 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import url from '../../service/service';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const CadastroAluno = () => {
 
+  const navigate = useNavigate()
   const [cadastroError, setCadastroError] = useState(false);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -31,7 +33,6 @@ export const CadastroAluno = () => {
   const [dataNasc, setDataNasc] = useState('');
   const [dataPagamento, setDataPagamento] = useState('');
   const [valor, setValor] = useState('');
-
   const { id } = useParams();
 
   const handleSubmit = async (e) => {
@@ -52,7 +53,9 @@ export const CadastroAluno = () => {
         }
       });
       if (response.status === 201) {
-
+        console.log('Aluno adicionado com sucesso!');
+        setCadastroError()
+        navigate(`/dashBoard/${id}`)
       }
     } catch (error) {
       console.error('Erro ao cadastrar:', error);
@@ -161,7 +164,7 @@ export const CadastroAluno = () => {
                 <p style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Data Nascimento: </p>
                 <LocalizationProvider locale={ptBR} dateAdapter={AdapterDayjs}>
                   <DatePicker
-                    style={{ borderColor: 'red' }}
+                    style={{ borderColor: '' }}
                     format='DD-MM-YYYY'
                     onChange={handleDateChange}
                     value={dataNasc}
@@ -212,7 +215,7 @@ export const CadastroAluno = () => {
                 <p style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Data de Pagamento: </p>
                 <LocalizationProvider locale={ptBR} dateAdapter={AdapterDayjs}>
                   <DatePicker
-                    style={{ borderColor: 'red' }}
+                    style={{ borderColor: '' }}
                     format='DD-MM-YYYY'
                     onChange={handleDatePagChange}
                     value={dataPagamento}
@@ -226,11 +229,6 @@ export const CadastroAluno = () => {
         </div>
 
         <div style={{ width: "60%", alignItems: 'center', display: "flex", flexDirection: "row", marginTop: 20, justifyContent: 'center' }}>
-          {/* <Button
-            component={Link}
-            to="/avaliacaoFisica"
-            style={styles.Button}
-            variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> CADASTRAR AVALIAÇÂO FíSICA</Button> */}
           {cadastroError && <p>Ocorreu um erro ao cadastrar. Verifique os dados.</p>}
           <Button
             onClick={handleSubmit}

@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
 import { HeaderApp } from '../headerApp/HeaderApp';
-import { TextField, MenuItem } from '@mui/material';import { useLocation } from 'react-router-dom';
+import { TextField, MenuItem } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 
 export const AvaliacaoFisica = () => {
 
