@@ -44,6 +44,8 @@ export const HeaderApp = () => {
                 <div style={styles.divLinks}>
                     <Link to={`/dashboard/${id}`} style={{ textDecoration: 'none', color: 'white' }}>HOME</Link>
                     <Link to={`/alunos/${id}`} style={{ textDecoration: 'none', color: 'white', marginLeft: 30 }}>ALUNOS</Link>
+                    <Link to={`/controlePagamento/${id}`} style={{ textDecoration: 'none', color: 'white', marginLeft: 30 }}>PAGAMENTOS</Link>
+                    <Link to={`/cadastroAluno/${id}`} style={{ textDecoration: 'none', color: 'white', marginLeft: 30 }}>CADASTRAR</Link>
                 </div>
 
                 <div style={styles.divP}>

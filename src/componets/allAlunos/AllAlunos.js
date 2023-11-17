@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from 'react'
 import { HeaderApp } from '../headerApp/HeaderApp'
 // import SearchIcon from '@mui/icons-material/Search';
@@ -7,6 +6,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import url from '../../service/service';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 export const AllAlunos = () => {
 
@@ -14,9 +14,11 @@ export const AllAlunos = () => {
     const [status, setStatus] = useState('');
     const navigate = useNavigate()
 
+    const { id } = useParams();
+
     const retornaAlunosDb = async () => {
         try {
-            const response = await url.get(`/api/aluno/alunos`);
+            const response = await url.get(`/api/aluno/${id}/aluno`)
             const alunos = response.data;
 
             const lRetorno = [];
@@ -43,7 +45,7 @@ export const AllAlunos = () => {
 
     const retornaStatusPag = async () => {
         try {
-            const response = await url.get(`/api/pagamento/pagamentos`);
+            const response = await url.get(`/api/aluno/${id}/pag`);
             const status = response.data;
 
             const lRetorno = [];
@@ -56,28 +58,33 @@ export const AllAlunos = () => {
             }
 
             setStatus(lRetorno);
-            // console.log(lRetorno);
+            console.log(lRetorno);
         } catch (error) {
             console.error('Erro ao consultar Status:', error);
         }
     }
 
+    const formatarData = (dataString) => {
+        if (!dataString) {
+            return "";
+        }
+
+        const ano = dataString.slice(0, 4);
+        const mes = dataString.slice(5, 7);
+        const dia = dataString.slice(8, 10);
+        return `${dia}-${mes}-${ano}`;
+    };
+
     useEffect(() => {
         retornaAlunosDb();
         retornaStatusPag();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-=======
-import React from 'react'
-import { HeaderApp } from '../headerApp/HeaderApp'
-
-export const AllAlunos = () => {
->>>>>>> b4f6080d1d1493dbcde7f425582fa3aed5fa8e9a
     return (
         <div style={styles.containerPrincipal}>
             <div style={styles.containerSecundaria}>
                 <HeaderApp />
-<<<<<<< HEAD
 
                 {/* <div style={styles.containerBusca}>
                     <div style={styles.divIconProcura}>
@@ -105,7 +112,7 @@ export const AllAlunos = () => {
                                             <Typography style={styles.textCard} variant="body1">Telefone: {item.telefone}</Typography>
                                         </Grid>
                                         <Grid item xs={6} md={3}>
-                                            <Typography style={styles.textCard} variant="body1">Data Nasc: {item.dt_nascimento}</Typography>
+                                            <Typography style={styles.textCard} variant="body1">Data Nasc: {formatarData(item.dt_nascimento)}</Typography>
                                         </Grid>
                                         <Grid item xs={6} md={3}>
                                             <Typography style={styles.textCard} variant="body1">E-Mail: {item.email}</Typography>
@@ -120,21 +127,21 @@ export const AllAlunos = () => {
                                             <Typography style={styles.textCard} variant="body1">Valor: {statusItem[index].valor}</Typography>
                                         </Grid>
                                         <Grid item xs={6} md={3}>
-                                            <Typography style={styles.textCard} variant="body1">Dia Pag: {statusItem[index].dt_pagamento}</Typography>
+                                            <Typography style={styles.textCard} variant="body1">Data Pagamento: {formatarData(statusItem[index].dt_pagamento)}</Typography>
                                         </Grid>
                                         <Grid item xs={6} md={3}>
                                             <Typography style={styles.textCard} variant="body1">Status: {item.status}</Typography>
                                         </Grid>
                                         <Grid item xs={6} md={3}>
                                             <Typography style={styles.textCard} variant="body1">Avaliação Física <Button onClick={() => {
-                                                navigate(`/avaliacaoFisica/${item.id}`)
+                                                navigate(`/ListaAvaliacaoFisica/${id}`, { state: { itemId: item.id } })
                                             }} variant="text">fazer Avaliação</Button> </Typography>
                                         </Grid>
                                         <Grid item xs={6} md={3}>
                                             <Typography style={styles.textCard} variant="body1">Editar Aluno <Button
                                                 variant="text"
                                                 onClick={() => {
-                                                    navigate(`/editarAluno/${item.id}`)
+                                                    navigate(`/editarAluno/${id}`, { state: { itemId: item.id } })
                                                 }}
                                             >Editar</Button> </Typography>
                                         </Grid>
@@ -149,12 +156,6 @@ export const AllAlunos = () => {
             </div>
         </div>
     );
-=======
-                <h1>Aqui vão todos os alunos cadastrados... ativos e inativos</h1>
-            </div>
-        </div>
-    )
->>>>>>> b4f6080d1d1493dbcde7f425582fa3aed5fa8e9a
 }
 
 const styles = {
@@ -174,12 +175,11 @@ const styles = {
         flexDirection: "column",
         alignItems: 'center',
         boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
-<<<<<<< HEAD
     },
     container: {
         backgroundColor: 'rgb(255, 255, 255)',
         width: '80vw',
-        height: '55vh',
+        height: '65vh',
         boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
         overflowY: 'auto',
         marginTop: 20
@@ -218,7 +218,3 @@ const styles = {
     }
 }
 
-=======
-    }
-}
->>>>>>> b4f6080d1d1493dbcde7f425582fa3aed5fa8e9a
