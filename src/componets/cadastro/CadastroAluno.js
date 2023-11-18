@@ -240,7 +240,7 @@ const styles = {
   },
   divDupla: {
     width: '95%',
-    height: '56%',
+    height: '56vh',
     marginTop: 20,
     display: "flex",
     justifyContent: 'space-between',
@@ -249,15 +249,17 @@ const styles = {
   },
   divCadastro: {
     backgroundColor: '#f5f3f3',
-    width: '48%',
-    height: '50%',
+     width: '48%',
+    height: '60vh',
+    // flex: 1,
     boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
     borderRadius: 20,
   },
   divPagamentos: {
     backgroundColor: '#f5f3f3',
-    width: '45%',
-    height: '35%',
+    width: '48%',
+    height: '45vh',
+    // flex: 1,
     boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
     borderRadius: 20,
   },
@@ -271,7 +273,8 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-around',
     fontWeight: 'bold',
-    borderRadius: 50
+    borderRadius: 50,
+    marginTop: 15
   },
   style: {
     position: 'absolute',
