@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Button, Modal, Box, Typography, Input, Select } from '@mui/material';
+import { Button, Input, Select } from '@mui/material';
 import { HeaderApp } from '../headerApp/HeaderApp';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -29,13 +29,11 @@ export const EditarAluno = () => {
     const itemId = location.state?.itemId;
     const [cadastroError, setCadastroError] = useState(false);
     const [exclusao, setExclusao] = useState(false);
-    const [open, setOpen] = React.useState(false);
-    // const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
     const [status, setStatus] = useState('');
     const [alunoDb, setAlunoDb] = useState('');
-
     const { id } = useParams();
+    const opcoesPlano = ['Mensal', 'Trimestral', 'Semestral', "Anual"];
+    const opcoesSexo = ['Masculino', 'Feminino', 'Não Informar'];
 
     const retornaAlunoDb = async () => {
         try {
@@ -54,9 +52,7 @@ export const EditarAluno = () => {
                     plano: alunos.plano,
 
                 };
-
                 setAlunoDb(lRetorno);
-                // console.log(lRetorno, "log de aluno")
             } else {
                 console.log('Nenhum dado encontrado.');
             }
@@ -78,7 +74,6 @@ export const EditarAluno = () => {
                     id: status.id
                 }
                 setStatus(lRetorno);
-                // console.log(lRetorno, "log de pagamento")
             } else {
                 console.log('Nenhum dado encontrado.');
             }
@@ -132,7 +127,7 @@ export const EditarAluno = () => {
                 valor: status.valor,
                 status: status.status
             });
-            const pagamentoUpdateResponse = await updateData(`/api/pagamento/${itemId}`, {
+            await updateData(`/api/pagamento/${itemId}`, {
                 dt_pagamento: status.dt_pagamento,
                 valor: status.valor,
                 status: status.status
@@ -156,31 +151,47 @@ export const EditarAluno = () => {
         }
     };
 
-
     useEffect(() => {
         retornaAlunoDb();
         retornaPagamentoDb()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [itemId]);
 
-    const opcoesPlano = ['Mensal', 'Trimestral', 'Semestral', "Anual"];
-    const opcoesSexo = ['Masculino', 'Feminino', 'Não Informar'];
-    // const handleSexoChange = (e) => {
-    //     setAlunoDb({ ...alunoDb, sexo: e.target.value });
-    // };
-    // const handleChangePlano = (e) => {
-    //     setStatus({ ...status, plano: e.target.value });
-    // };
-
     const formatarData = (dataString) => {
         if (!dataString) {
             return "";
         }
-
         const ano = dataString.slice(0, 4);
         const mes = dataString.slice(5, 7);
         const dia = dataString.slice(8, 10);
         return `${dia}-${mes}-${ano}`;
+    };
+
+    const formatCpf = (value) => {
+        if (typeof value !== 'string') {
+            // Se o valor não for uma string, converter para string
+            value = String(value);
+        }
+    
+        const numericValue = value.replace(/\D/g, '');
+        
+        if (numericValue.length === 11) {
+            return numericValue.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+        } else {
+            // Se o CPF não tiver 11 dígitos, retornar o valor original
+            return value;
+        }
+    };
+
+
+
+    const formatTelefone = (value) => {
+        const numericValue = value.replace(/\D/g, '');
+        const formattedTelefone = numericValue.replace(
+            /(\d{2})(\d)(\d{4})(\d{4})/,
+            '($1) $2 $3-$4'
+        );
+        return formattedTelefone;
     };
 
     return (
@@ -206,13 +217,14 @@ export const EditarAluno = () => {
                                     sx={{ width: 300 }}
                                 />
                             </div>
+
                             <div>
                                 <InputLabel htmlFor="cpf">CPF</InputLabel>
                                 <Input
                                     id="nome"
                                     type="text"
                                     value={alunoDb.cpf}
-                                    onChange={(e) => setAlunoDb({ ...alunoDb, cpf: e.target.value })}
+                                    onChange={(e) => setAlunoDb((prevAlunoDb) => ({ ...prevAlunoDb, cpf: formatCpf(e.target.value) }))}
                                     inputProps={{
                                         inputMode: 'text',
                                     }}
@@ -291,7 +303,7 @@ export const EditarAluno = () => {
                                 <Select
                                     id="plano"
                                     value={alunoDb.plano || opcoesPlano[0]}
-                                    onChange={(e) => setAlunoDb({ ...alunoDb, cpf: e.target.value })}
+                                    onChange={(e) => setAlunoDb({ ...alunoDb, plano: e.target.value })}
                                     sx={{ width: 300 }}
                                 >
                                     {opcoesPlano.map((opcao, index) => (
@@ -330,7 +342,6 @@ export const EditarAluno = () => {
                                             value={status || null}
                                             sx={{ width: 150 }}
                                         />
-
                                     )}
                                 </LocalizationProvider>
                             </div>
@@ -359,7 +370,6 @@ export const EditarAluno = () => {
                                 </FormControl>
                             </div>
 
-
                         </div>
 
                     </form>
@@ -367,7 +377,6 @@ export const EditarAluno = () => {
 
                 <div style={{ width: "60%", alignItems: 'center', display: "flex", flexDirection: "row", marginTop: 20, justifyContent: 'space-around' }}>
                     {cadastroError && <p>Ocorreu um erro ao cadastrar. Verifique os dados.</p>}
-
                     <Button
                         onClick={handleSubmitAtualizar}
                         style={styles.Button}
@@ -375,9 +384,7 @@ export const EditarAluno = () => {
                     >
                         <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> EDITAR CADASTRO
                     </Button>
-
                     {exclusao && <p>Aluno não pode ser Excluído</p>}
-
                     <Button
                         onClick={deletarAluno}
                         style={styles.Button}
@@ -385,19 +392,6 @@ export const EditarAluno = () => {
                     >
                         <PersonRemoveIcon style={{ fontSize: 40, color: 'red' }} /> EXCLUIR ALUNO
                     </Button>
-
-                    <Modal
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                    >
-                        <Box style={styles.style}>
-                            <Typography id="modal-modal-description" sx={{ mt: 10, mb: 10 }}>
-                                Aluno Cadastrado com Sucesso!
-                            </Typography>
-                        </Box>
-                    </Modal>
                 </div>
 
             </div>
@@ -474,21 +468,3 @@ const styles = {
         display: 'flex'
     },
 }
-
-// const formatCpf = (value) => {
-//     const numericValue = value.replace(/\D/g, '');
-//     const formattedCpf = numericValue.replace(
-//         /(\d{3})(\d{3})(\d{3})(\d{2})/,
-//         '$1.$2.$3-$4'
-//     );
-//     return formattedCpf;
-// };
-
-// const formatTelefone = (value) => {
-//     const numericValue = value.replace(/\D/g, '');
-//     const formattedTelefone = numericValue.replace(
-//         /(\d{2})(\d)(\d{4})(\d{4})/,
-//         '($1) $2 $3-$4'
-//     );
-//     return formattedTelefone;
-// };
