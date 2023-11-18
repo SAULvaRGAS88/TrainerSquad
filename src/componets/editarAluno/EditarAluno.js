@@ -16,6 +16,10 @@ import url from '../../service/service';
 import { useParams } from 'react-router-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
 
 
 export const EditarAluno = () => {
@@ -28,19 +32,10 @@ export const EditarAluno = () => {
     const [open, setOpen] = React.useState(false);
     // const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [dataNasc, setDataNasc] = useState('');
-    const [dataPagamento, setDataPagamento] = useState('');
     const [status, setStatus] = useState('');
     const [alunoDb, setAlunoDb] = useState('');
 
     const { id } = useParams();
-
-    const handleDateChange = (novaData) => {
-        setDataNasc(novaData);
-    };
-    const handleDatePagChange = (novaData) => {
-        setDataPagamento(novaData);
-    };
 
     const retornaAlunoDb = async () => {
         try {
@@ -56,7 +51,7 @@ export const EditarAluno = () => {
                     dt_nascimento: alunos.dt_nascimento,
                     email: alunos.email,
                     status: alunos.status,
-                    plano: alunos.plano
+                    plano: alunos.plano,
 
                 };
 
@@ -98,6 +93,8 @@ export const EditarAluno = () => {
             console.log(response, successMessage);
             if (response.status === 200) {
                 console.log(`Atualização bem-sucedida em ${successMessage}:`, response.data);
+                setCadastroError()
+                navigate(`/dashBoard/${id}`)
             }
             return response;
         } catch (error) {
@@ -116,6 +113,7 @@ export const EditarAluno = () => {
             telefone: alunoDb.telefone,
             email: alunoDb.email,
             plano: alunoDb.plano,
+            status: alunoDb.status
         });
         const alunoUpdateResponse = await updateData(`/api/aluno/${itemId}`, {
             sexo: alunoDb.sexo,
@@ -125,16 +123,19 @@ export const EditarAluno = () => {
             telefone: alunoDb.telefone,
             email: alunoDb.email,
             plano: alunoDb.plano,
+            status: alunoDb.status
         }, 'aluno');
 
         if (alunoUpdateResponse) {
             console.log("Dados de Pagamento a serem enviados:", {
                 dt_pagamento: status.dt_pagamento,
                 valor: status.valor,
+                status: status.status
             });
             const pagamentoUpdateResponse = await updateData(`/api/pagamento/${itemId}`, {
                 dt_pagamento: status.dt_pagamento,
                 valor: status.valor,
+                status: status.status
             }, 'pagamento');
         }
     };
@@ -164,12 +165,12 @@ export const EditarAluno = () => {
 
     const opcoesPlano = ['Mensal', 'Trimestral', 'Semestral', "Anual"];
     const opcoesSexo = ['Masculino', 'Feminino', 'Não Informar'];
-    const handleSexoChange = (e) => {
-        setAlunoDb({ ...alunoDb, sexo: e.target.value });
-    };
-    const handleChangePlano = (e) => {
-        setStatus({ ...status, plano: e.target.value });
-    };
+    // const handleSexoChange = (e) => {
+    //     setAlunoDb({ ...alunoDb, sexo: e.target.value });
+    // };
+    // const handleChangePlano = (e) => {
+    //     setStatus({ ...status, plano: e.target.value });
+    // };
 
     const formatarData = (dataString) => {
         if (!dataString) {
@@ -250,7 +251,7 @@ export const EditarAluno = () => {
                                 <Select
                                     id="sexo"
                                     value={alunoDb.sexo || opcoesSexo[0]}
-                                    onChange={handleSexoChange}
+                                    onChange={(e) => setAlunoDb({ ...alunoDb, sexo: e.target.value })}
                                     sx={{ width: 300 }}
                                 >
                                     {opcoesSexo.map((opcao, index) => (
@@ -270,8 +271,8 @@ export const EditarAluno = () => {
                                     <DatePicker
                                         style={{ borderColor: '' }}
                                         format='DD-MM-YYYY'
-                                        onChange={handleDateChange}
-                                        value={dataNasc}
+                                        onChange={(e) => setAlunoDb({ ...alunoDb, dt_nascimento: e.target.value })}
+                                        value={alunoDb}
                                         sx={{ width: 175 }}
                                     />
                                 </LocalizationProvider>
@@ -290,7 +291,7 @@ export const EditarAluno = () => {
                                 <Select
                                     id="plano"
                                     value={alunoDb.plano || opcoesPlano[0]}
-                                    onChange={handleChangePlano}
+                                    onChange={(e) => setAlunoDb({ ...alunoDb, cpf: e.target.value })}
                                     sx={{ width: 300 }}
                                 >
                                     {opcoesPlano.map((opcao, index) => (
@@ -309,7 +310,7 @@ export const EditarAluno = () => {
                                         startAdornment={<InputAdornment position="start">R$</InputAdornment>}
                                         label="Amount"
                                         value={status.valor}
-                                        onChange={(e) => setAlunoDb({ ...status, valor: e.target.value })}
+                                        onChange={(e) => setStatus({ ...status, valor: e.target.value })}
                                         sx={{ width: 150 }}
                                     />
                                 </FormControl>
@@ -325,13 +326,37 @@ export const EditarAluno = () => {
                                         <DatePicker
                                             style={{ borderColor: 'red' }}
                                             format='DD-MM-YYYY'
-                                            onChange={handleDatePagChange}
-                                            value={dataPagamento || null}
+                                            onChange={(e) => setStatus({ ...status, dt_pagamento: e.target.value })}
+                                            value={status || null}
                                             sx={{ width: 150 }}
                                         />
 
                                     )}
                                 </LocalizationProvider>
+                            </div>
+
+                            <div style={{ marginTop: 20 }}>
+                                <FormControl>
+                                    <FormLabel id="demo-row-radio-buttons-group-label">Status de Pagamento</FormLabel>
+                                    <RadioGroup
+                                        row
+                                        aria-labelledby="demo-row-radio-buttons-group-label"
+                                        name="row-radio-buttons-group"
+                                        value={status.status || null}
+                                        onChange={(e) => setStatus({ ...status, status: e.target.value })}
+                                    >
+                                        <FormControlLabel
+                                            value='Pendente'
+                                            control={<Radio />}
+                                            label="Pendente"
+                                        />
+                                        <FormControlLabel
+                                            value="Pago"
+                                            control={<Radio />}
+                                            label="Pago"
+                                        />
+                                    </RadioGroup>
+                                </FormControl>
                             </div>
 
 
@@ -418,7 +443,7 @@ const styles = {
     divPagamentos: {
         backgroundColor: '#f5f3f3',
         width: '45%',
-        height: '43vh',
+        height: '48vh',
         boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
         borderRadius: 20,
     },
