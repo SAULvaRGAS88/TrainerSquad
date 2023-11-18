@@ -167,33 +167,6 @@ export const EditarAluno = () => {
         return `${dia}-${mes}-${ano}`;
     };
 
-    const formatCpf = (value) => {
-        if (typeof value !== 'string') {
-            // Se o valor não for uma string, converter para string
-            value = String(value);
-        }
-    
-        const numericValue = value.replace(/\D/g, '');
-        
-        if (numericValue.length === 11) {
-            return numericValue.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-        } else {
-            // Se o CPF não tiver 11 dígitos, retornar o valor original
-            return value;
-        }
-    };
-
-
-
-    const formatTelefone = (value) => {
-        const numericValue = value.replace(/\D/g, '');
-        const formattedTelefone = numericValue.replace(
-            /(\d{2})(\d)(\d{4})(\d{4})/,
-            '($1) $2 $3-$4'
-        );
-        return formattedTelefone;
-    };
-
     return (
 
         <div style={styles.containerPrincipal}>
@@ -224,7 +197,7 @@ export const EditarAluno = () => {
                                     id="nome"
                                     type="text"
                                     value={alunoDb.cpf}
-                                    onChange={(e) => setAlunoDb((prevAlunoDb) => ({ ...prevAlunoDb, cpf: formatCpf(e.target.value) }))}
+                                    onChange={(e) => setAlunoDb((prevAlunoDb) => ({ ...prevAlunoDb, cpf: (e.target.value) }))}
                                     inputProps={{
                                         inputMode: 'text',
                                     }}

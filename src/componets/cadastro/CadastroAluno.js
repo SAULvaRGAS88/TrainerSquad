@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Button, Modal, Box, Typography, TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { HeaderApp } from '../headerApp/HeaderApp';
-import { Link } from 'react-router-dom';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -21,9 +20,6 @@ export const CadastroAluno = () => {
 
   const navigate = useNavigate()
   const [cadastroError, setCadastroError] = useState(false);
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const [cpf, setCpf] = useState('');
   const [telefone, setTelefone] = useState('');
   const [sexo, setSexo] = useState('');
@@ -61,24 +57,6 @@ export const CadastroAluno = () => {
       console.error('Erro ao cadastrar:', error);
       setCadastroError(true);
     }
-  };
-
-  const formatCpf = (value) => {
-    const numericValue = value.replace(/\D/g, '');
-    const formattedCpf = numericValue.replace(
-      /(\d{3})(\d{3})(\d{3})(\d{2})/,
-      '$1.$2.$3-$4'
-    );
-    return formattedCpf;
-  };
-
-  const formatTelefone = (value) => {
-    const numericValue = value.replace(/\D/g, '');
-    const formattedTelefone = numericValue.replace(
-      /(\d{2})(\d)(\d{4})(\d{4})/,
-      '($1) $2 $3-$4'
-    );
-    return formattedTelefone;
   };
 
   const handleDateChange = (novaData) => {
@@ -234,20 +212,6 @@ export const CadastroAluno = () => {
             onClick={handleSubmit}
             style={styles.Button}
             variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> SALVAR ALUNO</Button>
-
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box style={styles.style}>
-              <Typography id="modal-modal-description" sx={{ mt: 10, mb: 10 }}>
-                Aluno Cadastrado com Sucesso!
-              </Typography>
-            </Box>
-          </Modal>
-
         </div>
       </div>
 
