@@ -13,13 +13,12 @@ export const Login = () => {
     const [mostrarSenha, setMostrarSenha] = useState(false);
     const [loginError, setLoginError] = useState(false);
     const navigate = useNavigate()
- // window.location.replace(window.location.href + 'ProfileSelection?userid=' + response.data.user_id )
-                // <Route path="/profileselection" element={<ProfileSelection />}/>
+
     const handleSubmit = async (e) => {
         try {
             const response = await url.get(`/api/personal/nome/${usuario}`);
            
-            if (response.status === 200) {
+            if (response.status === 200 && senha === response.data.senha) {
                 console.log(response.data.id)
                 
                 navigate(`/dashboard/${response.data.id}`);

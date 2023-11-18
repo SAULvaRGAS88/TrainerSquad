@@ -240,7 +240,7 @@ const styles = {
   },
   divDupla: {
     width: '95%',
-    minHeight: '56vh',
+    height: '56%',
     marginTop: 20,
     display: "flex",
     justifyContent: 'space-between',
@@ -250,14 +250,14 @@ const styles = {
   divCadastro: {
     backgroundColor: '#f5f3f3',
     width: '48%',
-    height: '50vh',
+    height: '50%',
     boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
     borderRadius: 20,
   },
   divPagamentos: {
     backgroundColor: '#f5f3f3',
     width: '45%',
-    height: '33vh',
+    height: '35%',
     boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
     borderRadius: 20,
   },
