@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { HeaderApp } from '../headerApp/HeaderApp';
 import { TextField, MenuItem, Button } from '@mui/material';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import url from '../../service/service';
 
 
@@ -14,7 +14,7 @@ export const AvaliacaoFisica = () => {
     
         try {
           const response = await url.post(`/api/avaliacao/${id}`, {
-            idAluno: id,
+            idaluno: itemId,
             objetivo: objetivo,
             peso: peso,
             altura: altura,
@@ -68,7 +68,9 @@ export const AvaliacaoFisica = () => {
 
     const { id } = useParams();
 
-    console.log(id);
+    const location = useLocation();
+    const itemId = location.state?.itemId;
+    console.log(itemId)
 
     return (
         <div style={styles.containerPrincipal}>
@@ -78,7 +80,7 @@ export const AvaliacaoFisica = () => {
                 {/* TODOS OS QUADROS NESSA DIV */}
                 <div style={styles.tresQuadros}>
                     {/* Quadro: dados gerais */}
-                    <form style={styles.formDadosGerais}>
+                    <form style={styles.formDados}>
                         <p style={{ margin: 5, fontWeight: 'bold', fontSize: 18, }}>Dados Gerais</p>
                         <TextField 
                             id="standard-basic"
@@ -143,7 +145,7 @@ export const AvaliacaoFisica = () => {
                             <MenuItem value="0">Feminino</MenuItem>
                         </TextField>
                     </form>
-                    <form style={styles.formDadosGerais}>
+                    <form style={styles.formDados}>
                         <p style={{ margin: 5, fontWeight: 'bold', fontSize: 18, }}>Antropometria</p>
                         <TextField 
                             id="standard-basic"
@@ -179,7 +181,7 @@ export const AvaliacaoFisica = () => {
                             sx={{ width: 200 }}
                         />
                     </form>
-                    <form style={styles.formDadosGerais}>
+                    <form style={styles.formDados}>
                     <p style={{ margin: 5, fontWeight: 'bold', fontSize: 18, }}>Composição Corporal</p>
                         <TextField 
                             id="standard-basic"
@@ -270,7 +272,7 @@ const styles = {
         display: 'flex',
         justifyContent: 'space-evenly'
     },
-    formDadosGerais: {
+    formDados: {
         width: '30%',
         height: '55vh',
         backgroundColor: '#f5f3f3',
