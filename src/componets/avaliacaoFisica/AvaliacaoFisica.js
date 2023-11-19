@@ -43,7 +43,7 @@ export const AvaliacaoFisica = () => {
 
     function calcularIMC() {
         const imcValue = parseFloat(peso) / (parseFloat(altura) * parseFloat(altura));
-        setImc(imcValue.toString());
+        setImc(imcValue.toFixed(2));
     }
 
     const navigate = useNavigate()
@@ -283,6 +283,7 @@ const styles = {
         alignItems: 'center'
     },
     Button: {
-        marginTop: '20px'
+        marginTop: '20px',
+        marginBottom: '10px'
     }
 }
