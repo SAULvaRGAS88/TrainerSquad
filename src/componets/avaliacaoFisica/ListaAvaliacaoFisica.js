@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { HeaderApp } from '../headerApp/HeaderApp'
-// import SearchIcon from '@mui/icons-material/Search';
 import { Button, Card } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import url from '../../service/service';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
@@ -16,7 +15,7 @@ export const ListaAvaliacaoFisica = () => {
 
     const [nomeAluno, setNomeAluno] = useState('');
     // const [status, setStatus] = useState('');
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
 
     const location = useLocation();
     const itemId = location.state?.itemId;
@@ -55,6 +54,10 @@ export const ListaAvaliacaoFisica = () => {
         } catch (error) {
             console.error('Erro ao consultar alunos:', error);
         }
+    }
+    const enviarAvaliaçãoId = () => {
+        navigate(`/avaliacaoFisica/${id}`, {state: {itemId: itemId}})
+
     }
 
     useEffect(() => {
@@ -132,16 +135,18 @@ export const ListaAvaliacaoFisica = () => {
                             </Card>
                         ))
                     ) : (
-                        <h1 style={{display: "flex" , justifyContent: "center"}}>Aluno não possui Avaliação Física </h1>
+                        <h1 style={{ display: "flex", justifyContent: "center" }}>Aluno não possui Avaliação Física </h1>
                     )}
                 </div>
 
                 <div style={styles.divButtons}>
                     <Button
-                        component={Link}
-                        to={`/avaliacaoFisica/${id}`}
+                        onClick={enviarAvaliaçãoId}
                         style={styles.Button}
-                        variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> CADASTRAR NOVA AVALIAÇÃO</Button>
+                        variant="contained"
+                    >
+                        <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> Cadastrar nova Avaliação
+                    </Button>
                 </div>
 
             </div>

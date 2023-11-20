@@ -14,7 +14,7 @@ export const AvaliacaoFisica = () => {
     
         try {
           const response = await url.post(`/api/avaliacao/${id}`, {
-            idaluno: itemId,
+            // idaluno: itemId,
             objetivo: objetivo,
             peso: peso,
             altura: altura,
@@ -65,7 +65,6 @@ export const AvaliacaoFisica = () => {
     const [massaDeGordura, setMassaDeGordura] = useState('');
     const [massaMuscular, setMassaMuscular] = useState('');
     const [porcentagemMassaMuscular, setPorcentagemMassaMuscular] = useState('');
-
     const { id } = useParams();
 
     const location = useLocation();
