@@ -30,7 +30,7 @@ export const Login = () => {
             console.error('Erro ao efetuar login:', error);
             setLoginError(true);
         }
-        e.preventDefault();
+        // e.preventDefault();
     };
 
     const FuncaoMostrarSenha = () => {
@@ -39,6 +39,8 @@ export const Login = () => {
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
+            // e.preventDefault();
+            handleSubmit() 
         }
     };
 
@@ -104,6 +106,7 @@ export const Login = () => {
                                             </IconButton>
                                         </InputAdornment>
                                     )
+                                    
                                 }}
                                 onKeyDown={handleKeyDown}
                             />

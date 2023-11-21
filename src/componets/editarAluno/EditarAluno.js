@@ -20,7 +20,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
-
+import dayjs from 'dayjs';
 
 export const EditarAluno = () => {
 
@@ -158,12 +158,14 @@ export const EditarAluno = () => {
     }, [itemId]);
 
     const formatarData = (dataString) => {
-        if (!dataString) {
+        if (!dataString || typeof dataString !== 'string' || dataString.length < 10) {
             return "";
         }
+
         const ano = dataString.slice(0, 4);
         const mes = dataString.slice(5, 7);
         const dia = dataString.slice(8, 10);
+
         return `${dia}-${mes}-${ano}`;
     };
 
@@ -256,8 +258,9 @@ export const EditarAluno = () => {
                                     <DatePicker
                                         style={{ borderColor: '' }}
                                         format='DD-MM-YYYY'
-                                        onChange={(e) => setAlunoDb({ ...alunoDb, dt_nascimento: e.target.value })}
-                                        value={alunoDb}
+                                        onChange={(newDate) => setAlunoDb({ ...alunoDb, dt_nascimento: newDate })}
+                                        value={dayjs(alunoDb.dt_nascimento)}
+                                        adapter={AdapterDayjs}
                                         sx={{ width: 175 }}
                                     />
                                 </LocalizationProvider>
@@ -301,23 +304,29 @@ export const EditarAluno = () => {
                                 </FormControl>
                             </div>
 
-                            <div style={{ display: "flex", marginTop: 5, marginBottom: -10, }}>
+                            <div style={{ display: "flex", marginTop: 5, marginBottom: -10, alignItems: "center" }}>
                                 <p style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Data de Pagamento: </p>
                                 <LocalizationProvider locale={ptBR} dateAdapter={AdapterDayjs}>
-                                    <p style={{ marginLeft: 10, marginRight: 10 }}>
-                                        {status && status.dt_pagamento ? formatarData(status.dt_pagamento) : 'Data não disponível'}
+                                    <p style={{marginLeft: 10, marginRight: 10 }}> 
+                                         {formatarData(status.dt_pagamento)}
                                     </p>
-                                    {status && status.dt_pagamento && (
-                                        <DatePicker
-                                            style={{ borderColor: 'red' }}
-                                            format='DD-MM-YYYY'
-                                            onChange={(e) => setStatus({ ...status, dt_pagamento: e.target.value })}
-                                            value={status || null}
-                                            sx={{ width: 150 }}
-                                        />
-                                    )}
+                                   
+
+                                    {/* <p style={{ marginLeft: 10, marginRight: 10 }}>
+                                        {formatarData(status.dt_pagamento)}
+                                    </p> */}
+                                    <DatePicker
+                                        style={{ borderColor: '' }}
+                                        format='DD-MM-YYYY'
+                                        onChange={(newDate) => setStatus({ ...status, dt_pagamento: newDate })}
+                                        value={dayjs(status.dt_pagamento)}
+                                        adapter={AdapterDayjs}
+                                        sx={{ width: 150 }}
+                                    />
+
                                 </LocalizationProvider>
                             </div>
+
 
                             <div style={{ marginTop: 20 }}>
                                 <FormControl>
