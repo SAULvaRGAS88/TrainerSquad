@@ -58,11 +58,22 @@ export const AllAlunos = () => {
             }
 
             setStatus(lRetorno);
-            // console.log(lRetorno);
+            console.log(lRetorno);
         } catch (error) {
             console.error('Erro ao consultar Status:', error);
         }
     }
+
+    const formatarData = (dataString) => {
+        if (!dataString) {
+            return "";
+        }
+
+        const ano = dataString.slice(0, 4);
+        const mes = dataString.slice(5, 7);
+        const dia = dataString.slice(8, 10);
+        return `${dia}-${mes}-${ano}`;
+    };
 
     useEffect(() => {
         retornaAlunosDb();
@@ -101,7 +112,7 @@ export const AllAlunos = () => {
                                             <Typography style={styles.textCard} variant="body1">Telefone: {item.telefone}</Typography>
                                         </Grid>
                                         <Grid item xs={6} md={3}>
-                                            <Typography style={styles.textCard} variant="body1">Data Nasc: {item.dt_nascimento}</Typography>
+                                            <Typography style={styles.textCard} variant="body1">Data Nasc: {formatarData(item.dt_nascimento)}</Typography>
                                         </Grid>
                                         <Grid item xs={6} md={3}>
                                             <Typography style={styles.textCard} variant="body1">E-Mail: {item.email}</Typography>
@@ -116,14 +127,14 @@ export const AllAlunos = () => {
                                             <Typography style={styles.textCard} variant="body1">Valor: {statusItem[index].valor}</Typography>
                                         </Grid>
                                         <Grid item xs={6} md={3}>
-                                            <Typography style={styles.textCard} variant="body1">Dia Pag: {statusItem[index].dt_pagamento}</Typography>
+                                            <Typography style={styles.textCard} variant="body1">Data Pagamento: {formatarData(statusItem[index].dt_pagamento)}</Typography>
                                         </Grid>
                                         <Grid item xs={6} md={3}>
                                             <Typography style={styles.textCard} variant="body1">Status: {item.status}</Typography>
                                         </Grid>
                                         <Grid item xs={6} md={3}>
                                             <Typography style={styles.textCard} variant="body1">Avaliação Física <Button onClick={() => {
-                                                navigate(`/avaliacaoFisica/${id}`, { state: { itemId: item.id } })
+                                                navigate(`/ListaAvaliacaoFisica/${id}`, { state: { itemId: item.id } })
                                             }} variant="text">fazer Avaliação</Button> </Typography>
                                         </Grid>
                                         <Grid item xs={6} md={3}>

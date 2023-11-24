@@ -30,32 +30,6 @@ export const CadastroPersonal = () => {
         }
     };
 
-    // const CriarCadastro = () => {
-    //     if (nome === '' && senha === '' && email === '') {
-    //         window.location.href = '/dashBoard';
-    //     } else {
-    //         setCadastroError(true);
-    //     }
-    // };
-
-
-    // const loginGoogle = async () => {
-    //     const provider = new firebase.auth.GoogleAuthProvider();
-    //     const result = await auth.signInWithPopup(provider);
-    //     if (result.user) {
-    //         const { uid, displayName, photoURL, email } = result.user
-    //         if (!displayName || !photoURL)
-    //             throw new Error("O usuário não possui Nome ou Foto")
-    //         setUser({
-    //             id: uid,
-    //             avatar: photoURL,
-    //             name: displayName,
-    //             email: email
-    //         })
-    //     }
-    // };
-
-
     return (
         <div style={styles.containerPrincipal}>
             <div style={styles.containerSecundaria}>

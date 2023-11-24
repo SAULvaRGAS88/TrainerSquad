@@ -13,13 +13,12 @@ export const Login = () => {
     const [mostrarSenha, setMostrarSenha] = useState(false);
     const [loginError, setLoginError] = useState(false);
     const navigate = useNavigate()
- // window.location.replace(window.location.href + 'ProfileSelection?userid=' + response.data.user_id )
-                // <Route path="/profileselection" element={<ProfileSelection />}/>
+
     const handleSubmit = async (e) => {
         try {
             const response = await url.get(`/api/personal/nome/${usuario}`);
            
-            if (response.status === 200) {
+            if (response.status === 200 && senha === response.data.senha) {
                 console.log(response.data.id)
                 
                 navigate(`/dashboard/${response.data.id}`);
@@ -31,7 +30,7 @@ export const Login = () => {
             console.error('Erro ao efetuar login:', error);
             setLoginError(true);
         }
-        e.preventDefault();
+        // e.preventDefault();
     };
 
     const FuncaoMostrarSenha = () => {
@@ -40,6 +39,8 @@ export const Login = () => {
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
+            // e.preventDefault();
+            handleSubmit() 
         }
     };
 
@@ -105,6 +106,7 @@ export const Login = () => {
                                             </IconButton>
                                         </InputAdornment>
                                     )
+                                    
                                 }}
                                 onKeyDown={handleKeyDown}
                             />

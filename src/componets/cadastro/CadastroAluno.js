@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Button, Modal, Box, Typography, TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { HeaderApp } from '../headerApp/HeaderApp';
-import { Link } from 'react-router-dom';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -15,13 +14,12 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import url from '../../service/service';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const CadastroAluno = () => {
 
+  const navigate = useNavigate()
   const [cadastroError, setCadastroError] = useState(false);
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const [cpf, setCpf] = useState('');
   const [telefone, setTelefone] = useState('');
   const [sexo, setSexo] = useState('');
@@ -31,7 +29,6 @@ export const CadastroAluno = () => {
   const [dataNasc, setDataNasc] = useState('');
   const [dataPagamento, setDataPagamento] = useState('');
   const [valor, setValor] = useState('');
-
   const { id } = useParams();
 
   const handleSubmit = async (e) => {
@@ -52,30 +49,14 @@ export const CadastroAluno = () => {
         }
       });
       if (response.status === 201) {
-
+        console.log('Aluno adicionado com sucesso!');
+        setCadastroError()
+        navigate(`/dashBoard/${id}`)
       }
     } catch (error) {
       console.error('Erro ao cadastrar:', error);
       setCadastroError(true);
     }
-  };
-
-  const formatCpf = (value) => {
-    const numericValue = value.replace(/\D/g, '');
-    const formattedCpf = numericValue.replace(
-      /(\d{3})(\d{3})(\d{3})(\d{2})/,
-      '$1.$2.$3-$4'
-    );
-    return formattedCpf;
-  };
-
-  const formatTelefone = (value) => {
-    const numericValue = value.replace(/\D/g, '');
-    const formattedTelefone = numericValue.replace(
-      /(\d{2})(\d)(\d{4})(\d{4})/,
-      '($1) $2 $3-$4'
-    );
-    return formattedTelefone;
   };
 
   const handleDateChange = (novaData) => {
@@ -161,7 +142,7 @@ export const CadastroAluno = () => {
                 <p style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Data Nascimento: </p>
                 <LocalizationProvider locale={ptBR} dateAdapter={AdapterDayjs}>
                   <DatePicker
-                    style={{ borderColor: 'red' }}
+                    style={{ borderColor: '' }}
                     format='DD-MM-YYYY'
                     onChange={handleDateChange}
                     value={dataNasc}
@@ -212,7 +193,7 @@ export const CadastroAluno = () => {
                 <p style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Data de Pagamento: </p>
                 <LocalizationProvider locale={ptBR} dateAdapter={AdapterDayjs}>
                   <DatePicker
-                    style={{ borderColor: 'red' }}
+                    style={{ borderColor: '' }}
                     format='DD-MM-YYYY'
                     onChange={handleDatePagChange}
                     value={dataPagamento}
@@ -226,30 +207,11 @@ export const CadastroAluno = () => {
         </div>
 
         <div style={{ width: "60%", alignItems: 'center', display: "flex", flexDirection: "row", marginTop: 20, justifyContent: 'center' }}>
-          {/* <Button
-            component={Link}
-            to="/avaliacaoFisica"
-            style={styles.Button}
-            variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> CADASTRAR AVALIAÇÂO FíSICA</Button> */}
           {cadastroError && <p>Ocorreu um erro ao cadastrar. Verifique os dados.</p>}
           <Button
             onClick={handleSubmit}
             style={styles.Button}
             variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> SALVAR ALUNO</Button>
-
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box style={styles.style}>
-              <Typography id="modal-modal-description" sx={{ mt: 10, mb: 10 }}>
-                Aluno Cadastrado com Sucesso!
-              </Typography>
-            </Box>
-          </Modal>
-
         </div>
       </div>
 
@@ -278,7 +240,7 @@ const styles = {
   },
   divDupla: {
     width: '95%',
-    minHeight: '56vh',
+    height: '56vh',
     marginTop: 20,
     display: "flex",
     justifyContent: 'space-between',
@@ -287,15 +249,17 @@ const styles = {
   },
   divCadastro: {
     backgroundColor: '#f5f3f3',
-    width: '48%',
-    height: '50vh',
+     width: '48%',
+    height: '60vh',
+    // flex: 1,
     boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
     borderRadius: 20,
   },
   divPagamentos: {
     backgroundColor: '#f5f3f3',
-    width: '45%',
-    height: '33vh',
+    width: '48%',
+    height: '45vh',
+    // flex: 1,
     boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
     borderRadius: 20,
   },
@@ -309,7 +273,8 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-around',
     fontWeight: 'bold',
-    borderRadius: 50
+    borderRadius: 50,
+    marginTop: 15
   },
   style: {
     position: 'absolute',

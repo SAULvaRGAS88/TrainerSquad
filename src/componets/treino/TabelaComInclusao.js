@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Paper
-} from '@mui/material';
+import { Button, Table, TableBody, TableCell, TableHead, TableRow, Paper } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 
 export const TabelaComInclusao = () => {
@@ -70,204 +62,204 @@ export const TabelaComInclusao = () => {
   return (
     // div que cobre os botões dos treinos e a tabela:
     <div style={styles.espacoTreinos}>
-        {/* div somente dos botões dos treinos: */}
-        <div>
-            
-        </div>
-        <Paper>
+      {/* div somente dos botões dos treinos: */}
+      <div>
+
+      </div>
+      <Paper>
         <Table>
-            <TableHead>
+          <TableHead>
             <TableRow>
-                <TableCell>Exercício</TableCell>
-                <TableCell>Série</TableCell>
-                <TableCell>Repetições</TableCell>
-                <TableCell>Carga</TableCell>
-                <TableCell>Observação</TableCell>
-                <TableCell>Ações</TableCell>
+              <TableCell>Exercício</TableCell>
+              <TableCell>Série</TableCell>
+              <TableCell>Repetições</TableCell>
+              <TableCell>Carga</TableCell>
+              <TableCell>Observação</TableCell>
+              <TableCell>Ações</TableCell>
             </TableRow>
-            </TableHead>
-            <TableBody>
+          </TableHead>
+          <TableBody>
             {dados.map((linha, index) => (
-                <TableRow key={index}>
+              <TableRow key={index}>
                 <TableCell style={styles.linhasTabela}>
-                    {linhaEditando === index ? (
+                  {linhaEditando === index ? (
                     <input
-                        style={styles.inputExercicio}
-                        type="text"
-                        name="exercicio"
-                        value={linha.exercicio}
-                        onChange={handleChange}
+                      style={styles.inputExercicio}
+                      type="text"
+                      name="exercicio"
+                      value={linha.exercicio}
+                      onChange={handleChange}
                     />
-                    ) : (
+                  ) : (
                     linha.exercicio
-                    )}
+                  )}
                 </TableCell>
                 <TableCell style={styles.linhasTabela}>
-                    {linhaEditando === index ? (
+                  {linhaEditando === index ? (
                     <input
-                        style={styles.inputSerie}
-                        type="number"
-                        name="serie"
-                        value={linha.serie}
-                        onChange={handleChange}
+                      style={styles.inputSerie}
+                      type="number"
+                      name="serie"
+                      value={linha.serie}
+                      onChange={handleChange}
                     />
-                    ) : (
+                  ) : (
                     linha.serie
-                    )}
+                  )}
                 </TableCell>
                 <TableCell style={styles.linhasTabela}>
-                    {linhaEditando === index ? (
+                  {linhaEditando === index ? (
                     <input
-                        style={styles.inputSerie}
-                        type="number"
-                        name="repeticoes"
-                        value={linha.repeticoes}
-                        onChange={handleChange}
+                      style={styles.inputSerie}
+                      type="number"
+                      name="repeticoes"
+                      value={linha.repeticoes}
+                      onChange={handleChange}
                     />
-                    ) : (
+                  ) : (
                     linha.repeticoes
-                    )}
+                  )}
                 </TableCell>
                 <TableCell style={styles.linhasTabela}>
-                    {linhaEditando === index ? (
+                  {linhaEditando === index ? (
                     <input
-                        style={styles.inputSerie}
-                        type="number"
-                        name="carga"
-                        value={linha.carga}
-                        onChange={handleChange}
+                      style={styles.inputSerie}
+                      type="number"
+                      name="carga"
+                      value={linha.carga}
+                      onChange={handleChange}
                     />
-                    ) : (
+                  ) : (
                     linha.carga
-                    )}
+                  )}
                 </TableCell>
                 <TableCell style={styles.linhasTabela}>
-                    {linhaEditando === index ? (
+                  {linhaEditando === index ? (
                     <input
-                        type="text"
-                        name="observacao"
-                        value={linha.observacao}
-                        onChange={handleChange}
+                      type="text"
+                      name="observacao"
+                      value={linha.observacao}
+                      onChange={handleChange}
                     />
-                    ) : (
+                  ) : (
                     linha.observacao
-                    )}
+                  )}
                 </TableCell>
                 <TableCell style={styles.linhasTabela}>
-                    {linhaEditando === index ? (
+                  {linhaEditando === index ? (
                     <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={salvarEdicao}
+                      variant="contained"
+                      color="primary"
+                      onClick={salvarEdicao}
                     >
-                        Salvar
+                      Salvar
                     </Button>
-                    ) : (
+                  ) : (
                     <>
-                        <Button
+                      <Button
                         size='small'
                         variant="outlined"
                         color="primary"
                         onClick={() => editarLinha(index)}
-                        >
+                      >
                         Editar
-                        </Button>
-                        <Button
+                      </Button>
+                      <Button
                         size='small'
                         variant="outlined"
                         color="error"
                         onClick={() => excluirLinha(index)}
-                        >
+                      >
                         Excluir
-                        </Button>
+                      </Button>
                     </>
-                    )}
+                  )}
                 </TableCell>
-                </TableRow>
+              </TableRow>
             ))}
-            </TableBody>
+          </TableBody>
         </Table>
-            <br></br>
+        <br></br>
         <div style={styles.inputs}>
           <input style={styles.inputExercicio}
-              type="text"
-              name="exercicio"
-              value={novaLinha.exercicio}
-              placeholder="Exercício"
-              onChange={handleChange}
+            type="text"
+            name="exercicio"
+            value={novaLinha.exercicio}
+            placeholder="Exercício"
+            onChange={handleChange}
           />
           <input style={styles.inputSerie}
-              type="number"
-              name="serie"
-              value={novaLinha.serie}
-              placeholder="Série"
-              onChange={handleChange}
+            type="number"
+            name="serie"
+            value={novaLinha.serie}
+            placeholder="Série"
+            onChange={handleChange}
           />
           <input style={styles.inputSerie}
-              type="number"
-              name="repeticoes"
-              value={novaLinha.repeticoes}
-              placeholder="Repetições"
-              onChange={handleChange}
+            type="number"
+            name="repeticoes"
+            value={novaLinha.repeticoes}
+            placeholder="Repetições"
+            onChange={handleChange}
           />
           <input style={styles.inputSerie}
-              type="number"
-              name="carga"
-              value={novaLinha.carga}
-              placeholder="Carga"
-              onChange={handleChange}
+            type="number"
+            name="carga"
+            value={novaLinha.carga}
+            placeholder="Carga"
+            onChange={handleChange}
           />
           <input
-              type="text"
-              name="observacao"
-              value={novaLinha.observacao}
-              placeholder="Observação"
-              onChange={handleChange}
+            type="text"
+            name="observacao"
+            value={novaLinha.observacao}
+            placeholder="Observação"
+            onChange={handleChange}
           />
         </div>
-        </Paper>
-        {/* Botões Incluir e Salvar */}
-        <div style={styles.btnSalvarIncluir}>
+      </Paper>
+      {/* Botões Incluir e Salvar */}
+      <div style={styles.btnSalvarIncluir}>
         <Button variant="contained" color="primary" onClick={adicionarLinha}>
-            Incluir
+          Incluir
         </Button>
         <Button
-            variant="contained"
-            color="primary"
-            onClick={salvarDadosNoBackend}
-            endIcon={<SendIcon />}
+          variant="contained"
+          color="primary"
+          onClick={salvarDadosNoBackend}
+          endIcon={<SendIcon />}
         >
-            Salvar
+          Salvar
         </Button>
 
-        </div>
+      </div>
     </div>
   );
 };
 
 const styles = {
-    espacoTreinos: {
-        width: '90%'
-    },
-    btnSalvarIncluir: {
-      width: '90%',
-      display: 'flex',
-      justifyContent: 'space-evenly',
-      marginTop: '10px'
-    },
-    inputs: {
-      width: '90%',
-      display: 'flex',
-      justifyContent: 'space-evenly',
-      paddingBottom: '10px'
-    },
-    inputExercicio: {
-      width: '150px'
-    },
-    inputSerie: {
-      width: '80px'
-    },
-    linhasTabela: {
-      padding: '5px 20px'
-    }
+  espacoTreinos: {
+    width: '90%'
+  },
+  btnSalvarIncluir: {
+    width: '90%',
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    marginTop: '10px'
+  },
+  inputs: {
+    width: '90%',
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    paddingBottom: '10px'
+  },
+  inputExercicio: {
+    width: '150px'
+  },
+  inputSerie: {
+    width: '80px'
+  },
+  linhasTabela: {
+    padding: '5px 20px'
+  }
 }
