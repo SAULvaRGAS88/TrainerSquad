@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Button, Modal, Box, Typography, Input, Select } from '@mui/material';
+import { Button, Input, Select } from '@mui/material';
 import { HeaderApp } from '../headerApp/HeaderApp';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -16,7 +16,11 @@ import url from '../../service/service';
 import { useParams } from 'react-router-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
-
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import dayjs from 'dayjs';
 
 export const EditarAluno = () => {
 
@@ -25,22 +29,11 @@ export const EditarAluno = () => {
     const itemId = location.state?.itemId;
     const [cadastroError, setCadastroError] = useState(false);
     const [exclusao, setExclusao] = useState(false);
-    const [open, setOpen] = React.useState(false);
-    // const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    const [dataNasc, setDataNasc] = useState('');
-    const [dataPagamento, setDataPagamento] = useState('');
     const [status, setStatus] = useState('');
     const [alunoDb, setAlunoDb] = useState('');
-
     const { id } = useParams();
-
-    const handleDateChange = (novaData) => {
-        setDataNasc(novaData);
-    };
-    const handleDatePagChange = (novaData) => {
-        setDataPagamento(novaData);
-    };
+    const opcoesPlano = ['Mensal', 'Trimestral', 'Semestral', "Anual"];
+    const opcoesSexo = ['Masculino', 'Feminino', 'Não Informar'];
 
     const retornaAlunoDb = async () => {
         try {
@@ -56,12 +49,10 @@ export const EditarAluno = () => {
                     dt_nascimento: alunos.dt_nascimento,
                     email: alunos.email,
                     status: alunos.status,
-                    plano: alunos.plano
+                    plano: alunos.plano,
 
                 };
-
                 setAlunoDb(lRetorno);
-                // console.log(lRetorno, "log de aluno")
             } else {
                 console.log('Nenhum dado encontrado.');
             }
@@ -83,7 +74,6 @@ export const EditarAluno = () => {
                     id: status.id
                 }
                 setStatus(lRetorno);
-                // console.log(lRetorno, "log de pagamento")
             } else {
                 console.log('Nenhum dado encontrado.');
             }
@@ -98,6 +88,8 @@ export const EditarAluno = () => {
             console.log(response, successMessage);
             if (response.status === 200) {
                 console.log(`Atualização bem-sucedida em ${successMessage}:`, response.data);
+                setCadastroError()
+                navigate(`/dashBoard/${id}`)
             }
             return response;
         } catch (error) {
@@ -116,6 +108,7 @@ export const EditarAluno = () => {
             telefone: alunoDb.telefone,
             email: alunoDb.email,
             plano: alunoDb.plano,
+            status: alunoDb.status
         });
         const alunoUpdateResponse = await updateData(`/api/aluno/${itemId}`, {
             sexo: alunoDb.sexo,
@@ -125,16 +118,19 @@ export const EditarAluno = () => {
             telefone: alunoDb.telefone,
             email: alunoDb.email,
             plano: alunoDb.plano,
+            status: alunoDb.status
         }, 'aluno');
 
         if (alunoUpdateResponse) {
             console.log("Dados de Pagamento a serem enviados:", {
                 dt_pagamento: status.dt_pagamento,
                 valor: status.valor,
+                status: status.status
             });
-            const pagamentoUpdateResponse = await updateData(`/api/pagamento/${itemId}`, {
+            await updateData(`/api/pagamento/${itemId}`, {
                 dt_pagamento: status.dt_pagamento,
                 valor: status.valor,
+                status: status.status
             }, 'pagamento');
         }
     };
@@ -155,30 +151,21 @@ export const EditarAluno = () => {
         }
     };
 
-
     useEffect(() => {
         retornaAlunoDb();
         retornaPagamentoDb()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [itemId]);
 
-    const opcoesPlano = ['Mensal', 'Trimestral', 'Semestral', "Anual"];
-    const opcoesSexo = ['Masculino', 'Feminino', 'Não Informar'];
-    const handleSexoChange = (e) => {
-        setAlunoDb({ ...alunoDb, sexo: e.target.value });
-    };
-    const handleChangePlano = (e) => {
-        setStatus({ ...status, plano: e.target.value });
-    };
-
     const formatarData = (dataString) => {
-        if (!dataString) {
+        if (!dataString || typeof dataString !== 'string' || dataString.length < 10) {
             return "";
         }
 
         const ano = dataString.slice(0, 4);
         const mes = dataString.slice(5, 7);
         const dia = dataString.slice(8, 10);
+
         return `${dia}-${mes}-${ano}`;
     };
 
@@ -205,13 +192,14 @@ export const EditarAluno = () => {
                                     sx={{ width: 300 }}
                                 />
                             </div>
+
                             <div>
                                 <InputLabel htmlFor="cpf">CPF</InputLabel>
                                 <Input
                                     id="nome"
                                     type="text"
                                     value={alunoDb.cpf}
-                                    onChange={(e) => setAlunoDb({ ...alunoDb, cpf: e.target.value })}
+                                    onChange={(e) => setAlunoDb((prevAlunoDb) => ({ ...prevAlunoDb, cpf: (e.target.value) }))}
                                     inputProps={{
                                         inputMode: 'text',
                                     }}
@@ -250,7 +238,7 @@ export const EditarAluno = () => {
                                 <Select
                                     id="sexo"
                                     value={alunoDb.sexo || opcoesSexo[0]}
-                                    onChange={handleSexoChange}
+                                    onChange={(e) => setAlunoDb({ ...alunoDb, sexo: e.target.value })}
                                     sx={{ width: 300 }}
                                 >
                                     {opcoesSexo.map((opcao, index) => (
@@ -270,8 +258,9 @@ export const EditarAluno = () => {
                                     <DatePicker
                                         style={{ borderColor: '' }}
                                         format='DD-MM-YYYY'
-                                        onChange={handleDateChange}
-                                        value={dataNasc}
+                                        onChange={(newDate) => setAlunoDb({ ...alunoDb, dt_nascimento: newDate })}
+                                        value={dayjs(alunoDb.dt_nascimento)}
+                                        adapter={AdapterDayjs}
                                         sx={{ width: 175 }}
                                     />
                                 </LocalizationProvider>
@@ -290,7 +279,7 @@ export const EditarAluno = () => {
                                 <Select
                                     id="plano"
                                     value={alunoDb.plano || opcoesPlano[0]}
-                                    onChange={handleChangePlano}
+                                    onChange={(e) => setAlunoDb({ ...alunoDb, plano: e.target.value })}
                                     sx={{ width: 300 }}
                                 >
                                     {opcoesPlano.map((opcao, index) => (
@@ -309,31 +298,59 @@ export const EditarAluno = () => {
                                         startAdornment={<InputAdornment position="start">R$</InputAdornment>}
                                         label="Amount"
                                         value={status.valor}
-                                        onChange={(e) => setAlunoDb({ ...status, valor: e.target.value })}
+                                        onChange={(e) => setStatus({ ...status, valor: e.target.value })}
                                         sx={{ width: 150 }}
                                     />
                                 </FormControl>
                             </div>
 
-                            <div style={{ display: "flex", marginTop: 5, marginBottom: -10, }}>
+                            <div style={{ display: "flex", marginTop: 5, marginBottom: -10, alignItems: "center" }}>
                                 <p style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Data de Pagamento: </p>
                                 <LocalizationProvider locale={ptBR} dateAdapter={AdapterDayjs}>
-                                    <p style={{ marginLeft: 10, marginRight: 10 }}>
-                                        {status && status.dt_pagamento ? formatarData(status.dt_pagamento) : 'Data não disponível'}
+                                    <p style={{marginLeft: 10, marginRight: 10 }}> 
+                                         {formatarData(status.dt_pagamento)}
                                     </p>
-                                    {status && status.dt_pagamento && (
-                                        <DatePicker
-                                            style={{ borderColor: 'red' }}
-                                            format='DD-MM-YYYY'
-                                            onChange={handleDatePagChange}
-                                            value={dataPagamento || null}
-                                            sx={{ width: 150 }}
-                                        />
+                                   
 
-                                    )}
+                                    {/* <p style={{ marginLeft: 10, marginRight: 10 }}>
+                                        {formatarData(status.dt_pagamento)}
+                                    </p> */}
+                                    <DatePicker
+                                        style={{ borderColor: '' }}
+                                        format='DD-MM-YYYY'
+                                        onChange={(newDate) => setStatus({ ...status, dt_pagamento: newDate })}
+                                        value={dayjs(status.dt_pagamento)}
+                                        adapter={AdapterDayjs}
+                                        sx={{ width: 150 }}
+                                    />
+
                                 </LocalizationProvider>
                             </div>
 
+
+                            <div style={{ marginTop: 20 }}>
+                                <FormControl>
+                                    <FormLabel id="demo-row-radio-buttons-group-label">Status de Pagamento</FormLabel>
+                                    <RadioGroup
+                                        row
+                                        aria-labelledby="demo-row-radio-buttons-group-label"
+                                        name="row-radio-buttons-group"
+                                        value={status.status || null}
+                                        onChange={(e) => setStatus({ ...status, status: e.target.value })}
+                                    >
+                                        <FormControlLabel
+                                            value='Pendente'
+                                            control={<Radio />}
+                                            label="Pendente"
+                                        />
+                                        <FormControlLabel
+                                            value="Pago"
+                                            control={<Radio />}
+                                            label="Pago"
+                                        />
+                                    </RadioGroup>
+                                </FormControl>
+                            </div>
 
                         </div>
 
@@ -342,7 +359,6 @@ export const EditarAluno = () => {
 
                 <div style={{ width: "60%", alignItems: 'center', display: "flex", flexDirection: "row", marginTop: 20, justifyContent: 'space-around' }}>
                     {cadastroError && <p>Ocorreu um erro ao cadastrar. Verifique os dados.</p>}
-
                     <Button
                         onClick={handleSubmitAtualizar}
                         style={styles.Button}
@@ -350,9 +366,7 @@ export const EditarAluno = () => {
                     >
                         <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> EDITAR CADASTRO
                     </Button>
-
                     {exclusao && <p>Aluno não pode ser Excluído</p>}
-
                     <Button
                         onClick={deletarAluno}
                         style={styles.Button}
@@ -360,19 +374,6 @@ export const EditarAluno = () => {
                     >
                         <PersonRemoveIcon style={{ fontSize: 40, color: 'red' }} /> EXCLUIR ALUNO
                     </Button>
-
-                    <Modal
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                    >
-                        <Box style={styles.style}>
-                            <Typography id="modal-modal-description" sx={{ mt: 10, mb: 10 }}>
-                                Aluno Cadastrado com Sucesso!
-                            </Typography>
-                        </Box>
-                    </Modal>
                 </div>
 
             </div>
@@ -418,7 +419,7 @@ const styles = {
     divPagamentos: {
         backgroundColor: '#f5f3f3',
         width: '45%',
-        height: '43vh',
+        height: '48vh',
         boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
         borderRadius: 20,
     },
@@ -449,21 +450,3 @@ const styles = {
         display: 'flex'
     },
 }
-
-// const formatCpf = (value) => {
-//     const numericValue = value.replace(/\D/g, '');
-//     const formattedCpf = numericValue.replace(
-//         /(\d{3})(\d{3})(\d{3})(\d{2})/,
-//         '$1.$2.$3-$4'
-//     );
-//     return formattedCpf;
-// };
-
-// const formatTelefone = (value) => {
-//     const numericValue = value.replace(/\D/g, '');
-//     const formattedTelefone = numericValue.replace(
-//         /(\d{2})(\d)(\d{4})(\d{4})/,
-//         '($1) $2 $3-$4'
-//     );
-//     return formattedTelefone;
-// };

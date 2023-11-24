@@ -29,12 +29,8 @@ export const DashBoard = () => {
   }
 
   const navigate = useNavigate()
-  // const [openAluno, setOpenAluno] = useState(false);
-  const [openFinanceiro, setOpenFinanceiro] = useState(false);
-  const [openTreino, setOpenTreino] = useState(false);
   const [nomeAluno, setNomeAluno] = useState([]);
   const [status, setStatus] = useState([]);
-  // console.log(status)
 
   const retornaAlunosDb = async () => {
     try {
@@ -159,7 +155,7 @@ export const DashBoard = () => {
                 weekends={true}
                 events={events}
                 eventContent={renderEventContent}
-                height="470px" // Altura desejada
+                height="470px"
               />
             </div>
 
@@ -299,52 +295,3 @@ const styles = {
 
 
 };
-
-{/* <Dialog open={openAluno} onClose={() => setOpenAluno(false)}>
-          <DialogContent style={styles.customDialogStyle}>
-            <h2>Editar Aluno</h2>
-            {nomeAluno &&
-              nomeAluno
-                .filter((aluno) => aluno.id === alunoIdParaEditar)
-                .map((aluno, index) => (
-                  <div key={index} style={styles.uptadeAluno}>
-                    <p style={styles.p}>Nome: {aluno.nome}</p>
-                    <input type="text" placeholder="Nome do Aluno" />
-                    <p style={styles.p}>Telefone: {aluno.telefone}</p>
-                    <input type="text" placeholder="Telefone do Aluno" />
-                    <div style={styles.buttonContainer}>
-                      <button style={styles.saveButton}>Salvar</button>
-                      <button style={styles.closeButton} onClick={() => { setOpenAluno(false) }}>Fechar</button>
-                    </div>
-                  </div>
-                ))}
-          </DialogContent>
-        </Dialog> */}
-
-
-
-
-{/* <Dialog open={openFinanceiro} onClose={() => setOpenFinanceiro(false)}>
-          <DialogContent style={styles.customDialogStyle}>
-            <h2>Editar Financeiro</h2>
-            <input type="text" placeholder="Nome do Aluno" />
-            <input type="text" placeholder="Idade do Aluno" />
-            <div>
-              <button>Salvar</button> <button onClick={() => { setOpenFinanceiro(false) }}>Fechar</button>
-            </div>
-
-          </DialogContent>
-        </Dialog>
-
-        <Dialog open={openTreino} onClose={() => setOpenTreino(false)}>
-          <DialogContent style={styles.customDialogStyle}>
-            <h2>Editar Treino</h2>
-            <input type="text" placeholder="Nome do Aluno" />
-            <input type="text" placeholder="Idade do Aluno" />
-            <div>
-              <button>Salvar</button> <button onClick={() => { setOpenTreino(false) }}>Fechar</button>
-            </div>
-
-          </DialogContent>
-        </Dialog> */}
-
