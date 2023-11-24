@@ -217,4 +217,3 @@ const styles = {
         fontSize: 16,
     }
 }
-
