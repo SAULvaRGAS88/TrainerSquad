@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import url from '../../service/service';
 import { Button, TextField } from '@mui/material';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PlusOneIcon from '@mui/icons-material/PlusOne';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -94,10 +94,29 @@ export const TreinoC = () => {
             }
 
             console.log('Treinos adicionados com sucesso!');
-            toast.success('Treinos Cadastrados');
-            alert('Treinos Cadastrados');
+            toast.success('Treinos Cadastrados', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+
         } catch (error) {
             console.error('Erro ao cadastrar:', error);
+            toast.error('Ocorreu um erro ao cadastrar. Verifique os dados.', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
             setCadastroError(true);
         }
     };
@@ -114,12 +133,23 @@ export const TreinoC = () => {
             </div>
 
             <div style={{ display: "flex", marginBottom: 10, marginTop: 20, justifyContent: 'center' }}>
-                {cadastroError && <p>Ocorreu um erro ao cadastrar. Verifique os dados.</p>}
                 <Button
                     onClick={salvarTreino}
                     style={styles.Button}
                     variant="contained"> <FitnessCenterIcon style={{ fontSize: 40, color: '#d32f2f' }} /> SALVAR TREINO</Button>
             </div>
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </div>
     )
 }
