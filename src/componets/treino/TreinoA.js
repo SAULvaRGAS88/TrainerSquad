@@ -1,25 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import url from '../../service/service';
 import { Button, TextField } from '@mui/material';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PlusOneIcon from '@mui/icons-material/PlusOne';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export const TreinoA = () => {
 
     const location = useLocation();
     const itemId = location.state?.itemId;
-    console.log(itemId)
-    const [treino, setTreino] = useState('')
-    // console.log(treino)
     const [cadastroError, setCadastroError] = useState(false);
-    const [exercicio, setExercicio] = useState('')
-    const [repeticao, setRepeticao] = useState('')
-    const [serie, setSerie] = useState('')
-    const [carga, setCarga] = useState('')
-    const [obs, setObs] = useState('')
-    const tipo = "A"
     const [treinos, setTreinos] = useState([
         { exercicio: '', repeticao: '', serie: '', carga: '', obs: '', tipo: 'A' },
     ]);
@@ -36,7 +29,11 @@ export const TreinoA = () => {
             { exercicio: '', repeticao: '', serie: '', carga: '', obs: '', tipo: 'A' },
         ]);
     };
-
+    const removerLinha = (indexToRemove) => {
+        setTreinos((prevTreinos) => {
+            return prevTreinos.filter((treino, index) => index !== indexToRemove);
+        });
+    }
 
     const renderizarCampos = () => {
         return treinos.map((treino, index) => (
@@ -82,7 +79,6 @@ export const TreinoA = () => {
 
     const salvarTreino = async (e) => {
         e.preventDefault();
-
         try {
             setCadastroError(false);
 
@@ -106,18 +102,17 @@ export const TreinoA = () => {
         }
     };
 
-
-
-
     return (
         <div style={styles.espacoTreinos}>
             <form style={styles.form}>
                 {renderizarCampos()}
             </form>
+
             <div style={styles.divBot}>
-                <Button sx={{color: '#d32f2f'}} onClick={adicionarLinha}>Adicionar Linha</Button>
-                <Button sx={{color: '#d32f2f'}} onClick={adicionarLinha}>Remover Linha</Button>
+                <Button sx={{ color: '#d32f2f' }} onClick={adicionarLinha}><PlusOneIcon /></Button>
+                <Button sx={{ color: '#d32f2f' }} onClick={() => removerLinha(0)}><DeleteIcon /></Button>
             </div>
+
             <div style={{ display: "flex", marginBottom: 10, marginTop: 20, justifyContent: 'center' }}>
                 {cadastroError && <p>Ocorreu um erro ao cadastrar. Verifique os dados.</p>}
                 <Button
@@ -130,7 +125,6 @@ export const TreinoA = () => {
 }
 
 const styles = {
-
     espacoTreinos: {
         width: "90%",
         height: 'auto',
@@ -150,7 +144,7 @@ const styles = {
         width: '80%',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     Button: {
         height: 50,
@@ -168,6 +162,6 @@ const styles = {
         display: 'flex',
         alignItems: 'flex-start',
         width: '80%',
-        flexDirection: 'column'
+        flexDirection: 'row'
     }
 }

@@ -1,173 +1,130 @@
-import React, {  useState } from 'react'
+import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import url from '../../service/service';
 import { Button, TextField } from '@mui/material';
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PlusOneIcon from '@mui/icons-material/PlusOne';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export const TreinoB = () => {
 
     const location = useLocation();
     const itemId = location.state?.itemId;
-    // console.log(itemId)
-    const [treino, setTreino] = useState('')
-    console.log(treino)
     const [cadastroError, setCadastroError] = useState(false);
-    const [exercicio, setExercicio] = useState('')
-    const [repeticao, setRepeticao] = useState('')
-    const [serie, setSerie] = useState('')
-    const [carga, setCarga] = useState('')
-    const [obs, setObs] = useState('')
-    const [tipo, setTipo] = useState("B")
+    const [treinos, setTreinos] = useState([
+        { exercicio: '', repeticao: '', serie: '', carga: '', obs: '', tipo: 'B' },
+    ]);
 
-    const retornaTreinoDb = async () => {
-        try {
-            const response = await url.get(`/api/pagamento/${itemId}`);
-            const status = response.data;
-            if (status) {
-                const lRetorno = {
-                    valor: status.valor,
-                    dt_pagamento: status.dt_pagamento,
-                    status: status.status,
-                    id_aluno: status.id_aluno,
-                    id: status.id
-                }
-                setTreino(lRetorno);
-            } else {
-                console.log('Nenhum dado encontrado.');
-            }
-        } catch (error) {
-            console.error('Erro ao consultar Status:', error);
-        }
+    const handleChange = (index, campo, valor) => {
+        const novosTreinos = [...treinos];
+        novosTreinos[index][campo] = valor;
+        setTreinos(novosTreinos);
+    };
+
+    const adicionarLinha = () => {
+        setTreinos([
+            ...treinos,
+            { exercicio: '', repeticao: '', serie: '', carga: '', obs: '', tipo: 'B' },
+        ]);
+    };
+    const removerLinha = (indexToRemove) => {
+        setTreinos((prevTreinos) => {
+            return prevTreinos.filter((treino, index) => index !== indexToRemove);
+        });
     }
+
+    const renderizarCampos = () => {
+        return treinos.map((treino, index) => (
+            <div key={index}>
+                <TextField
+                    variant="standard"
+                    label={`Exercício ${index + 1}`}
+                    value={treino.exercicio}
+                    onChange={(e) => handleChange(index, 'exercicio', e.target.value)}
+                    sx={{ mr: 5, width: 200 }}
+                />
+                <TextField
+                    variant="standard"
+                    label={`Repetição ${index + 1}`}
+                    value={treino.repeticao}
+                    onChange={(e) => handleChange(index, 'repeticao', e.target.value)}
+                    sx={{ mr: 5, width: 100 }}
+                />
+                <TextField
+                    variant="standard"
+                    label={`Série ${index + 1}`}
+                    value={treino.serie}
+                    onChange={(e) => handleChange(index, 'serie', e.target.value)}
+                    sx={{ mr: 5, width: 100 }}
+                />
+                <TextField
+                    variant="standard"
+                    label={`Carga ${index + 1}`}
+                    value={treino.carga}
+                    onChange={(e) => handleChange(index, 'carga', e.target.value)}
+                    sx={{ mr: 5, width: 100 }}
+                />
+                <TextField
+                    variant="standard"
+                    label={`Observação ${index + 1}`}
+                    value={treino.obs}
+                    onChange={(e) => handleChange(index, 'obs', e.target.value)}
+                    sx={{ width: 200 }}
+                />
+            </div>
+        ));
+    };
 
     const salvarTreino = async (e) => {
         e.preventDefault();
-
         try {
-            const response = await url.post(`/api/treino/${itemId}`, {
-                exercicio: exercicio,
-                repeticao: repeticao,
-                serie: serie,
-                carga: carga,
-                obs: obs,
-                tipo: tipo,
+            setCadastroError(false);
 
-            });
-            if (response.status === 201) {
-                console.log('Treino adicionado com sucesso!');
-                setCadastroError(false)
-                toast.success('Treino Cadastrado');
-                alert("Treino Cadastrado")
+            for (const treinoItem of treinos) {
+                console.log('Dados enviados:', treinoItem);
+                const response = await url.post(`/api/treino/${itemId}`, treinoItem);
+
+                if (response.status !== 201) {
+                    console.error('Erro ao cadastrar treino:', response);
+                    setCadastroError(true);
+                    return;
+                }
             }
+
+            console.log('Treinos adicionados com sucesso!');
+            toast.success('Treinos Cadastrados');
+            alert('Treinos Cadastrados');
         } catch (error) {
             console.error('Erro ao cadastrar:', error);
             setCadastroError(true);
         }
     };
+
     return (
         <div style={styles.espacoTreinos}>
-            <h1>Treino B</h1>
-            <form style={styles.divCadastro} onSubmit={salvarTreino} >
-                <p style={{ margin: 10, fontWeight: 'bold', fontSize: 18, }}></p>
-                <div style={{ marginLeft: 10 }}>
-                    <div style={{}}>
-                        <TextField
-                            id="standard-basic"
-                            label="Exercício"
-                            variant="standard"
-                            value={exercicio}
-                            onChange={(e) => setExercicio(e.target.value)}
-                            inputProps={{
-                                inputMode: 'text'
-                            }}
-                            sx={{ width: 300 }}
-                        />
-                    </div>
-                </div>
-
-                <p style={{ margin: 10, fontWeight: 'bold', fontSize: 18, }}></p>
-                <div style={{ marginLeft: 10 }}>
-                    <div style={{}}>
-                        <TextField
-                            id="standard-basic"
-                            label="Repetições"
-                            variant="standard"
-                            value={repeticao}
-                            onChange={(e) => setRepeticao(e.target.value)}
-                            inputProps={{
-                                inputMode: 'text'
-                            }}
-                            sx={{ width: 100 }}
-                        />
-                    </div>
-                </div>
-
-                <p style={{ margin: 10, fontWeight: 'bold', fontSize: 18, }}></p>
-                <div style={{ marginLeft: 10 }}>
-                    <div style={{}}>
-                        <TextField
-                            id="standard-basic"
-                            label="serie"
-                            variant="standard"
-                            value={serie}
-                            onChange={(e) => setSerie(e.target.value)}
-                            inputProps={{
-                                inputMode: 'text'
-                            }}
-                            sx={{ width: 100 }}
-                        />
-                    </div>
-                </div>
-
-                <p style={{ margin: 10, fontWeight: 'bold', fontSize: 18, }}></p>
-                <div style={{ marginLeft: 10 }}>
-                    <div style={{}}>
-                        <TextField
-                            id="standard-basic"
-                            label="Carga"
-                            variant="standard"
-                            value={carga}
-                            onChange={(e) => setCarga(e.target.value)}
-                            inputProps={{
-                                inputMode: 'text'
-                            }}
-                            sx={{ width: 100 }}
-                        />
-                    </div>
-                </div>
-
-                <p style={{ margin: 10, fontWeight: 'bold', fontSize: 18, }}></p>
-                <div style={{ marginLeft: 10 }}>
-                    <div style={{}}>
-                        <TextField
-                            id="standard-basic"
-                            label="Observação"
-                            variant="standard"
-                            value={obs}
-                            onChange={(e) => setObs(e.target.value)}
-                            inputProps={{
-                                inputMode: 'text'
-                            }}
-                            sx={{ width: 300 }}
-                        />
-                    </div>
-                </div>
+            <form style={styles.form}>
+                {renderizarCampos()}
             </form>
-            <div style={{ width: "60%", alignItems: 'center', display: "flex", flexDirection: "row", marginTop: 20, justifyContent: 'center' }}>
+
+            <div style={styles.divBot}>
+                <Button sx={{ color: '#d32f2f' }} onClick={adicionarLinha}><PlusOneIcon /></Button>
+                <Button sx={{ color: '#d32f2f' }} onClick={() => removerLinha(0)}><DeleteIcon /></Button>
+            </div>
+
+            <div style={{ display: "flex", marginBottom: 10, marginTop: 20, justifyContent: 'center' }}>
                 {cadastroError && <p>Ocorreu um erro ao cadastrar. Verifique os dados.</p>}
                 <Button
                     onClick={salvarTreino}
                     style={styles.Button}
-                    variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> SALVAR TREINO</Button>
+                    variant="contained"> <FitnessCenterIcon style={{ fontSize: 40, color: '#d32f2f' }} /> SALVAR TREINO</Button>
             </div>
         </div>
     )
 }
 
 const styles = {
-
     espacoTreinos: {
         width: "90%",
         height: 'auto',
@@ -177,9 +134,34 @@ const styles = {
         display: "flex",
         maxHeight: '50vh',
         overflow: 'auto',
-        flexDirection: "column"
+        flexDirection: "column",
+        alignItems: 'center',
     },
-    divCadastro:{
+    divCadastro: {
         display: "flex"
+    },
+    form: {
+        width: '80%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    Button: {
+        height: 50,
+        boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
+        backgroundColor: '#f5f3f3',
+        color: 'black',
+        cursor: 'pointer',
+        display: 'flex',
+        justifyContent: 'space-around',
+        fontWeight: 'bold',
+        borderRadius: 50,
+        marginTop: 15
+    },
+    divBot: {
+        display: 'flex',
+        alignItems: 'flex-start',
+        width: '80%',
+        flexDirection: 'row'
     }
 }
