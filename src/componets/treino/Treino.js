@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { HeaderApp } from '../headerApp/HeaderApp';
 // import { TabelaComInclusao } from './TabelaComInclusao';
 import { Button } from '@mui/material';
-// import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { TreinoA } from './TreinoA';
 import { TreinoB } from './TreinoB';
 import { TreinoC } from './TreinoC';
@@ -11,9 +11,9 @@ import { TreinoD } from './TreinoD';
 export const Treino = () => {
 
     const [selectedView, setSelectedView] = useState("view1")
-    // const location = useLocation();
-    // const itemId = location.state?.itemId;
-    // console.log(itemId)
+    const location = useLocation();
+    const itemId = location.state?.itemId;
+    console.log(itemId)
 
     const renderComponent = () => {
         if (selectedView === 'view1') {
@@ -39,11 +39,36 @@ export const Treino = () => {
                 <HeaderApp />
 
                 <div style={styles.treinos}>
-                    <Button onClick={() => handleViewPress('view1')}>Treino A</Button>
-                    <Button onClick={() => handleViewPress('view2')}><p>Treino B</p></Button>
-                    <Button onClick={() => handleViewPress('view3')}><p>Treino C</p></Button>
-                    <Button onClick={() => handleViewPress('view4')}><p>Treino D</p></Button>
+                    <Button
+                        sx={{ height: 40 }}
+                        onClick={() => handleViewPress('view1')}
+                        style={selectedView === 'view1' ? styles.selectedButton : {}}
+                    >
+                        Treino A
+                    </Button>
+                    <Button
+                        sx={{ height: 40 }}
+                        onClick={() => handleViewPress('view2')}
+                        style={selectedView === 'view2' ? styles.selectedButton : {}}
+                    >
+                        <p>Treino B</p>
+                    </Button>
+                    <Button
+                        sx={{ height: 40 }}
+                        onClick={() => handleViewPress('view3')}
+                        style={selectedView === 'view3' ? styles.selectedButton : {}}
+                    >
+                        <p>Treino C</p>
+                    </Button>
+                    <Button
+                        sx={{ height: 40 }}
+                        onClick={() => handleViewPress('view4')}
+                        style={selectedView === 'view4' ? styles.selectedButton : {}}
+                    >
+                        <p>Treino D</p>
+                    </Button>
                 </div>
+
                 {renderComponent()}
 
             </div>
@@ -74,7 +99,13 @@ const styles = {
         width: "90%",
         display: "flex",
         justifyContent: "flex-end",
+        marginBottom: 10
     },
+    selectedButton: {
+        backgroundColor: '#d32f2f', /* Cor de fundo verde como exemplo */
+        color: '#ffffff', /* Cor do texto branco como exemplo */
+
+    }
 };
 // export const Treino = () => {
 //     const location = useLocation();
