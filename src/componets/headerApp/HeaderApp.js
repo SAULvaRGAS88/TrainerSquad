@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { Link } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useParams } from 'react-router-dom';
 import url from '../../service/service';
+import logoBranco from '../../LogoBranco.png' 
 
 export const HeaderApp = () => {
     const [person, setPerson] = useState([]);
@@ -37,8 +37,7 @@ export const HeaderApp = () => {
     return (
         <div style={styles.header}>
             <div style={styles.Icon}>
-                <img src="/logoBranco.png" alt="logoBranco" width="150" height="100"/>
-                {/* <FitnessCenterIcon sx={{ color: 'white', fontSize: 60 }} /> */}
+                <img src={logoBranco} alt="logoBranco" width="150" height="100"/>
             </div>
 
             <div style={styles.divBox}>
@@ -96,7 +95,6 @@ const styles = {
     },
     divLinks: {
         display: "flex",
-        // justifyContent: "space-between",
         width: 450,
         textTraformation: "none",
         fontSize: 20,
