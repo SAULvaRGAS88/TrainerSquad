@@ -11,6 +11,7 @@ import { CadastroPersonal } from '../cadastroPersonal/CadastroPersonal';
 import { AllAlunos } from '../allAlunos/AllAlunos';
 import { EditarAluno } from '../editarAluno/EditarAluno';
 import { ListaAvaliacaoFisica } from '../avaliacaoFisica/ListaAvaliacaoFisica';
+import { Treinos } from '../treino/Treinos';
 
 export const AppRoutes = () => {
   return (
@@ -27,6 +28,7 @@ export const AppRoutes = () => {
         <RouterRoute element={<AllAlunos />} path="/alunos/:id" />
         <RouterRoute element={<EditarAluno />} path="/editarAluno/:id" />
         <RouterRoute element={<ListaAvaliacaoFisica />} path="/ListaAvaliacaoFisica/:id" />
+        <RouterRoute element={<Treinos />} path="/treinos/:id" />
       </Routes>
     </BrowserRouter>
   )

@@ -37,7 +37,7 @@ export const TreinoB = () => {
 
     const renderizarCampos = () => {
         return treinos.map((treino, index) => (
-            <div key={index}>
+            <div key={index} style={{display: "flex"}}>
                 <TextField
                     variant="standard"
                     label={`Exercício ${index + 1}`}
@@ -73,6 +73,8 @@ export const TreinoB = () => {
                     onChange={(e) => handleChange(index, 'obs', e.target.value)}
                     sx={{ width: 200 }}
                 />
+                <Button sx={{ color: '#d32f2f' , alignItems:"flex-end" }} onClick={adicionarLinha}><PlusOneIcon /></Button>
+                <Button sx={{ color: '#d32f2f', alignItems:"flex-end" }} onClick={() => removerLinha(0)}><DeleteIcon /></Button>
             </div>
         ));
     };
@@ -126,11 +128,6 @@ export const TreinoB = () => {
             <form style={styles.form}>
                 {renderizarCampos()}
             </form>
-
-            <div style={styles.divBot}>
-                <Button sx={{ color: '#d32f2f' }} onClick={adicionarLinha}><PlusOneIcon /></Button>
-                <Button sx={{ color: '#d32f2f' }} onClick={() => removerLinha(0)}><DeleteIcon /></Button>
-            </div>
 
             <div style={{ display: "flex", marginBottom: 10, marginTop: 20, justifyContent: 'center' }}>
                 <Button

@@ -37,7 +37,8 @@ export const HeaderApp = () => {
     return (
         <div style={styles.header}>
             <div style={styles.Icon}>
-                <FitnessCenterIcon sx={{ color: 'white', fontSize: 60 }} />
+                <img src="/logoBranco.png" alt="logoBranco" width="150" height="100"/>
+                {/* <FitnessCenterIcon sx={{ color: 'white', fontSize: 60 }} /> */}
             </div>
 
             <div style={styles.divBox}>
@@ -75,14 +76,14 @@ const styles = {
     },
     Icon: {
         float: 'left',
-        marginLeft: 20
+        marginLeft: 0
     },
     divBox: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
-        marginLeft: 20
+        marginLeft: 0
     },
     divP: {
         marginRight: 20,

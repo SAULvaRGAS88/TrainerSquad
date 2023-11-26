@@ -131,7 +131,7 @@ export const DashBoard = () => {
                         </div>
                         <div style={{ backgroundColor: '#59D0F5', margin: 5, cursor: "pointer", display: "flex" }}><FitnessCenterIcon
                           onClick={() => {
-                            navigate(`/treino/${id}`, { state: { itemId: item.id } })
+                            navigate(`/treinos/${id}`, { state: { itemId: item.id } })
                           }} />
                         </div>
                       </div>
