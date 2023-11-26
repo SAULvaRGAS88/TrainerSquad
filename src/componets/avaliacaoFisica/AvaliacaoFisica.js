@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { HeaderApp } from '../headerApp/HeaderApp';
 import { TextField, MenuItem, Button } from '@mui/material';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
@@ -28,14 +28,12 @@ export const AvaliacaoFisica = () => {
     const { id } = useParams();
     const location = useLocation();
     const itemId = location.state?.itemId;
-    console.log(itemId)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
             const response = await url.post(`/api/avaliacao/${itemId}`, {
-                // idaluno: itemId,
                 objetivo: objetivo,
                 peso: peso,
                 altura: altura,
@@ -53,7 +51,7 @@ export const AvaliacaoFisica = () => {
             });
             if (response.status === 201) {
                 setCadastroError()
-                navigate(`/ListaAvaliacaoFisica/${id}`)
+                navigate(`/dashboard/${id}`)
             }
         } catch (error) {
             console.error('Erro ao cadastrar:', error);
@@ -61,12 +59,48 @@ export const AvaliacaoFisica = () => {
         }
     };
 
+    useEffect(() => {
+        if(peso && altura) {
+            const imcCalculado = peso / (altura * altura)
+            setImc(imcCalculado.toFixed(2))
+        }
+    }, [peso, altura]);
 
-    function calcularIMC() {
-        const imcValue = parseFloat(peso) / (parseFloat(altura) * parseFloat(altura));
-        setImc(imcValue.toFixed(2));
-    }
+    useEffect(() => {
+        if (peso && circunferenciaAbdomen && circunferenciaPunho) {
+            const massaDeGorduraCalculada = (peso * ((peso - ((41.955 + (1.038786 * peso)) - (0.82816 * (circunferenciaAbdomen - circunferenciaPunho)))) * 100) / peso) / 100
+            setMassaDeGordura(massaDeGorduraCalculada.toFixed(2))
+        }
+    },[peso, circunferenciaAbdomen, circunferenciaPunho]);
 
+    useEffect(() => {
+        if(peso && circunferenciaAbdomen && circunferenciaPunho){
+        const porcentagemGorduraCalculada = ((peso - ((41.955 + (1.038786 * peso)) - (0.82816 * (circunferenciaAbdomen - circunferenciaPunho)))) * 100) / peso
+        setPorcentagemGordura(porcentagemGorduraCalculada.toFixed(2))
+        }
+    },[peso, circunferenciaAbdomen, circunferenciaPunho]);
+
+    useEffect(() => {
+        if(peso && circunferenciaAbdomen && circunferenciaPunho){
+            const massaMagraCalculada = (41.955 + (1.038786 * peso)) - (0.82816 * (circunferenciaAbdomen - circunferenciaPunho))
+            setMassaMagra(massaMagraCalculada.toFixed(2))
+        }
+    },[peso, circunferenciaAbdomen, circunferenciaPunho]);
+
+    useEffect(() => {
+        if(peso && altura && idade && sexo){
+            const massaMuscularCalculada = (peso * ((0.244 * peso) + (7.8 * altura) + (6.6 * 0) - (0.098 * idade) + (parseInt(sexo) - 3.3))) / 100
+            setMassaMuscular(massaMuscularCalculada.toFixed(2))
+        }
+    }, [peso, altura, idade, sexo]);
+
+    useEffect(() => {
+        if(peso && altura && idade && sexo){
+            const porcentagemMassaMuscularCalculada = (0.244 * peso) + (7.8 * altura) + (6.6 * 0) - (0.098 * idade) + (parseInt(sexo) - 3.3)
+            setPorcentagemMassaMuscular(porcentagemMassaMuscularCalculada.toFixed(2))
+        }
+    },[peso, altura, idade, sexo]);
+    
     return (
         <div style={styles.containerPrincipal}>
             <div style={styles.containerSecundaria}>
@@ -112,7 +146,7 @@ export const AvaliacaoFisica = () => {
                             label="IMC"
                             variant="standard"
                             value={imc}
-                            onChange={(e) => calcularIMC(e.target.value)}
+                            onChange={(e) => setImc(e.target.value)}
                             inputProps={{
                                 inputMode: 'text'
                             }}
@@ -182,7 +216,7 @@ export const AvaliacaoFisica = () => {
                             id="standard-basic"
                             label="Massa de gordura (kg)"
                             variant="standard"
-                            value={((peso * ((peso - ((41.955 + (1.038786 * peso)) - (0.82816 * (circunferenciaAbdomen - circunferenciaPunho)))) * 100) / peso) / 100).toFixed(1)}
+                            value={massaDeGordura}
                             onChange={(e) => setMassaDeGordura(e.target.value)}
                             inputProps={{
                                 inputMode: 'text'
@@ -192,7 +226,7 @@ export const AvaliacaoFisica = () => {
                             id="standard-basic"
                             label="Porcentagem gordura"
                             variant="standard"
-                            value={(((peso - ((41.955 + (1.038786 * peso)) - (0.82816 * (circunferenciaAbdomen - circunferenciaPunho)))) * 100) / peso).toFixed(1)}
+                            value={porcentagemGordura}
                             onChange={(e) => setPorcentagemGordura(e.target.value)}
                             inputProps={{
                                 inputMode: 'text'
@@ -202,7 +236,7 @@ export const AvaliacaoFisica = () => {
                             id="standard-basic"
                             label="Massa Magra"
                             variant="standard"
-                            value={((41.955 + (1.038786 * peso)) - (0.82816 * (circunferenciaAbdomen - circunferenciaPunho))).toFixed(1)}
+                            value={massaMagra}
                             onChange={(e) => setMassaMagra(e.target.value)}
                             inputProps={{
                                 inputMode: 'text'
@@ -212,7 +246,7 @@ export const AvaliacaoFisica = () => {
                             id="standard-basic"
                             label="Massa Muscular (kg)"
                             variant="standard"
-                            value={((peso * ((0.244 * peso) + (7.8 * altura) + (6.6 * 0) - (0.098 * idade) + (parseInt(sexo) - 3.3))) / 100).toFixed(1)}
+                            value={massaMuscular}
                             onChange={(e) => setMassaMuscular(e.target.value)}
                             inputProps={{
                                 inputMode: 'text'
@@ -222,7 +256,7 @@ export const AvaliacaoFisica = () => {
                             id="standard-basic"
                             label="Porcentagem massa muscular"
                             variant="standard"
-                            value={((0.244 * peso) + (7.8 * altura) + (6.6 * 0) - (0.098 * idade) + (parseInt(sexo) - 3.3)).toFixed(1)}
+                            value={porcentagemMassaMuscular}
                             onChange={(e) => setPorcentagemMassaMuscular(e.target.value)}
                             inputProps={{
                                 inputMode: 'text'
