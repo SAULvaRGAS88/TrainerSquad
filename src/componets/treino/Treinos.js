@@ -4,6 +4,7 @@ import { Card, Button, Grid, Typography, Tooltip } from '@mui/material'
 import { useLocation, useNavigate, useParams } from 'react-router'
 import url from '../../service/service'
 import DeleteIcon from '@mui/icons-material/Delete';
+import { toast, ToastContainer } from 'react-toastify';
 
 export const Treinos = () => {
 
@@ -11,7 +12,6 @@ export const Treinos = () => {
     const { id } = useParams();
     const location = useLocation();
     const itemId = location.state?.itemId;
-    // console.log(itemId, "Treinossss")
     const [treinoA, setTreinoA] = useState([]);
     const [treinoB, setTreinoB] = useState([]);
     const [treinoC, setTreinoC] = useState([]);
@@ -21,10 +21,10 @@ export const Treinos = () => {
     const retornaNomeAluno = async () => {
         try {
             const response = await url.get(`/api/aluno/${itemId}`);
-            const person = response.data;
+            const aluno = response.data;
 
             const lRetorno = [];
-            const nome = person.nome;
+            const nome = aluno.nome;
             lRetorno.push({
                 nome: nome
             });
@@ -32,33 +32,33 @@ export const Treinos = () => {
             setNomeAluno(lRetorno);
             // console.log(lRetorno);
         } catch (error) {
-            console.error('Erro ao consultar DadosPersonal:', error);
+            console.error('Erro ao consultar Dados Aluno:', error);
         }
     }
 
     const retornaTreinosADb = async () => {
         try {
-            const response = await url.get(`/api/treino/${itemId}/A`)
+
+            const response = await url.get(`/api/treino/${itemId}/A`);
             const retornaTreino = response.data;
-            const lRetorno = [];
-            for (let i = 0; i < retornaTreino.length; i++) {
-                lRetorno.push({
-                    obs: retornaTreino[i].obs,
-                    id: retornaTreino[i].id,
-                    carga: retornaTreino[i].carga,
-                    exercicio: retornaTreino[i].exercicio,
-                    tipo: retornaTreino[i].tipo,
-                    serie: retornaTreino[i].serie,
-                    repeticao: retornaTreino[i].repeticao,
-                    idaluno: retornaTreino[i].idaluno,
-                });
-            }
+
+            const lRetorno = retornaTreino.map(item => ({
+                obs: item.obs,
+                id: item.id,
+                carga: item.carga,
+                exercicio: item.exercicio,
+                tipo: item.tipo,
+                serie: item.serie,
+                repeticao: item.repeticao,
+                idaluno: item.idaluno,
+            }));
+
             setTreinoA(lRetorno);
-            // console.log(lRetorno);
         } catch (error) {
-            console.error('Erro ao consultar TreinosA:', error);
+            console.error('Erro ao consultar Treinos A:', error);
         }
-    }
+    };
+
 
     const retornaTreinosBDb = async () => {
         try {
@@ -80,7 +80,7 @@ export const Treinos = () => {
             setTreinoB(lRetorno);
             // console.log(lRetorno);
         } catch (error) {
-            console.error('Erro ao consultar TreinosB:', error);
+            console.error('Erro ao consultar Treinos B:', error);
         }
     }
 
@@ -104,7 +104,7 @@ export const Treinos = () => {
             setTreinoC(lRetorno);
             // console.log(lRetorno);
         } catch (error) {
-            console.error('Erro ao consultar TreinosB:', error);
+            console.error('Erro ao consultar Treinos C:', error);
         }
     }
     const retornaTreinosDDb = async () => {
@@ -127,13 +127,151 @@ export const Treinos = () => {
             setTreinoD(lRetorno);
             // console.log(lRetorno);
         } catch (error) {
-            console.error('Erro ao consultar TreinosB:', error);
+            console.error('Erro ao consultar Treinos D:', error);
         }
     }
 
     const deletarTreinoA = async () => {
         try {
-            const response = await url.get(`/api/treino/${itemId}/D`)
+            const response = await url.delete(`/api/treino/${itemId}/A`)
+            const retornaTreino = response.data;
+            const lRetorno = [];
+            for (let i = 0; i < retornaTreino.length; i++) {
+                lRetorno.push({
+                    obs: retornaTreino[i].obs,
+                    id: retornaTreino[i].id,
+                    carga: retornaTreino[i].carga,
+                    exercicio: retornaTreino[i].exercicio,
+                    tipo: retornaTreino[i].tipo,
+                    serie: retornaTreino[i].serie,
+                    repeticao: retornaTreino[i].repeticao,
+                    idaluno: retornaTreino[i].idaluno,
+                });
+            }
+            setTreinoA(lRetorno);
+
+            if (response.data) {
+                toast.success('Treinos Excluidos', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
+        } catch (error) {
+            console.error('Erro ao Deletar Treinos A:', error);
+            toast.error('Sem Treinos para excluir!', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+    }
+
+    const deletarTreinoB = async () => {
+        try {
+            const response = await url.delete(`/api/treino/${itemId}/B`)
+            const retornaTreino = response.data;
+            const lRetorno = [];
+            for (let i = 0; i < retornaTreino.length; i++) {
+                lRetorno.push({
+                    obs: retornaTreino[i].obs,
+                    id: retornaTreino[i].id,
+                    carga: retornaTreino[i].carga,
+                    exercicio: retornaTreino[i].exercicio,
+                    tipo: retornaTreino[i].tipo,
+                    serie: retornaTreino[i].serie,
+                    repeticao: retornaTreino[i].repeticao,
+                    idaluno: retornaTreino[i].idaluno,
+                });
+            }
+            setTreinoB(lRetorno);
+
+            if (response.data) {
+                toast.success('Treinos Excluidos', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
+        } catch (error) {
+            console.error('Erro ao Deletar Treinos B:', error);
+            toast.error('Sem Treinos para excluir!', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+    }
+
+    const deletarTreinoC = async () => {
+        try {
+            const response = await url.delete(`/api/treino/${itemId}/C`)
+            const retornaTreino = response.data;
+            const lRetorno = [];
+            for (let i = 0; i < retornaTreino.length; i++) {
+                lRetorno.push({
+                    obs: retornaTreino[i].obs,
+                    id: retornaTreino[i].id,
+                    carga: retornaTreino[i].carga,
+                    exercicio: retornaTreino[i].exercicio,
+                    tipo: retornaTreino[i].tipo,
+                    serie: retornaTreino[i].serie,
+                    repeticao: retornaTreino[i].repeticao,
+                    idaluno: retornaTreino[i].idaluno,
+                });
+            }
+            setTreinoC(lRetorno);
+
+            if (response.data) {
+                toast.success('Treinos Excluidos', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
+        } catch (error) {
+            console.error('Erro ao Deletar Treinos C:', error);
+            toast.error('Sem Treinos para excluir!', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+    }
+
+    const deletarTreinoD = async () => {
+        try {
+            const response = await url.delete(`/api/treino/${itemId}/D`)
             const retornaTreino = response.data;
             const lRetorno = [];
             for (let i = 0; i < retornaTreino.length; i++) {
@@ -149,9 +287,31 @@ export const Treinos = () => {
                 });
             }
             setTreinoD(lRetorno);
-            // console.log(lRetorno);
+
+            if (response.data) {
+                toast.success('Treinos Excluidos', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
         } catch (error) {
-            console.error('Erro ao consultar TreinosB:', error);
+            console.error('Erro ao Deletar Treinos D:', error);
+            toast.error('Sem Treinos para excluir!', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
         }
     }
 
@@ -169,14 +329,14 @@ export const Treinos = () => {
             <div style={styles.containerSecundaria}>
                 <HeaderApp />
                 <div style={styles.divName}>
-                    <p style={{ marginTop: 5, fontSize: 14, fontWeight: "bold" }}>
+                    <div style={{ marginTop: 5, fontSize: 14, fontWeight: "bold" }}>
                         Aluno(ª) :
                         {nomeAluno &&
                             nomeAluno.map((item, index) => (
                                 <p key={index} style={{ display: 'inline-block', margin: 0, marginLeft: 5 }}>
                                     {item.nome}
                                 </p>
-                            ))}</p>
+                            ))}</div>
                 </div>
 
                 <div style={styles.container}>
@@ -232,7 +392,7 @@ export const Treinos = () => {
                                 <h3 style={{ margin: 5, color: '#d32f2f' }}>Treino B</h3>
                                 <Tooltip title="Excluir Treino" arrow>
                                     <DeleteIcon
-                                        onClick={deletarTreinoA}
+                                        onClick={deletarTreinoB}
                                         htmlColor='#d32f2f'
                                         style={styles.iconDel}
                                         onMouseOver={() => ("Excluir Treino?")}
@@ -280,7 +440,7 @@ export const Treinos = () => {
                                 <h3 style={{ margin: 5, color: '#d32f2f' }}>Treino C</h3>
                                 <Tooltip title="Excluir Treino" arrow>
                                     <DeleteIcon
-                                        onClick={deletarTreinoA}
+                                        onClick={deletarTreinoC}
                                         htmlColor='#d32f2f'
                                         style={styles.iconDel}
                                         onMouseOver={() => ("Excluir Treino?")}
@@ -326,7 +486,7 @@ export const Treinos = () => {
                                 <h3 style={{ margin: 5, color: '#d32f2f' }}>Treino D</h3>
                                 <Tooltip title="Excluir Treino" arrow>
                                     <DeleteIcon
-                                        onClick={deletarTreinoA}
+                                        onClick={deletarTreinoD}
                                         htmlColor='#d32f2f'
                                         style={styles.iconDel}
                                         onMouseOver={() => ("Excluir Treino?")}
@@ -377,6 +537,18 @@ export const Treinos = () => {
                     Cadastrar Treino
                 </Button>
             </div>
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </div>
     )
 }
