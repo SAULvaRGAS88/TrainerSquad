@@ -51,7 +51,7 @@ export const AvaliacaoFisica = () => {
             });
             if (response.status === 201) {
                 setCadastroError()
-                navigate(`/dashboard/${id}`)
+                navigate(`/ListaAvaliacaoFisica/${id}`, { state: { itemId } });
             }
         } catch (error) {
             console.error('Erro ao cadastrar:', error);

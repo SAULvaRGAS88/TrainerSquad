@@ -60,6 +60,17 @@ export const ListaAvaliacaoFisica = () => {
 
     }
 
+    const formatarData = (dataString) => {
+        if (!dataString) {
+            return "";
+        }
+
+        const ano = dataString.slice(0, 4);
+        const mes = dataString.slice(5, 7);
+        const dia = dataString.slice(8, 10);
+        return `${dia}-${mes}-${ano}`;
+    };
+
     useEffect(() => {
         avaliacoesAlunos();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -90,7 +101,7 @@ export const ListaAvaliacaoFisica = () => {
                                         <Typography style={styles.textCard} variant="body1">Objetivo: {index.objetivo}</Typography>
                                     </Grid>
                                     <Grid item xs={6} md={3}>
-                                        <Typography style={styles.textCard} variant="body1">Data: {index.data}</Typography>
+                                        <Typography style={styles.textCard} variant="body1">Data: {formatarData(index.data)}</Typography>
                                     </Grid>
                                     <Grid item xs={6} md={3}>
                                         <Typography style={styles.textCard} variant="body1">Peso: {index.peso}</Typography>
