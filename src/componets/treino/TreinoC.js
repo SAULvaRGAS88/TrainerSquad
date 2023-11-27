@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import url from '../../service/service';
 import { Button, TextField } from '@mui/material';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
@@ -10,6 +10,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 export const TreinoC = () => {
 
+    const navigate = useNavigate()
+    const { id } = useParams();
     const location = useLocation();
     const itemId = location.state?.itemId;
     const [cadastroError, setCadastroError] = useState(false);
@@ -98,7 +100,7 @@ export const TreinoC = () => {
             console.log('Treinos adicionados com sucesso!');
             toast.success('Treinos Cadastrados', {
                 position: "top-center",
-                autoClose: 5000,
+                autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -106,6 +108,9 @@ export const TreinoC = () => {
                 progress: undefined,
                 theme: "light",
             });
+            setTimeout(() => {
+                navigate(`/treinos/${id}`, { state: { itemId } });
+            }, 2000);
 
         } catch (error) {
             console.error('Erro ao cadastrar:', error);

@@ -63,14 +63,14 @@ export const Treino = () => {
                 <HeaderApp />
                 <div style={styles.treinos}>
                     <div style={styles.divName}>
-                        <p style={{ marginTop: 5, fontSize: 14, fontWeight: "bold" }}>
+                        <div style={{ marginTop: 5, fontSize: 14, fontWeight: "bold" }}>
                             Aluno(ª) :
                             {nomeAluno &&
                                 nomeAluno.map((item, index) => (
                                     <p key={index} style={{ display: 'inline-block', margin: 0, marginLeft: 5 }}>
                                         {item.nome}
                                     </p>
-                                ))}</p>
+                                ))}</div>
                     </div>
                     <div>
                         <Button
