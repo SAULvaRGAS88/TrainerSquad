@@ -9,6 +9,13 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import url from '../../service/service';
+import TodayIcon from '@mui/icons-material/Today';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 
 export const DashBoard = () => {
@@ -31,6 +38,14 @@ export const DashBoard = () => {
   const navigate = useNavigate()
   const [nomeAluno, setNomeAluno] = useState([]);
   const [status, setStatus] = useState([]);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [data, setData] = useState('');
+  const [hora, setHora] = useState('');
+  const [evento, setEvento] = useState('');
+
+  const handleSave = () => {
+    setModalOpen(false);
+  };
 
   const retornaAlunosDb = async () => {
     try {
@@ -134,7 +149,38 @@ export const DashBoard = () => {
                             navigate(`/treinos/${id}`, { state: { itemId: item.id } })
                           }} />
                         </div>
+
+                        <div style={{ backgroundColor: '#cc3affa8', margin: 5, cursor: 'pointer', display: 'flex' }}>
+                          <TodayIcon
+                            onClick={() => {
+                              setModalOpen(true);
+                              // onSaveState({ itemId: item.id });
+                            }}
+                          />
+                        </div>
+
+
                       </div>
+
+                      <Dialog open={isModalOpen} onClose={() => setModalOpen(false)}>
+                        <DialogTitle>Adicionar Evento</DialogTitle>
+                        <DialogContent>
+                          <DialogContentText>
+                            <label>Data:</label>
+                            <input type="date" value={data} onChange={(e) => setData(e.target.value)} style={styles.inputStyle} />
+
+                            <label>Hora:</label>
+                            <input type="time" value={hora} onChange={(e) => setHora(e.target.value)} style={styles.inputStyle} />
+
+                            <label>Evento:</label>
+                            <input type="text" value={evento} onChange={(e) => setEvento(e.target.value)} style={styles.inputStyle} />
+                          </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={handleSave}>Salvar</Button>
+                          <Button onClick={() => setModalOpen(false)}>Fechar</Button>
+                        </DialogActions>
+                      </Dialog>
 
                     </div>
                   )
@@ -291,7 +337,11 @@ const styles = {
   },
   p: {
     margin: 0
-  }
-
-
+  },
+  inputStyle: {
+    width: '100%',
+    padding: '8px',
+    marginBottom: '10px',
+    boxSizing: 'border-box',
+  },
 };
