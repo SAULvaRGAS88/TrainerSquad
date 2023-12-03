@@ -5,6 +5,9 @@ import { useLocation, useNavigate, useParams } from 'react-router'
 import url from '../../service/service'
 import DeleteIcon from '@mui/icons-material/Delete';
 import { toast, ToastContainer } from 'react-toastify';
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export const Treinos = () => {
 
@@ -324,6 +327,44 @@ export const Treinos = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const gerarPDF = (dados, treino) => {
+    const body = dados.map((item) => {
+        return [
+        { text: item.exercicio, fontSize: 16 },
+        { text: item.repeticao, fontSize: 16, alignment: 'center' },
+        { text: item.serie, fontSize: 16, alignment: 'center' },
+        { text: item.carga, fontSize: 16, alignment: 'center' },
+        { text: item.obs, fontSize: 16, alignment: 'center' },
+        ];
+    });
+    
+    const documentDefinition = {
+        pageSize: 'A4',
+        pageOrientation: 'landscape',
+        content: [
+        {
+            text: `Treino ${treino}`,
+            fontSize: 40,
+            bold: true,
+            alignment: 'center',
+        },
+        {
+            table: {
+            headerRows: 1,
+            widths: ['*', '*', '*', '*', '*'],
+            body: [
+                ['Exercício', 'Repetição', 'Série', 'Carga', 'Observação'],
+                ...body,
+            ],
+            },
+        },
+        ],
+    };
+    
+    pdfMake.createPdf(documentDefinition).download(`treino${treino}.pdf`);
+    };
+
+
     return (
         <div style={styles.containerPrincipal}>
             <div style={styles.containerSecundaria}>
@@ -344,6 +385,13 @@ export const Treinos = () => {
                         <Card style={styles.card} >
                             <div style={styles.divTitle}>
                                 <h3 style={{ margin: 5, color: '#d32f2f' }}>Treino A</h3>
+                                <Button
+                                size="small" 
+                                variant="outlined"
+                                color="error"
+                                onClick={() => gerarPDF(treinoA, "A")}>
+                                    Salvar como PDF
+                                </Button>
                                 <Tooltip title="Excluir Treino" arrow>
                                     <DeleteIcon
                                         onClick={deletarTreinoA}
@@ -390,6 +438,13 @@ export const Treinos = () => {
                         <Card style={styles.card} >
                             <div style={styles.divTitle}>
                                 <h3 style={{ margin: 5, color: '#d32f2f' }}>Treino B</h3>
+                                <Button
+                                size="small" 
+                                variant="outlined"
+                                color="error"
+                                onClick={() => gerarPDF(treinoB, "B")}>
+                                    Salvar como PDF
+                                </Button>
                                 <Tooltip title="Excluir Treino" arrow>
                                     <DeleteIcon
                                         onClick={deletarTreinoB}
@@ -438,6 +493,14 @@ export const Treinos = () => {
                         <Card style={styles.card} >
                             <div style={styles.divTitle}>
                                 <h3 style={{ margin: 5, color: '#d32f2f' }}>Treino C</h3>
+                                <Button
+                                size="small" 
+                                variant="outlined"
+                                color="error"
+                                onClick={() => gerarPDF(treinoC, "C")}>
+                                    Salvar como PDF
+                                </Button>
+
                                 <Tooltip title="Excluir Treino" arrow>
                                     <DeleteIcon
                                         onClick={deletarTreinoC}
@@ -484,6 +547,14 @@ export const Treinos = () => {
                         <Card style={styles.card} >
                             <div style={styles.divTitle}>
                                 <h3 style={{ margin: 5, color: '#d32f2f' }}>Treino D</h3>
+                                <Button
+                                size="small" 
+                                variant="outlined"
+                                color="error"
+                                onClick={() => gerarPDF(treinoD, "D")}>
+                                    Salvar como PDF
+                                </Button>
+
                                 <Tooltip title="Excluir Treino" arrow>
                                     <DeleteIcon
                                         onClick={deletarTreinoD}
