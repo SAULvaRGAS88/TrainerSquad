@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import url from '../../service/service';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 export const Login = () => {
 
@@ -12,25 +14,28 @@ export const Login = () => {
     const [senha, setSenha] = useState('');
     const [mostrarSenha, setMostrarSenha] = useState(false);
     const [loginError, setLoginError] = useState(false);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
         try {
-            const response = await url.get(`/api/personal/nome/${usuario}`);
-           
-            if (response.status === 200 && senha === response.data.senha) {
-                console.log(response.data.id)
-                
-                navigate(`/dashboard/${response.data.id}`);
+            setLoading(true);
 
+            const response = await url.get(`/api/personal/nome/${usuario}`);
+
+            if (response.status === 200 && senha === response.data.senha) {
+                console.log(response.data.id);
+
+                navigate(`/dashboard/${response.data.id}`);
             } else {
                 setLoginError(true);
             }
         } catch (error) {
             console.error('Erro ao efetuar login:', error);
             setLoginError(true);
+        } finally {
+            setLoading(false)
         }
-        // e.preventDefault();
     };
 
     const FuncaoMostrarSenha = () => {
@@ -40,7 +45,7 @@ export const Login = () => {
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             // e.preventDefault();
-            handleSubmit() 
+            handleSubmit()
         }
     };
 
@@ -106,12 +111,18 @@ export const Login = () => {
                                             </IconButton>
                                         </InputAdornment>
                                     )
-                                    
+
                                 }}
                                 onKeyDown={handleKeyDown}
                             />
                         </div>
-
+                        <Box sx={{ position: "relative" }}>
+                            {loading && (
+                                <div style={styles.loadingOverlay}>
+                                    <CircularProgress />
+                                </div>
+                            )}
+                        </Box>
 
                         <div style={{ alignItems: 'center', display: "flex", flexDirection: "column", width: "100%", }}>
                             <Button
@@ -195,5 +206,16 @@ const styles = {
         fontSize: 40,
         margin: 0,
         paddingLeft: 30,
-    }
+    },
+    loadingOverlay: {
+        position: 'absolute',
+        top: -30,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        background: 'rgba(255, 255, 255, 0.8)',
+      },
 }
