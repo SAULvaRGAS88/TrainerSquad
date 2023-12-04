@@ -16,35 +16,51 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import { Modal } from '@mui/material';
 
 export const DashBoard = () => {
 
-  const events = [
-    { title: 'Meeting', start: new Date() }
-  ]
-
   const { id } = useParams();
-
-  function renderEventContent(eventInfo) {
-    return (
-      <>
-        <b>{eventInfo.timeText}</b>
-        <i>{eventInfo.event.title}</i>
-      </>
-    )
-  }
-
   const navigate = useNavigate()
   const [nomeAluno, setNomeAluno] = useState([]);
   const [status, setStatus] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
   const [data, setData] = useState('');
   const [hora, setHora] = useState('');
-  const [evento, setEvento] = useState('');
+  const [tarefa, setTarefa] = useState('');
+  const [cadastroError, setCadastroError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [GetId, setGetId] = useState('');
+  const [dadosTarefas, setDadosTarefas] = useState([]);
+  const [modalOpenEvento, setModalOpenEvento] = useState(false);
+  const [eventoSelecionado, setEventoSelecionado] = useState(null);
+  const [eventosDoDia, setEventosDoDia] = useState([]);
+  const [diaSelecionado, setDiaSelecionado] = useState(null);
 
-  const handleSave = () => {
-    setModalOpen(false);
+  const events = dadosTarefas.map((tarefa) => ({
+    title: tarefa.tarefa || 'Sem Título',
+    start: `${tarefa.data || ''}T${tarefa.hora || ''}`,
+    extendedProps: {
+      nomeAluno: tarefa.nomealuno || 'Sem Nome',
+    },
+  }));
+
+  const handleDateClick = (arg) => {
+    const eventosNesseDia = events.filter(
+      (evento) =>
+        new Date(evento.start).toDateString() === new Date(arg.event.start).toDateString()
+    );
+  
+    setDiaSelecionado(arg.event.start);
+    setEventosDoDia(eventosNesseDia);
+    setModalOpenEvento(true);
+  };
+  
+
+  const handleModalClose = () => {
+    setModalOpenEvento(false);
   };
 
   const retornaAlunosDb = async () => {
@@ -73,12 +89,60 @@ export const DashBoard = () => {
     }
   }
 
+  const SalvarEventos = async (e) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+
+      if (GetId) {
+        const response = await url.post(`/api/task/${GetId}`, {
+          data: data,
+          hora: hora,
+          tarefa: tarefa
+        });
+        if (response.status === 201) {
+          console.log('Evento adicionado com sucesso!');
+          setCadastroError();
+          setModalOpen(false);
+          navigate(`/dashBoard/${id}`);
+        }
+      } else {
+        console.error('ID inválido.');
+        setCadastroError(true);
+      }
+    } catch (error) {
+      console.error('Erro ao cadastrar:', error);
+      setCadastroError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const retornaTarefasGeral = async () => {
+    try {
+
+      const response = await url.get(`/api/task/`);
+      const retornaTarefas = response.data;
+
+      const lRetorno = retornaTarefas.map(item => ({
+        data: item.data,
+        hora: item.hora,
+        tarefa: item.tarefa,
+        nomealuno: item.nomealuno,
+      }));
+      setDadosTarefas(lRetorno);
+    } catch (error) {
+      console.error('Erro ao consultar Tarefas', error);
+    }
+  };
 
   useEffect(() => {
+    retornaTarefasGeral()
     retornaAlunosDb();
     retornaStatusPag();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [id, GetId]);
 
   return (
     <div style={styles.containerPrincipal}>
@@ -154,7 +218,7 @@ export const DashBoard = () => {
                           <TodayIcon
                             onClick={() => {
                               setModalOpen(true);
-                              // onSaveState({ itemId: item.id });
+                              setGetId(item.id)
                             }}
                           />
                         </div>
@@ -173,11 +237,11 @@ export const DashBoard = () => {
                             <input type="time" value={hora} onChange={(e) => setHora(e.target.value)} style={styles.inputStyle} />
 
                             <label>Evento:</label>
-                            <input type="text" value={evento} onChange={(e) => setEvento(e.target.value)} style={styles.inputStyle} />
+                            <input type="text" value={tarefa} onChange={(e) => setTarefa(e.target.value)} style={styles.inputStyle} />
                           </DialogContentText>
                         </DialogContent>
                         <DialogActions>
-                          <Button onClick={handleSave}>Salvar</Button>
+                          <Button onClick={SalvarEventos} disabled={!GetId}>Salvar</Button>
                           <Button onClick={() => setModalOpen(false)}>Fechar</Button>
                         </DialogActions>
                       </Dialog>
@@ -191,18 +255,53 @@ export const DashBoard = () => {
             </div>
 
           </div>
+          <Box sx={{ position: "relative" }}>
+            {loading && (
+              <div style={styles.loadingOverlay}>
+                <CircularProgress />
+              </div>
+            )}
+          </Box>
           {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */}
           <div style={styles.calender}>
-            <div >
+            <div>
               <FullCalendar
-
                 plugins={[dayGridPlugin]}
                 initialView='dayGridMonth'
                 weekends={true}
                 events={events}
-                eventContent={renderEventContent}
                 height="470px"
+                eventClick={handleDateClick}
               />
+              <Modal
+                open={modalOpenEvento}
+                onClose={handleModalClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: 400,
+                    bgcolor: 'background.paper',
+                    border: '2px solid #000',
+                    p: 2,
+                  }}
+                >
+                  <h2>Eventos do Dia: {diaSelecionado && diaSelecionado.toLocaleDateString()}</h2>
+                  {eventosDoDia.map((evento) => (
+                    <div key={evento.title}>
+                      <p>{evento.title}</p>
+                      <p>{evento.extendedProps.nomeAluno}</p>
+                      {/* Adicione aqui mais informações do evento conforme necessário */}
+                    </div>
+                  ))}
+                  <Button onClick={handleModalClose}>Fechar Modal</Button>
+                </Box>
+              </Modal>
             </div>
 
           </div>
@@ -343,5 +442,16 @@ const styles = {
     padding: '8px',
     marginBottom: '10px',
     boxSizing: 'border-box',
+  },
+  loadingOverlay: {
+    position: 'absolute',
+    top: -30,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background: 'rgba(255, 255, 255, 0.8)',
   },
 };
