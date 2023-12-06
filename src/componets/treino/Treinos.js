@@ -7,6 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { toast, ToastContainer } from 'react-toastify';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export const Treinos = () => {
@@ -328,40 +329,40 @@ export const Treinos = () => {
     }, []);
 
     const gerarPDF = (dados, treino) => {
-    const body = dados.map((item) => {
-        return [
-        { text: item.exercicio, fontSize: 16 },
-        { text: item.repeticao, fontSize: 16, alignment: 'center' },
-        { text: item.serie, fontSize: 16, alignment: 'center' },
-        { text: item.carga, fontSize: 16, alignment: 'center' },
-        { text: item.obs, fontSize: 16, alignment: 'center' },
-        ];
-    });
-    
-    const documentDefinition = {
-        pageSize: 'A4',
-        pageOrientation: 'landscape',
-        content: [
-        {
-            text: `Treino ${treino}`,
-            fontSize: 40,
-            bold: true,
-            alignment: 'center',
-        },
-        {
-            table: {
-            headerRows: 1,
-            widths: ['*', '*', '*', '*', '*'],
-            body: [
-                ['Exercício', 'Repetição', 'Série', 'Carga', 'Observação'],
-                ...body,
+        const body = dados.map((item) => {
+            return [
+                { text: item.exercicio, fontSize: 16 },
+                { text: item.repeticao, fontSize: 16, alignment: 'center' },
+                { text: item.serie, fontSize: 16, alignment: 'center' },
+                { text: item.carga, fontSize: 16, alignment: 'center' },
+                { text: item.obs, fontSize: 16, alignment: 'center' },
+            ];
+        });
+
+        const documentDefinition = {
+            pageSize: 'A4',
+            pageOrientation: 'landscape',
+            content: [
+                {
+                    text: `Treino ${treino}`,
+                    fontSize: 40,
+                    bold: true,
+                    alignment: 'center',
+                },
+                {
+                    table: {
+                        headerRows: 1,
+                        widths: ['*', '*', '*', '*', '*'],
+                        body: [
+                            ['Exercício', 'Repetição', 'Série', 'Carga', 'Observação'],
+                            ...body,
+                        ],
+                    },
+                },
             ],
-            },
-        },
-        ],
-    };
-    
-    pdfMake.createPdf(documentDefinition).download(`treino${treino}.pdf`);
+        };
+
+        pdfMake.createPdf(documentDefinition).download(`treino${treino}.pdf`);
     };
 
 
@@ -385,21 +386,26 @@ export const Treinos = () => {
                         <Card style={styles.card} >
                             <div style={styles.divTitle}>
                                 <h3 style={{ margin: 5, color: '#d32f2f' }}>Treino A</h3>
-                                <Button
-                                size="small" 
-                                variant="outlined"
-                                color="error"
-                                onClick={() => gerarPDF(treinoA, "A")}>
-                                    Salvar como PDF
-                                </Button>
-                                <Tooltip title="Excluir Treino" arrow>
-                                    <DeleteIcon
-                                        onClick={deletarTreinoA}
-                                        htmlColor='#d32f2f'
-                                        style={styles.iconDel}
-                                        onMouseOver={() => ("Excluir Treino?")}
-                                    />
-                                </Tooltip>
+
+                                <div>
+                                    <Tooltip title="Gerar PDF" arrow>
+                                        <PictureAsPdfIcon
+                                            onClick={() => gerarPDF(treinoA, "A")}
+                                            htmlColor='#d32f2f'
+                                            style={styles.iconDel}
+                                            onMouseOver={() => ("Gerar PDF")}
+                                        />
+                                    </Tooltip>
+
+                                    <Tooltip title="Excluir Treino" arrow>
+                                        <DeleteIcon
+                                            onClick={deletarTreinoA}
+                                            htmlColor='#d32f2f'
+                                            style={styles.iconDel}
+                                            onMouseOver={() => ("Excluir Treino?")}
+                                        />
+                                    </Tooltip>
+                                </div>
                             </div>
 
                             <div style={styles.titleBox}>
@@ -438,21 +444,26 @@ export const Treinos = () => {
                         <Card style={styles.card} >
                             <div style={styles.divTitle}>
                                 <h3 style={{ margin: 5, color: '#d32f2f' }}>Treino B</h3>
-                                <Button
-                                size="small" 
-                                variant="outlined"
-                                color="error"
-                                onClick={() => gerarPDF(treinoB, "B")}>
-                                    Salvar como PDF
-                                </Button>
-                                <Tooltip title="Excluir Treino" arrow>
-                                    <DeleteIcon
-                                        onClick={deletarTreinoB}
-                                        htmlColor='#d32f2f'
-                                        style={styles.iconDel}
-                                        onMouseOver={() => ("Excluir Treino?")}
-                                    />
-                                </Tooltip>
+
+                                <div>
+                                    <Tooltip title="Gerar PDF" arrow>
+                                        <PictureAsPdfIcon
+                                            onClick={() => gerarPDF(treinoB, "B")}
+                                            htmlColor='#d32f2f'
+                                            style={styles.iconDel}
+                                            onMouseOver={() => ("Gerar PDF")}
+                                        />
+                                    </Tooltip>
+                                    <Tooltip title="Excluir Treino" arrow>
+                                        <DeleteIcon
+                                            onClick={deletarTreinoB}
+                                            htmlColor='#d32f2f'
+                                            style={styles.iconDel}
+                                            onMouseOver={() => ("Excluir Treino?")}
+                                        />
+                                    </Tooltip>
+                                </div>
+
                             </div>
                             <div style={styles.titleBox}>
                                 <Typography sx={{ width: '35%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Exercício</Typography>
@@ -493,22 +504,26 @@ export const Treinos = () => {
                         <Card style={styles.card} >
                             <div style={styles.divTitle}>
                                 <h3 style={{ margin: 5, color: '#d32f2f' }}>Treino C</h3>
-                                <Button
-                                size="small" 
-                                variant="outlined"
-                                color="error"
-                                onClick={() => gerarPDF(treinoC, "C")}>
-                                    Salvar como PDF
-                                </Button>
 
-                                <Tooltip title="Excluir Treino" arrow>
-                                    <DeleteIcon
-                                        onClick={deletarTreinoC}
-                                        htmlColor='#d32f2f'
-                                        style={styles.iconDel}
-                                        onMouseOver={() => ("Excluir Treino?")}
-                                    />
-                                </Tooltip>
+                                <div>
+                                    <Tooltip title="Gerar PDF" arrow>
+                                        <PictureAsPdfIcon
+                                            onClick={() => gerarPDF(treinoC, "C")}
+                                            htmlColor='#d32f2f'
+                                            style={styles.iconDel}
+                                            onMouseOver={() => ("Gerar PDF")}
+                                        />
+                                    </Tooltip>
+                                    <Tooltip title="Excluir Treino" arrow>
+                                        <DeleteIcon
+                                            onClick={deletarTreinoC}
+                                            htmlColor='#d32f2f'
+                                            style={styles.iconDel}
+                                            onMouseOver={() => ("Excluir Treino?")}
+                                        />
+                                    </Tooltip>
+                                </div>
+
                             </div>
                             <div style={styles.titleBox}>
                                 <Typography sx={{ width: '35%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Exercício</Typography>
@@ -547,22 +562,27 @@ export const Treinos = () => {
                         <Card style={styles.card} >
                             <div style={styles.divTitle}>
                                 <h3 style={{ margin: 5, color: '#d32f2f' }}>Treino D</h3>
-                                <Button
-                                size="small" 
-                                variant="outlined"
-                                color="error"
-                                onClick={() => gerarPDF(treinoD, "D")}>
-                                    Salvar como PDF
-                                </Button>
 
-                                <Tooltip title="Excluir Treino" arrow>
-                                    <DeleteIcon
-                                        onClick={deletarTreinoD}
-                                        htmlColor='#d32f2f'
-                                        style={styles.iconDel}
-                                        onMouseOver={() => ("Excluir Treino?")}
-                                    />
-                                </Tooltip>
+                                <div>
+                                    <Tooltip title="Gerar PDF" arrow>
+                                        <PictureAsPdfIcon
+                                            onClick={() => gerarPDF(treinoD, "D")}
+                                            htmlColor='#d32f2f'
+                                            style={styles.iconDel}
+                                            onMouseOver={() => ("Gerar PDF")}
+                                        />
+                                    </Tooltip>
+
+                                    <Tooltip title="Excluir Treino" arrow>
+                                        <DeleteIcon
+                                            onClick={deletarTreinoD}
+                                            htmlColor='#d32f2f'
+                                            style={styles.iconDel}
+                                            onMouseOver={() => ("Excluir Treino?")}
+                                        />
+                                    </Tooltip>
+                                </div>
+
                             </div>
                             <div style={styles.titleBox}>
                                 <Typography sx={{ width: '35%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Exercício</Typography>

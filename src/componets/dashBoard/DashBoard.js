@@ -35,7 +35,7 @@ export const DashBoard = () => {
   const [GetId, setGetId] = useState('');
   const [dadosTarefas, setDadosTarefas] = useState([]);
   const [modalOpenEvento, setModalOpenEvento] = useState(false);
-  const [eventoSelecionado, setEventoSelecionado] = useState(null);
+  // const [eventoSelecionado, setEventoSelecionado] = useState(null);
   const [eventosDoDia, setEventosDoDia] = useState([]);
   const [diaSelecionado, setDiaSelecionado] = useState(null);
 
@@ -44,6 +44,7 @@ export const DashBoard = () => {
     start: `${tarefa.data || ''}T${tarefa.hora || ''}`,
     extendedProps: {
       nomeAluno: tarefa.nomealuno || 'Sem Nome',
+      hora: tarefa.hora || 'Sem Hora', // Adicione esta linha
     },
   }));
 
@@ -291,15 +292,15 @@ export const DashBoard = () => {
                     p: 2,
                   }}
                 >
-                  <h2>Eventos do Dia: {diaSelecionado && diaSelecionado.toLocaleDateString()}</h2>
+                  <h2>Agenda do Dia: {diaSelecionado && diaSelecionado.toLocaleDateString()}</h2>
                   {eventosDoDia.map((evento) => (
-                    <div key={evento.title}>
-                      <p>{evento.title}</p>
-                      <p>{evento.extendedProps.nomeAluno}</p>
-                      {/* Adicione aqui mais informações do evento conforme necessário */}
+                    <div key={evento.title} style={styles.divModal}>
+                      <p>Tarefa: {evento.title}</p>
+                      <p>Aluno: {evento.extendedProps.nomeAluno}</p>
+                      <p>Hora: {evento.extendedProps.hora}</p> {/* Ajuste esta linha */}
                     </div>
                   ))}
-                  <Button onClick={handleModalClose}>Fechar Modal</Button>
+                  <Button onClick={handleModalClose}>Fechar</Button>
                 </Box>
               </Modal>
             </div>
@@ -454,4 +455,7 @@ const styles = {
     alignItems: 'center',
     background: 'rgba(255, 255, 255, 0.8)',
   },
+  divModal:{
+    borderBottom: '2px solid #1976d2',
+  }
 };
