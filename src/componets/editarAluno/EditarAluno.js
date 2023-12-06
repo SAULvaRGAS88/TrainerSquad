@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Button, Input, Select } from '@mui/material';
+import { Box, Button, Input, Modal, Select } from '@mui/material';
 import { HeaderApp } from '../headerApp/HeaderApp';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -21,6 +21,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import dayjs from 'dayjs';
+import TodayIcon from '@mui/icons-material/Today';
 
 export const EditarAluno = () => {
 
@@ -31,9 +32,34 @@ export const EditarAluno = () => {
     const [exclusao, setExclusao] = useState(false);
     const [status, setStatus] = useState('');
     const [alunoDb, setAlunoDb] = useState('');
+    const [dadosTarefas, setDadosTarefas] = useState('');
     const { id } = useParams();
     const opcoesPlano = ['Mensal', 'Trimestral', 'Semestral', "Anual"];
     const opcoesSexo = ['Masculino', 'Feminino', 'Não Informar'];
+    const [modalOpenEvento, setModalOpenEvento] = useState(false);
+
+    const handleModalClose = () => {
+        setModalOpenEvento(false);
+    };
+
+    const retornaTarefasAluno = async () => {
+        try {
+
+            const response = await url.get(`/api/task/aluno/${itemId}`);
+            const retornaTarefas = response.data;
+
+            const lRetorno = retornaTarefas.map(item => ({
+                data: item.data,
+                hora: item.hora,
+                tarefa: item.tarefa,
+                nomealuno: item.nomealuno,
+            }));
+            setDadosTarefas(lRetorno);
+            console.log(lRetorno, 'terefa aluno')
+        } catch (error) {
+            console.error('Erro ao consultar Tarefas', error);
+        }
+    };
 
     const retornaAlunoDb = async () => {
         try {
@@ -154,6 +180,7 @@ export const EditarAluno = () => {
     useEffect(() => {
         retornaAlunoDb();
         retornaPagamentoDb()
+        retornaTarefasAluno()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [itemId]);
 
@@ -307,14 +334,10 @@ export const EditarAluno = () => {
                             <div style={{ display: "flex", marginTop: 5, marginBottom: -10, alignItems: "center" }}>
                                 <p style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Data de Pagamento: </p>
                                 <LocalizationProvider locale={ptBR} dateAdapter={AdapterDayjs}>
-                                    <p style={{marginLeft: 10, marginRight: 10 }}> 
-                                         {formatarData(status.dt_pagamento)}
-                                    </p>
-                                   
-
-                                    {/* <p style={{ marginLeft: 10, marginRight: 10 }}>
+                                    <p style={{ marginLeft: 10, marginRight: 10 }}>
                                         {formatarData(status.dt_pagamento)}
-                                    </p> */}
+                                    </p>
+
                                     <DatePicker
                                         style={{ borderColor: '' }}
                                         format='DD-MM-YYYY'
@@ -354,7 +377,16 @@ export const EditarAluno = () => {
 
                         </div>
 
+                        <div
+                            onClick={() => setModalOpenEvento(true)}
+                            style={styles.histTarefa}
+                        >
+                            <TodayIcon htmlColor='' />
+                            <p>Histórico de Tarefas</p>
+                        </div>
+
                     </form>
+
                 </div>
 
                 <div style={{ width: "60%", alignItems: 'center', display: "flex", flexDirection: "row", marginTop: 20, justifyContent: 'space-around' }}>
@@ -377,6 +409,37 @@ export const EditarAluno = () => {
                 </div>
 
             </div>
+            <Modal
+                open={modalOpenEvento}
+                onClose={handleModalClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: 400,
+                        bgcolor: 'background.paper',
+                        border: '2px solid #000',
+                        p: 2,
+                    }}
+                >
+                    <h2>Histórico de Tarefas</h2>
+                    {dadosTarefas && dadosTarefas.map((evento, index) => (
+                        <div key={index} style={styles.divModal}>
+                            <p>Data: {evento.data}</p>
+                            <p>Hora: {evento.hora}</p>
+                            <p>Tarefa: {evento.tarefa}</p>
+                            <p>Aluno: {evento.nomealuno}</p>
+                        </div>
+                    ))}
+                    <Button onClick={handleModalClose}>Fechar</Button>
+                </Box>
+
+            </Modal>
 
         </div>
     )
@@ -449,4 +512,17 @@ const styles = {
         justifyContent: 'center',
         display: 'flex'
     },
+    histTarefa: {
+        marginTop: 30,
+        display: 'flex',
+        alignItems: 'center',
+        backgroundColor: '#cc3affa8',
+        width: 'fit-content',
+        cursor: "pointer",
+        boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
+        borderRadius: 20,
+    },
+    divModal: {
+        borderBottom: '2px solid #1976d2',
+    }
 }

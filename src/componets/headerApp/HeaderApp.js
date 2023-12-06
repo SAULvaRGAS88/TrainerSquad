@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { Link } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useParams } from 'react-router-dom';
 import url from '../../service/service';
+import logoBranco from '../../LogoBranco.png' 
 
 export const HeaderApp = () => {
     const [person, setPerson] = useState([]);
@@ -32,12 +32,13 @@ export const HeaderApp = () => {
 
     useEffect(() => {
         retornaDadosPersonal()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
         <div style={styles.header}>
             <div style={styles.Icon}>
-                <FitnessCenterIcon sx={{ color: 'white', fontSize: 60 }} />
+                <img src={logoBranco} alt="logoBranco" width="150" height="100"/>
             </div>
 
             <div style={styles.divBox}>
@@ -75,14 +76,14 @@ const styles = {
     },
     Icon: {
         float: 'left',
-        marginLeft: 20
+        marginLeft: 0
     },
     divBox: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
-        marginLeft: 20
+        marginLeft: 0
     },
     divP: {
         marginRight: 20,
@@ -95,7 +96,6 @@ const styles = {
     },
     divLinks: {
         display: "flex",
-        // justifyContent: "space-between",
         width: 450,
         textTraformation: "none",
         fontSize: 20,
