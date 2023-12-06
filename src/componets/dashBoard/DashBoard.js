@@ -123,7 +123,7 @@ export const DashBoard = () => {
   const retornaTarefasGeral = async () => {
     try {
 
-      const response = await url.get(`/api/task/`);
+      const response = await url.get(`/api/task/${id}`);
       const retornaTarefas = response.data;
 
       const lRetorno = retornaTarefas.map(item => ({
