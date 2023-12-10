@@ -385,7 +385,7 @@ export const Treinos = () => {
                     <div style={styles.divDou}>
                         <Card style={styles.card} >
                             <div style={styles.divTitle}>
-                                <h3 style={{ margin: 5, color: '#d32f2f' }}>Treino A</h3>
+                                <p style={{ margin: 5, color: '#d32f2f', fontSize: 18, fontWeight: "bold" }}>Treino A</p>
 
                                 <div>
                                     <Tooltip title="Gerar PDF" arrow>
@@ -409,11 +409,11 @@ export const Treinos = () => {
                             </div>
 
                             <div style={styles.titleBox}>
-                                <Typography sx={{ width: '35%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Exercício</Typography>
-                                <Typography sx={{ width: '10%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Repetição</Typography>
-                                <Typography sx={{ width: '10%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Série</Typography>
-                                <Typography sx={{ width: '10%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Carga</Typography>
-                                <Typography sx={{ width: '35%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Observação</Typography>
+                                <p style={{ width: '35%', padding: 5, margin: 0, display: "flex", justifyContent: "flex-start", color: '#d32f2f' }}>Exercício</p>
+                                <p style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Repetição</p>
+                                <p style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Série</p>
+                                <p style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Carga</p>
+                                <p style={{ width: '35%', padding: 5, margin: 0, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Observação</p>
                             </div>
                             {treinoA && treinoA.map((item, index) => (
                                 <Card key={index} style={styles.divTreinos}>
@@ -422,20 +422,20 @@ export const Treinos = () => {
                                         flexDirection: 'row',
                                         padding: 0,
                                     }} container spacing={0}>
-                                        <Grid item sx={{ width: '35%', p: 0, display: "flex", justifyContent: "center" }}>
-                                            <Typography>{item.exercicio}</Typography>
+                                        <Grid item style={{ width: '35%', padding: 5, margin: 0, display: "flex", justifyContent: "flex-start" }}>
+                                            <p style={styles.pTreino}>{item.exercicio}</p>
                                         </Grid>
-                                        <Grid sx={{ width: '10%', p: 0, display: "flex", justifyContent: "center" }}>
-                                            <Typography>{item.repeticao}</Typography>
+                                        <Grid style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center" }}>
+                                            <p style={styles.pTreino}>{item.repeticao}</p>
                                         </Grid>
-                                        <Grid sx={{ width: '10%', p: 0, display: "flex", justifyContent: "center" }}>
-                                            <Typography>{item.serie}</Typography>
+                                        <Grid style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center" }}>
+                                            <p style={styles.pTreino}>{item.serie}</p>
                                         </Grid>
-                                        <Grid sx={{ width: '10%', p: 0, display: "flex", justifyContent: "center" }}>
-                                            <Typography>{item.carga}</Typography>
+                                        <Grid style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center" }}>
+                                            <p style={styles.pTreino}>{item.carga}</p>
                                         </Grid>
-                                        <Grid sx={{ width: '35%', p: 0, display: "flex", justifyContent: "center" }}>
-                                            <Typography>{item.obs}</Typography>
+                                        <Grid style={{ width: '35%', padding: 5, margin: 0, display: "flex", justifyContent: "center" }}>
+                                            <p style={styles.pTreino}>{item.obs}</p>
                                         </Grid>
                                     </Grid>
                                 </Card>
@@ -443,7 +443,7 @@ export const Treinos = () => {
                         </Card>
                         <Card style={styles.card} >
                             <div style={styles.divTitle}>
-                                <h3 style={{ margin: 5, color: '#d32f2f' }}>Treino B</h3>
+                                <p style={{ margin: 5, color: '#d32f2f', fontSize: 18, fontWeight: "bold" }}>Treino B</p>
 
                                 <div>
                                     <Tooltip title="Gerar PDF" arrow>
@@ -466,11 +466,11 @@ export const Treinos = () => {
 
                             </div>
                             <div style={styles.titleBox}>
-                                <Typography sx={{ width: '35%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Exercício</Typography>
-                                <Typography sx={{ width: '10%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Repetição</Typography>
-                                <Typography sx={{ width: '10%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Série</Typography>
-                                <Typography sx={{ width: '10%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Carga</Typography>
-                                <Typography sx={{ width: '35%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Observação</Typography>
+                                <p style={{ width: '35%', padding: 5, margin: 0, display: "flex", justifyContent: "flex-start", color: '#d32f2f' }}>Exercício</p>
+                                <p style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Repetição</p>
+                                <p style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Série</p>
+                                <p style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Carga</p>
+                                <p style={{ width: '35%', padding: 5, margin: 0, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Observação</p>
                             </div>
                             {treinoB && treinoB.map((item, index) => (
                                 <Card key={index} style={styles.divTreinos}>
@@ -480,20 +480,20 @@ export const Treinos = () => {
                                         padding: 0,
                                         // width: '20%'
                                     }} container spacing={0}>
-                                        <Grid item sx={{ width: '35%', p: 0, display: "flex", justifyContent: "center" }}>
-                                            <Typography>{item.exercicio}</Typography>
+                                        <Grid item style={{ width: '35%', padding: 5, margin: 0, display: "flex", justifyContent: "flex-start" }}>
+                                            <p style={styles.pTreino}>{item.exercicio}</p>
                                         </Grid>
-                                        <Grid sx={{ width: '10%', p: 0, display: "flex", justifyContent: "center" }}>
-                                            <Typography>{item.repeticao}</Typography>
+                                        <Grid style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center" }}>
+                                            <p style={styles.pTreino}>{item.repeticao}</p>
                                         </Grid>
-                                        <Grid sx={{ width: '10%', p: 0, display: "flex", justifyContent: "center" }}>
-                                            <Typography>{item.serie}</Typography>
+                                        <Grid style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center" }}>
+                                            <p style={styles.pTreino}>{item.serie}</p>
                                         </Grid>
-                                        <Grid sx={{ width: '10%', p: 0, display: "flex", justifyContent: "center" }}>
-                                            <Typography>{item.carga}</Typography>
+                                        <Grid style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center" }}>
+                                            <p style={styles.pTreino}>{item.carga}</p>
                                         </Grid>
-                                        <Grid sx={{ width: '35%', p: 0, display: "flex", justifyContent: "center" }}>
-                                            <Typography>{item.obs}</Typography>
+                                        <Grid style={{ width: '35%', padding: 5, margin: 0, display: "flex", justifyContent: "center" }}>
+                                            <p style={styles.pTreino}>{item.obs}</p>
                                         </Grid>
                                     </Grid>
                                 </Card>
@@ -503,7 +503,7 @@ export const Treinos = () => {
                     <div style={styles.divDou}>
                         <Card style={styles.card} >
                             <div style={styles.divTitle}>
-                                <h3 style={{ margin: 5, color: '#d32f2f' }}>Treino C</h3>
+                                <p style={{ margin: 5, color: '#d32f2f', fontSize: 18, fontWeight: "bold" }}>Treino C</p>
 
                                 <div>
                                     <Tooltip title="Gerar PDF" arrow>
@@ -526,11 +526,11 @@ export const Treinos = () => {
 
                             </div>
                             <div style={styles.titleBox}>
-                                <Typography sx={{ width: '35%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Exercício</Typography>
-                                <Typography sx={{ width: '10%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Repetição</Typography>
-                                <Typography sx={{ width: '10%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Série</Typography>
-                                <Typography sx={{ width: '10%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Carga</Typography>
-                                <Typography sx={{ width: '35%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Observação</Typography>
+                                <p style={{ width: '35%', padding: 5, margin: 0, display: "flex", justifyContent: "flex-start", color: '#d32f2f' }}>Exercício</p>
+                                <p style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Repetição</p>
+                                <p style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Série</p>
+                                <p style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Carga</p>
+                                <p style={{ width: '35%', padding: 5, margin: 0, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Observação</p>
                             </div>
                             {treinoC && treinoC.map((item, index) => (
                                 <Card key={index} style={styles.divTreinos}>
@@ -540,20 +540,20 @@ export const Treinos = () => {
                                         padding: 0,
                                         // width: '20%'
                                     }} container spacing={0}>
-                                        <Grid item sx={{ width: '35%', p: 0, display: "flex", justifyContent: "center" }}>
-                                            <Typography>{item.exercicio}</Typography>
+                                        <Grid item style={{ width: '35%', padding: 5, margin: 0, display: "flex", justifyContent: "flex-start" }}>
+                                            <p style={styles.pTreino}>{item.exercicio}</p>
                                         </Grid>
-                                        <Grid sx={{ width: '10%', p: 0, display: "flex", justifyContent: "center" }}>
-                                            <Typography>{item.repeticao}</Typography>
+                                        <Grid style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center" }}>
+                                            <p style={styles.pTreino}>{item.repeticao}</p>
                                         </Grid>
-                                        <Grid sx={{ width: '10%', p: 0, display: "flex", justifyContent: "center" }}>
-                                            <Typography>{item.serie}</Typography>
+                                        <Grid style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center" }}>
+                                            <p style={styles.pTreino}>{item.serie}</p>
                                         </Grid>
-                                        <Grid sx={{ width: '10%', p: 0, display: "flex", justifyContent: "center" }}>
-                                            <Typography>{item.carga}</Typography>
+                                        <Grid style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center" }}>
+                                            <p style={styles.pTreino}>{item.carga}</p>
                                         </Grid>
-                                        <Grid sx={{ width: '35%', p: 0, display: "flex", justifyContent: "center" }}>
-                                            <Typography>{item.obs}</Typography>
+                                        <Grid style={{ width: '35%', padding: 5, margin: 0, display: "flex", justifyContent: "center" }}>
+                                            <p style={styles.pTreino}>{item.obs}</p>
                                         </Grid>
                                     </Grid>
                                 </Card>
@@ -561,7 +561,7 @@ export const Treinos = () => {
                         </Card>
                         <Card style={styles.card} >
                             <div style={styles.divTitle}>
-                                <h3 style={{ margin: 5, color: '#d32f2f' }}>Treino D</h3>
+                                <p style={{ margin: 5, color: '#d32f2f', fontSize: 18, fontWeight: "bold" }}>Treino D</p>
 
                                 <div>
                                     <Tooltip title="Gerar PDF" arrow>
@@ -585,11 +585,11 @@ export const Treinos = () => {
 
                             </div>
                             <div style={styles.titleBox}>
-                                <Typography sx={{ width: '35%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Exercício</Typography>
-                                <Typography sx={{ width: '10%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Repetição</Typography>
-                                <Typography sx={{ width: '10%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Série</Typography>
-                                <Typography sx={{ width: '10%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Carga</Typography>
-                                <Typography sx={{ width: '35%', p: 0.5, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Observação</Typography>
+                                <p style={{ width: '35%', padding: 5, margin: 0, display: "flex", justifyContent: "flex-start", color: '#d32f2f' }}>Exercício</p>
+                                <p style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Repetição</p>
+                                <p style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Série</p>
+                                <p style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Carga</p>
+                                <p style={{ width: '35%', padding: 5, margin: 0, display: "flex", justifyContent: "center", color: '#d32f2f' }}>Observação</p>
                             </div>
                             {treinoD && treinoD.map((item, index) => (
                                 <Card key={index} style={styles.divTreinos}>
@@ -599,20 +599,20 @@ export const Treinos = () => {
                                         padding: 0,
                                         // width: '20%'
                                     }} container spacing={0}>
-                                        <Grid item sx={{ width: '35%', p: 0, display: "flex", justifyContent: "center" }}>
-                                            <Typography>{item.exercicio}</Typography>
+                                        <Grid item style={{ width: '35%', padding: 5, margin: 0, display: "flex", justifyContent: "flex-start" }}>
+                                            <p style={styles.pTreino}>{item.exercicio}</p>
                                         </Grid>
-                                        <Grid sx={{ width: '10%', p: 0, display: "flex", justifyContent: "center" }}>
-                                            <Typography>{item.repeticao}</Typography>
+                                        <Grid style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center" }}>
+                                            <p style={styles.pTreino}>{item.repeticao}</p>
                                         </Grid>
-                                        <Grid sx={{ width: '10%', p: 0, display: "flex", justifyContent: "center" }}>
-                                            <Typography>{item.serie}</Typography>
+                                        <Grid style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center" }}>
+                                            <p style={styles.pTreino}>{item.serie}</p>
                                         </Grid>
-                                        <Grid sx={{ width: '10%', p: 0, display: "flex", justifyContent: "center" }}>
-                                            <Typography>{item.carga}</Typography>
+                                        <Grid style={{ width: '10%', padding: 5, margin: 0, display: "flex", justifyContent: "center" }}>
+                                            <p style={styles.pTreino}>{item.carga}</p>
                                         </Grid>
-                                        <Grid sx={{ width: '35%', p: 0, display: "flex", justifyContent: "center" }}>
-                                            <Typography>{item.obs}</Typography>
+                                        <Grid style={{ width: '35%', padding: 5, margin: 0, display: "flex", justifyContent: "center" }}>
+                                            <p style={styles.pTreino}>{item.obs}</p>
                                         </Grid>
                                     </Grid>
                                 </Card>
@@ -670,9 +670,10 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         width: '95%',
-        height: 'auto',
-        margin: 20,
+        height: '65vh',
+        margin: 10,
         justifyContent: 'space-between',
+        overflowY: 'auto',
     },
     card: {
         margin: 10,
@@ -717,5 +718,9 @@ const styles = {
         display: 'flex',
         justifyContent: 'flex-start',
     },
+    pTreino: {
+        margin: 0,
+        // padding: 5,
+    }
 
 }

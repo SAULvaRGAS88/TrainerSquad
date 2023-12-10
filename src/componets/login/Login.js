@@ -75,7 +75,8 @@ export const Login = () => {
                                     '& label': { color: 'white' },
                                     '& fieldset': { borderColor: 'white' },
                                     color: 'white',
-                                    '& input': { color: 'white' }
+                                    '& input': { color: 'white' },
+                                    width: 235
 
                                 }}
                                 value={usuario}

@@ -132,13 +132,13 @@ export const CadastroPersonal = () => {
                         </div> */}
 
                         {cadastroError && <p>Ocorreu um erro ao cadastrar. Verifique os dados.</p>}
-                        <div style={{ display: "flex", justifyContent: 'space-between' }}>
+                        <div style={{ display: "flex", justifyContent: 'center' }}>
                             <Button
                                 style={styles.Button}
                                 variant="contained"
                                 onClick={handleSubmit}
                             >Criar</Button>
-                            <Button
+                            {/* <Button
                                 style={{
                                     ...styles.ButtonLogo,
                                     backgroundImage: 'url("/logoGoogle.png")',
@@ -149,7 +149,7 @@ export const CadastroPersonal = () => {
                                 variant="contained"
                                 onClick={() => { }}>
                                 entrar
-                            </Button>
+                            </Button> */}
                         </div>
                     </form>
                 </div>

@@ -78,7 +78,17 @@ export const ControlePagamento = () => {
         retornaPag();
     }, []);
 
+    const formatarData = (dataString) => {
+        if (!dataString || typeof dataString !== 'string' || dataString.length < 10) {
+            return "";
+        }
 
+        const ano = dataString.slice(0, 4);
+        const mes = dataString.slice(5, 7);
+        const dia = dataString.slice(8, 10);
+
+        return `${dia}-${mes}-${ano}`;
+    };
 
 
     const [pagamentoIdParaEditar, setPagParaEditar] = useState(null);
@@ -118,7 +128,7 @@ export const ControlePagamento = () => {
                                         <div key={index} style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
                                             <p style={{ margin: 0, fontSize: 16, fontFamily: "serif", width: "100%", display: "flex", justifyContent: "space-between" }}>{item.nome}</p>
                                             <p style={{ margin: 0, fontSize: 16, fontFamily: "serif", width: "100%", display: "flex", justifyContent: "space-between" }}>{item.plano}</p>
-                                            <p style={{ margin: 0, fontSize: 16, fontFamily: "serif", width: "100%", display: "flex", justifyContent: "space-between" }} >{statusItem[index].dt_pagamento}</p>
+                                            <p style={{ margin: 0, fontSize: 16, fontFamily: "serif", width: "100%", display: "flex", justifyContent: "space-between" }} >{formatarData(statusItem[index].dt_pagamento)}</p>
                                             <p style={{ margin: 0, fontSize: 16, fontFamily: "serif", width: "100%", display: "flex", justifyContent: "space-between" }}>{statusItem[index].status}</p>
                                             <p style={{ margin: 0, fontSize: 16, fontFamily: "serif", width: "100%", display: "flex", justifyContent: "space-between" }}>{statusItem[index].valor}</p>
                                             <div style={{ backgroundColor: 'green', margin: 5, cursor: "pointer", display: "flex" }}
