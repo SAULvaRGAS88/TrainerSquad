@@ -35,7 +35,6 @@ export const DashBoard = () => {
   const [GetId, setGetId] = useState('');
   const [dadosTarefas, setDadosTarefas] = useState([]);
   const [modalOpenEvento, setModalOpenEvento] = useState(false);
-  // const [eventoSelecionado, setEventoSelecionado] = useState(null);
   const [eventosDoDia, setEventosDoDia] = useState([]);
   const [diaSelecionado, setDiaSelecionado] = useState(null);
 
@@ -44,7 +43,7 @@ export const DashBoard = () => {
     start: `${tarefa.data || ''}T${tarefa.hora || ''}`,
     extendedProps: {
       nomeAluno: tarefa.nomealuno || 'Sem Nome',
-      hora: tarefa.hora || 'Sem Hora', // Adicione esta linha
+      hora: tarefa.hora || 'Sem Hora', 
     },
   }));
 
@@ -53,12 +52,12 @@ export const DashBoard = () => {
       (evento) =>
         new Date(evento.start).toDateString() === new Date(arg.event.start).toDateString()
     );
-  
+
     setDiaSelecionado(arg.event.start);
     setEventosDoDia(eventosNesseDia);
     setModalOpenEvento(true);
   };
-  
+
 
   const handleModalClose = () => {
     setModalOpenEvento(false);
@@ -91,7 +90,6 @@ export const DashBoard = () => {
   }
 
   const SalvarEventos = async (e) => {
-    e.preventDefault();
 
     try {
       setLoading(true);
@@ -106,7 +104,7 @@ export const DashBoard = () => {
           console.log('Evento adicionado com sucesso!');
           setCadastroError();
           setModalOpen(false);
-          navigate(`/dashBoard/${id}`);
+          window.location.reload();
         }
       } else {
         console.error('ID inválido.');
@@ -242,7 +240,10 @@ export const DashBoard = () => {
                           </DialogContentText>
                         </DialogContent>
                         <DialogActions>
-                          <Button onClick={SalvarEventos} disabled={!GetId}>Salvar</Button>
+                          <Button
+                            onClick={SalvarEventos}
+                            disabled={!GetId}
+                          >Salvar</Button>
                           <Button onClick={() => setModalOpen(false)}>Fechar</Button>
                         </DialogActions>
                       </Dialog>
@@ -455,7 +456,7 @@ const styles = {
     alignItems: 'center',
     background: 'rgba(255, 255, 255, 0.8)',
   },
-  divModal:{
+  divModal: {
     borderBottom: '2px solid #1976d2',
   }
 };
