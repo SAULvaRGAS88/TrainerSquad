@@ -206,7 +206,7 @@ export const CadastroAluno = () => {
           </form>
         </div>
 
-        <div style={{ width: "60%", alignItems: 'center', display: "flex", flexDirection: "row", marginTop: 20, justifyContent: 'center' }}>
+        <div style={{ width: "60%", alignItems: 'center', display: "flex", flexDirection: "row", marginTop: 40, justifyContent: 'center' }}>
           {cadastroError && <p>Ocorreu um erro ao cadastrar. Verifique os dados.</p>}
           <Button
             onClick={handleSubmit}

@@ -312,7 +312,16 @@ const styles = {
         alignItems: 'center'
     },
     Button: {
-        marginTop: '20px',
-        marginBottom: '10px'
-    }
+        width: '20%',
+        height: 50,
+        boxShadow: '5px 5px 10px 0px rgba(0,0,0,0.7)',
+        backgroundColor: '#f5f3f3',
+        color: 'black',
+        cursor: 'pointer',
+        display: 'flex',
+        justifyContent: 'space-around',
+        fontWeight: 'bold',
+        borderRadius: 50,
+        marginTop: 15
+      },
 }
