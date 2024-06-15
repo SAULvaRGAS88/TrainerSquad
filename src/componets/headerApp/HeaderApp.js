@@ -55,7 +55,7 @@ export const HeaderApp = () => {
                             <p>{item.nome}</p>
                         </div>
                     ))}
-                    <LogoutIcon onClick={logout} style={{ cursor: "pointer", marginLeft: 20, fontSize: 34 }} />
+                    <LogoutIcon onClick={logout} style={{ cursor: "pointer", marginLeft: 20, fontSize: 34 }} id='logout'/>
                 </div>
 
             </div>
