@@ -77,7 +77,7 @@ export const CadastroAluno = () => {
             <div style={{ marginLeft: 10 }}>
               <div style={{}}>
                 <TextField
-                  id="standard-basic"
+                  id="nomeTextField"
                   label="Nome"
                   variant="standard"
                   value={nomeAluno}
@@ -90,7 +90,7 @@ export const CadastroAluno = () => {
               </div>
               <div>
                 <TextField
-                  id="standard-basic"
+                  id="cpfTextField"
                   label="CPF"
                   variant="standard"
                   value={cpf}
@@ -104,7 +104,7 @@ export const CadastroAluno = () => {
 
               <div>
                 <TextField
-                  id="standard-basic"
+                  id="telefoneTextField"
                   label="Telefone"
                   variant="standard"
                   value={telefone}
@@ -114,7 +114,7 @@ export const CadastroAluno = () => {
               </div>
               <div>
                 <TextField
-                  id="standard-basic"
+                  id="emailTextField"
                   label="E-Mail"
                   variant="standard"
                   value={email}
@@ -124,7 +124,7 @@ export const CadastroAluno = () => {
               </div>
               <div>
                 <TextField
-                  id="standard-basic"
+                  id="sexoTextField"
                   label="Sexo"
                   variant="standard"
                   select
@@ -142,6 +142,7 @@ export const CadastroAluno = () => {
                 <p style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Data Nascimento: </p>
                 <LocalizationProvider locale={ptBR} dateAdapter={AdapterDayjs}>
                   <DatePicker
+                  id={'dataNascimento'}
                     style={{ borderColor: '' }}
                     format='DD-MM-YYYY'
                     onChange={handleDateChange}
@@ -161,7 +162,7 @@ export const CadastroAluno = () => {
             <div style={{ marginLeft: 10 }}>
               <div>
                 <TextField
-                  id="standard-basic"
+                  id="planonomeTextField"
                   label="Plano"
                   variant="standard"
                   select
@@ -179,7 +180,7 @@ export const CadastroAluno = () => {
                 <FormControl fullWidth={false} sx={{ m: 1 }}>
                   <InputLabel htmlFor="outlined-adornment-amount">Valor</InputLabel>
                   <OutlinedInput
-                    id="outlined-adornment-amount"
+                    id="vaorTextField"
                     startAdornment={<InputAdornment position="start">R$</InputAdornment>}
                     label="Amount"
                     value={valor}
@@ -193,6 +194,7 @@ export const CadastroAluno = () => {
                 <p style={{ color: 'rgba(0, 0, 0, 0.6)' }}>Data de Pagamento: </p>
                 <LocalizationProvider locale={ptBR} dateAdapter={AdapterDayjs}>
                   <DatePicker
+                    id={'dataPagamento'}
                     style={{ borderColor: '' }}
                     format='DD-MM-YYYY'
                     onChange={handleDatePagChange}
@@ -211,7 +213,7 @@ export const CadastroAluno = () => {
           <Button
             onClick={handleSubmit}
             style={styles.Button}
-            variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> SALVAR ALUNO</Button>
+            variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} id={'btn'}/> SALVAR ALUNO</Button>
         </div>
       </div>
 
