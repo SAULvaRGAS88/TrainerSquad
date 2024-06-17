@@ -211,9 +211,10 @@ export const CadastroAluno = () => {
         <div style={{ width: "60%", alignItems: 'center', display: "flex", flexDirection: "row", marginTop: 40, justifyContent: 'center' }}>
           {cadastroError && <p>Ocorreu um erro ao cadastrar. Verifique os dados.</p>}
           <Button
+            id={'btn'}
             onClick={handleSubmit}
             style={styles.Button}
-            variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} id={'btn'}/> SALVAR ALUNO</Button>
+            variant="contained"> <PersonAddAltIcon style={{ fontSize: 40, color: 'green' }} /> SALVAR ALUNO</Button>
         </div>
       </div>
 
