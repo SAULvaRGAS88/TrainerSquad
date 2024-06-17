@@ -15,6 +15,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import url from '../../service/service';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 export const CadastroAluno = () => {
 
@@ -26,8 +27,8 @@ export const CadastroAluno = () => {
   const [plano, setPlano] = useState('');
   const [nomeAluno, setNomeAluno] = useState('');
   const [email, setEmail] = useState('');
-  const [dataNasc, setDataNasc] = useState('');
-  const [dataPagamento, setDataPagamento] = useState('');
+  const [dataNasc, setDataNasc] = useState(dayjs('02-05-1990'));
+  const [dataPagamento, setDataPagamento] = useState(dayjs('02-05-2024'));
   const [valor, setValor] = useState('');
   const { id } = useParams();
 
