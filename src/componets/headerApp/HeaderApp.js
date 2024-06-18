@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useParams } from 'react-router-dom';
+import React from 'react';
 import url from '../../service/service';
-import logoBranco from '../../LogoBranco.png' 
+//import logoBranco from '../../LogoBranco.png' 
 
 export const HeaderApp = () => {
     const [person, setPerson] = useState([]);
@@ -36,9 +37,9 @@ export const HeaderApp = () => {
     }, []);
 
     return (
-        <div style={styles.header}>
+        <div style={styles.header} data-testid="header">
             <div style={styles.Icon}>
-                <img src={logoBranco} alt="logoBranco" width="150" height="100"/>
+                <img  alt="logoBranco" width="150" height="100"/>
             </div>
 
             <div style={styles.divBox}>
